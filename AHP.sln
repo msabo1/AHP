@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29001.49
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AHP.WebAPI", "AHP.WebAPI\AHP.WebAPI.csproj", "{A8229623-007C-4DD1-B017-671BFE4D7B98}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AHP.Service", "AHP.Service\AHP.Service.csproj", "{6FE4F471-C0D4-439A-AA9C-B0DA2D11250C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AHP.Service.Common", "AHP.Service.Common\AHP.Service.Common.csproj", "{A9231325-12E0-49C4-B22F-E2C14C12EDF5}"
@@ -21,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AHP.Common", "AHP.Common\AH
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AHP.DAL", "AHP.DAL\AHP.DAL.csproj", "{F9BC0D64-B4BA-474B-9D65-29B4CE63B8F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASP.WebApi", "ASP.WebApi\ASP.WebApi.csproj", "{D8E88F55-A086-44FE-A428-3CF1ADA3903E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASP.WebApi", "ASP.WebApi\ASP.WebApi.csproj", "{D8E88F55-A086-44FE-A428-3CF1ADA3903E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +27,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A8229623-007C-4DD1-B017-671BFE4D7B98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8229623-007C-4DD1-B017-671BFE4D7B98}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A8229623-007C-4DD1-B017-671BFE4D7B98}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A8229623-007C-4DD1-B017-671BFE4D7B98}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6FE4F471-C0D4-439A-AA9C-B0DA2D11250C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6FE4F471-C0D4-439A-AA9C-B0DA2D11250C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FE4F471-C0D4-439A-AA9C-B0DA2D11250C}.Release|Any CPU.ActiveCfg = Release|Any CPU
