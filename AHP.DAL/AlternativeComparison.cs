@@ -12,21 +12,17 @@ namespace AHP.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class AlternativeComparison
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public User()
-        {
-            this.Choices = new HashSet<Choice>();
-        }
-    
-        public System.Guid UserID { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public System.Guid CriteriaID { get; set; }
+        public System.Guid AlternativeID1 { get; set; }
+        public System.Guid AlternativeID2 { get; set; }
+        public double AlternativeRatio { get; set; }
         public System.DateTime DateCreated { get; set; }
         public Nullable<System.DateTime> DateUpdated { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Choice> Choices { get; set; }
+        public virtual Alternative Alternative { get; set; }
+        public virtual Alternative Alternative1 { get; set; }
+        public virtual Criterion Criterion { get; set; }
     }
 }

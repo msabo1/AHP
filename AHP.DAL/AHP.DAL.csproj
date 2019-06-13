@@ -33,10 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -45,15 +41,73 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AHPContext.cs" />
-    <Compile Include="Alternative-Comparison.cs" />
-    <Compile Include="Alternative.cs" />
-    <Compile Include="Choice.cs" />
-    <Compile Include="Criteria-Comparison.cs" />
-    <Compile Include="Criteria.cs" />
-    <Compile Include="User.cs" />
+    <EntityDeploy Include="AHP.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AHP.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AHP.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AHP.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AHP.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AHP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AHP.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AHP.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Alternative.cs">
+      <DependentUpon>AHP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AlternativeComparison.cs">
+      <DependentUpon>AHP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Choice.cs">
+      <DependentUpon>AHP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CriteriaComparison.cs">
+      <DependentUpon>AHP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Criterion.cs">
+      <DependentUpon>AHP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="User.cs">
+      <DependentUpon>AHP.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AHP.edmx.diagram">
+      <DependentUpon>AHP.edmx</DependentUpon>
+    </None>
+    <None Include="App.Config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AHP.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AHP.Context.cs</LastGenOutput>
+      <DependentUpon>AHP.edmx</DependentUpon>
+    </Content>
+    <Content Include="AHP.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AHP.edmx</DependentUpon>
+      <LastGenOutput>AHP.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

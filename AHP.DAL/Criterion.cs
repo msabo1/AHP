@@ -12,26 +12,32 @@ namespace AHP.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Alternative
+    public partial class Criterion
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Alternative()
+        public Criterion()
         {
             this.AlternativeComparisons = new HashSet<AlternativeComparison>();
-            this.AlternativeComparisons1 = new HashSet<AlternativeComparison>();
+            this.Alternatives = new HashSet<Alternative>();
+            this.CriteriaComparisons = new HashSet<CriteriaComparison>();
+            this.CriteriaComparisons1 = new HashSet<CriteriaComparison>();
         }
     
-        public System.Guid AlternativeID { get; set; }
-        public string AlternativeName { get; set; }
-        public Nullable<double> AlternativeScore { get; set; }
         public System.Guid CriteriaID { get; set; }
+        public string CriteriaName { get; set; }
+        public Nullable<double> CriteriaScore { get; set; }
+        public System.Guid ChoiceID { get; set; }
         public System.DateTime DateCreated { get; set; }
         public Nullable<System.DateTime> DateUpdated { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AlternativeComparison> AlternativeComparisons { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AlternativeComparison> AlternativeComparisons1 { get; set; }
-        public virtual Criterion Criterion { get; set; }
+        public virtual ICollection<Alternative> Alternatives { get; set; }
+        public virtual Choice Choice { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CriteriaComparison> CriteriaComparisons { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CriteriaComparison> CriteriaComparisons1 { get; set; }
     }
 }
