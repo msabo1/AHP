@@ -18,7 +18,6 @@ namespace AHP.DAL
         public Criterion()
         {
             this.AlternativeComparisons = new HashSet<AlternativeComparison>();
-            this.Alternatives = new HashSet<Alternative>();
             this.CriteriaComparisons = new HashSet<CriteriaComparison>();
             this.CriteriaComparisons1 = new HashSet<CriteriaComparison>();
         }
@@ -32,8 +31,6 @@ namespace AHP.DAL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AlternativeComparison> AlternativeComparisons { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Alternative> Alternatives { get; set; }
         public virtual Choice Choice { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CriteriaComparison> CriteriaComparisons { get; set; }

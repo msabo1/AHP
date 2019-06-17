@@ -25,7 +25,7 @@
           <Property Name="AlternativeID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="AlternativeName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AlternativeScore" Type="float" />
-          <Property Name="CriteriaID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ChoiceID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DateCreated" Type="datetime" Nullable="false" />
           <Property Name="DateUpdated" Type="datetime" />
         </EntityType>
@@ -71,7 +71,7 @@
           <Property Name="DateCreated" Type="datetime" Nullable="false" />
           <Property Name="DateUpdated" Type="datetime" />
         </EntityType>
-        <Association Name="FK__Alternati__Alter__59063A47">
+        <Association Name="FK__Alternati__Alter__0F624AF8">
           <End Role="Alternatives" Type="Self.Alternatives" Multiplicity="1" />
           <End Role="AlternativeComparisons" Type="Self.AlternativeComparisons" Multiplicity="*" />
           <ReferentialConstraint>
@@ -83,7 +83,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Alternati__Alter__59FA5E80">
+        <Association Name="FK__Alternati__Alter__10566F31">
           <End Role="Alternatives" Type="Self.Alternatives" Multiplicity="1" />
           <End Role="AlternativeComparisons" Type="Self.AlternativeComparisons" Multiplicity="*" />
           <ReferentialConstraint>
@@ -95,19 +95,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Alternati__Crite__5535A963">
-          <End Role="Criteria" Type="Self.Criteria" Multiplicity="1" />
+        <Association Name="FK__Alternati__Choic__0B91BA14">
+          <End Role="Choices" Type="Self.Choices" Multiplicity="1" />
           <End Role="Alternatives" Type="Self.Alternatives" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Criteria">
-              <PropertyRef Name="CriteriaID" />
+            <Principal Role="Choices">
+              <PropertyRef Name="ChoiceID" />
             </Principal>
             <Dependent Role="Alternatives">
-              <PropertyRef Name="CriteriaID" />
+              <PropertyRef Name="ChoiceID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Alternati__Crite__5812160E">
+        <Association Name="FK__Alternati__Crite__0E6E26BF">
           <End Role="Criteria" Type="Self.Criteria" Multiplicity="1" />
           <End Role="AlternativeComparisons" Type="Self.AlternativeComparisons" Multiplicity="*" />
           <ReferentialConstraint>
@@ -119,7 +119,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Choices__UserID__4BAC3F29">
+        <Association Name="FK__Choices__UserID__02084FDA">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Choices" Type="Self.Choices" Multiplicity="*" />
           <ReferentialConstraint>
@@ -131,7 +131,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Criteria__Choice__4E88ABD4">
+        <Association Name="FK__Criteria__Choice__04E4BC85">
           <End Role="Choices" Type="Self.Choices" Multiplicity="1" />
           <End Role="Criteria" Type="Self.Criteria" Multiplicity="*" />
           <ReferentialConstraint>
@@ -143,7 +143,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CriteriaC__Crite__5165187F">
+        <Association Name="FK__CriteriaC__Crite__07C12930">
           <End Role="Criteria" Type="Self.Criteria" Multiplicity="1" />
           <End Role="CriteriaComparisons" Type="Self.CriteriaComparisons" Multiplicity="*" />
           <ReferentialConstraint>
@@ -155,7 +155,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CriteriaC__Crite__52593CB8">
+        <Association Name="FK__CriteriaC__Crite__08B54D69">
           <End Role="Criteria" Type="Self.Criteria" Multiplicity="1" />
           <End Role="CriteriaComparisons" Type="Self.CriteriaComparisons" Multiplicity="*" />
           <ReferentialConstraint>
@@ -174,35 +174,35 @@
           <EntitySet Name="Criteria" EntityType="Self.Criteria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CriteriaComparisons" EntityType="Self.CriteriaComparisons" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Alternati__Alter__59063A47" Association="Self.FK__Alternati__Alter__59063A47">
+          <AssociationSet Name="FK__Alternati__Alter__0F624AF8" Association="Self.FK__Alternati__Alter__0F624AF8">
             <End Role="Alternatives" EntitySet="Alternatives" />
             <End Role="AlternativeComparisons" EntitySet="AlternativeComparisons" />
           </AssociationSet>
-          <AssociationSet Name="FK__Alternati__Alter__59FA5E80" Association="Self.FK__Alternati__Alter__59FA5E80">
+          <AssociationSet Name="FK__Alternati__Alter__10566F31" Association="Self.FK__Alternati__Alter__10566F31">
             <End Role="Alternatives" EntitySet="Alternatives" />
             <End Role="AlternativeComparisons" EntitySet="AlternativeComparisons" />
           </AssociationSet>
-          <AssociationSet Name="FK__Alternati__Crite__5535A963" Association="Self.FK__Alternati__Crite__5535A963">
+          <AssociationSet Name="FK__Alternati__Choic__0B91BA14" Association="Self.FK__Alternati__Choic__0B91BA14">
+            <End Role="Choices" EntitySet="Choices" />
+            <End Role="Alternatives" EntitySet="Alternatives" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Alternati__Crite__0E6E26BF" Association="Self.FK__Alternati__Crite__0E6E26BF">
             <End Role="Criteria" EntitySet="Criteria" />
-            <End Role="Alternatives" EntitySet="Alternatives" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Alternati__Crite__5812160E" Association="Self.FK__Alternati__Crite__5812160E">
-            <End Role="Criteria" EntitySet="Criteria" />
             <End Role="AlternativeComparisons" EntitySet="AlternativeComparisons" />
           </AssociationSet>
-          <AssociationSet Name="FK__Choices__UserID__4BAC3F29" Association="Self.FK__Choices__UserID__4BAC3F29">
+          <AssociationSet Name="FK__Choices__UserID__02084FDA" Association="Self.FK__Choices__UserID__02084FDA">
             <End Role="Users" EntitySet="Users" />
             <End Role="Choices" EntitySet="Choices" />
           </AssociationSet>
-          <AssociationSet Name="FK__Criteria__Choice__4E88ABD4" Association="Self.FK__Criteria__Choice__4E88ABD4">
+          <AssociationSet Name="FK__Criteria__Choice__04E4BC85" Association="Self.FK__Criteria__Choice__04E4BC85">
             <End Role="Choices" EntitySet="Choices" />
             <End Role="Criteria" EntitySet="Criteria" />
           </AssociationSet>
-          <AssociationSet Name="FK__CriteriaC__Crite__5165187F" Association="Self.FK__CriteriaC__Crite__5165187F">
+          <AssociationSet Name="FK__CriteriaC__Crite__07C12930" Association="Self.FK__CriteriaC__Crite__07C12930">
             <End Role="Criteria" EntitySet="Criteria" />
             <End Role="CriteriaComparisons" EntitySet="CriteriaComparisons" />
           </AssociationSet>
-          <AssociationSet Name="FK__CriteriaC__Crite__52593CB8" Association="Self.FK__CriteriaC__Crite__52593CB8">
+          <AssociationSet Name="FK__CriteriaC__Crite__08B54D69" Association="Self.FK__CriteriaC__Crite__08B54D69">
             <End Role="Criteria" EntitySet="Criteria" />
             <End Role="CriteriaComparisons" EntitySet="CriteriaComparisons" />
           </AssociationSet>
@@ -224,9 +224,9 @@
           <Property Name="AlternativeRatio" Type="Double" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DateUpdated" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Alternative" Relationship="Self.FK__Alternati__Alter__59063A47" FromRole="AlternativeComparisons" ToRole="Alternatives" />
-          <NavigationProperty Name="Alternative1" Relationship="Self.FK__Alternati__Alter__59FA5E80" FromRole="AlternativeComparisons" ToRole="Alternatives" />
-          <NavigationProperty Name="Criterion" Relationship="Self.FK__Alternati__Crite__5812160E" FromRole="AlternativeComparisons" ToRole="Criteria" />
+          <NavigationProperty Name="Alternative" Relationship="Self.FK__Alternati__Alter__0F624AF8" FromRole="AlternativeComparisons" ToRole="Alternatives" />
+          <NavigationProperty Name="Alternative1" Relationship="Self.FK__Alternati__Alter__10566F31" FromRole="AlternativeComparisons" ToRole="Alternatives" />
+          <NavigationProperty Name="Criterion" Relationship="Self.FK__Alternati__Crite__0E6E26BF" FromRole="AlternativeComparisons" ToRole="Criteria" />
         </EntityType>
         <EntityType Name="Alternative">
           <Key>
@@ -235,12 +235,12 @@
           <Property Name="AlternativeID" Type="Guid" Nullable="false" />
           <Property Name="AlternativeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AlternativeScore" Type="Double" />
-          <Property Name="CriteriaID" Type="Guid" Nullable="false" />
+          <Property Name="ChoiceID" Type="Guid" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DateUpdated" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="AlternativeComparisons" Relationship="Self.FK__Alternati__Alter__59063A47" FromRole="Alternatives" ToRole="AlternativeComparisons" />
-          <NavigationProperty Name="AlternativeComparisons1" Relationship="Self.FK__Alternati__Alter__59FA5E80" FromRole="Alternatives" ToRole="AlternativeComparisons" />
-          <NavigationProperty Name="Criterion" Relationship="Self.FK__Alternati__Crite__5535A963" FromRole="Alternatives" ToRole="Criteria" />
+          <NavigationProperty Name="AlternativeComparisons" Relationship="Self.FK__Alternati__Alter__0F624AF8" FromRole="Alternatives" ToRole="AlternativeComparisons" />
+          <NavigationProperty Name="AlternativeComparisons1" Relationship="Self.FK__Alternati__Alter__10566F31" FromRole="Alternatives" ToRole="AlternativeComparisons" />
+          <NavigationProperty Name="Choice" Relationship="Self.FK__Alternati__Choic__0B91BA14" FromRole="Alternatives" ToRole="Choices" />
         </EntityType>
         <EntityType Name="Choice">
           <Key>
@@ -251,8 +251,9 @@
           <Property Name="UserID" Type="Guid" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DateUpdated" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="User" Relationship="Self.FK__Choices__UserID__4BAC3F29" FromRole="Choices" ToRole="Users" />
-          <NavigationProperty Name="Criteria" Relationship="Self.FK__Criteria__Choice__4E88ABD4" FromRole="Choices" ToRole="Criteria" />
+          <NavigationProperty Name="Alternatives" Relationship="Self.FK__Alternati__Choic__0B91BA14" FromRole="Choices" ToRole="Alternatives" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Choices__UserID__02084FDA" FromRole="Choices" ToRole="Users" />
+          <NavigationProperty Name="Criteria" Relationship="Self.FK__Criteria__Choice__04E4BC85" FromRole="Choices" ToRole="Criteria" />
         </EntityType>
         <EntityType Name="Criterion">
           <Key>
@@ -264,11 +265,10 @@
           <Property Name="ChoiceID" Type="Guid" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DateUpdated" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="AlternativeComparisons" Relationship="Self.FK__Alternati__Crite__5812160E" FromRole="Criteria" ToRole="AlternativeComparisons" />
-          <NavigationProperty Name="Alternatives" Relationship="Self.FK__Alternati__Crite__5535A963" FromRole="Criteria" ToRole="Alternatives" />
-          <NavigationProperty Name="Choice" Relationship="Self.FK__Criteria__Choice__4E88ABD4" FromRole="Criteria" ToRole="Choices" />
-          <NavigationProperty Name="CriteriaComparisons" Relationship="Self.FK__CriteriaC__Crite__5165187F" FromRole="Criteria" ToRole="CriteriaComparisons" />
-          <NavigationProperty Name="CriteriaComparisons1" Relationship="Self.FK__CriteriaC__Crite__52593CB8" FromRole="Criteria" ToRole="CriteriaComparisons" />
+          <NavigationProperty Name="AlternativeComparisons" Relationship="Self.FK__Alternati__Crite__0E6E26BF" FromRole="Criteria" ToRole="AlternativeComparisons" />
+          <NavigationProperty Name="Choice" Relationship="Self.FK__Criteria__Choice__04E4BC85" FromRole="Criteria" ToRole="Choices" />
+          <NavigationProperty Name="CriteriaComparisons" Relationship="Self.FK__CriteriaC__Crite__07C12930" FromRole="Criteria" ToRole="CriteriaComparisons" />
+          <NavigationProperty Name="CriteriaComparisons1" Relationship="Self.FK__CriteriaC__Crite__08B54D69" FromRole="Criteria" ToRole="CriteriaComparisons" />
         </EntityType>
         <EntityType Name="CriteriaComparison">
           <Key>
@@ -280,8 +280,8 @@
           <Property Name="CriteriaRatio" Type="Double" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DateUpdated" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Criterion" Relationship="Self.FK__CriteriaC__Crite__5165187F" FromRole="CriteriaComparisons" ToRole="Criteria" />
-          <NavigationProperty Name="Criterion1" Relationship="Self.FK__CriteriaC__Crite__52593CB8" FromRole="CriteriaComparisons" ToRole="Criteria" />
+          <NavigationProperty Name="Criterion" Relationship="Self.FK__CriteriaC__Crite__07C12930" FromRole="CriteriaComparisons" ToRole="Criteria" />
+          <NavigationProperty Name="Criterion1" Relationship="Self.FK__CriteriaC__Crite__08B54D69" FromRole="CriteriaComparisons" ToRole="Criteria" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -292,9 +292,9 @@
           <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DateUpdated" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Choices" Relationship="Self.FK__Choices__UserID__4BAC3F29" FromRole="Users" ToRole="Choices" />
+          <NavigationProperty Name="Choices" Relationship="Self.FK__Choices__UserID__02084FDA" FromRole="Users" ToRole="Choices" />
         </EntityType>
-        <Association Name="FK__Alternati__Alter__59063A47">
+        <Association Name="FK__Alternati__Alter__0F624AF8">
           <End Role="Alternatives" Type="Self.Alternative" Multiplicity="1" />
           <End Role="AlternativeComparisons" Type="Self.AlternativeComparison" Multiplicity="*" />
           <ReferentialConstraint>
@@ -306,7 +306,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Alternati__Alter__59FA5E80">
+        <Association Name="FK__Alternati__Alter__10566F31">
           <End Role="Alternatives" Type="Self.Alternative" Multiplicity="1" />
           <End Role="AlternativeComparisons" Type="Self.AlternativeComparison" Multiplicity="*" />
           <ReferentialConstraint>
@@ -318,7 +318,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Alternati__Crite__5812160E">
+        <Association Name="FK__Alternati__Crite__0E6E26BF">
           <End Role="Criteria" Type="Self.Criterion" Multiplicity="1" />
           <End Role="AlternativeComparisons" Type="Self.AlternativeComparison" Multiplicity="*" />
           <ReferentialConstraint>
@@ -330,19 +330,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Alternati__Crite__5535A963">
-          <End Role="Criteria" Type="Self.Criterion" Multiplicity="1" />
+        <Association Name="FK__Alternati__Choic__0B91BA14">
+          <End Role="Choices" Type="Self.Choice" Multiplicity="1" />
           <End Role="Alternatives" Type="Self.Alternative" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Criteria">
-              <PropertyRef Name="CriteriaID" />
+            <Principal Role="Choices">
+              <PropertyRef Name="ChoiceID" />
             </Principal>
             <Dependent Role="Alternatives">
-              <PropertyRef Name="CriteriaID" />
+              <PropertyRef Name="ChoiceID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Choices__UserID__4BAC3F29">
+        <Association Name="FK__Choices__UserID__02084FDA">
           <End Role="Users" Type="Self.User" Multiplicity="1" />
           <End Role="Choices" Type="Self.Choice" Multiplicity="*" />
           <ReferentialConstraint>
@@ -354,7 +354,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Criteria__Choice__4E88ABD4">
+        <Association Name="FK__Criteria__Choice__04E4BC85">
           <End Role="Choices" Type="Self.Choice" Multiplicity="1" />
           <End Role="Criteria" Type="Self.Criterion" Multiplicity="*" />
           <ReferentialConstraint>
@@ -366,7 +366,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CriteriaC__Crite__5165187F">
+        <Association Name="FK__CriteriaC__Crite__07C12930">
           <End Role="Criteria" Type="Self.Criterion" Multiplicity="1" />
           <End Role="CriteriaComparisons" Type="Self.CriteriaComparison" Multiplicity="*" />
           <ReferentialConstraint>
@@ -378,7 +378,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CriteriaC__Crite__52593CB8">
+        <Association Name="FK__CriteriaC__Crite__08B54D69">
           <End Role="Criteria" Type="Self.Criterion" Multiplicity="1" />
           <End Role="CriteriaComparisons" Type="Self.CriteriaComparison" Multiplicity="*" />
           <ReferentialConstraint>
@@ -397,35 +397,35 @@
           <EntitySet Name="Criteria" EntityType="Self.Criterion" />
           <EntitySet Name="CriteriaComparisons" EntityType="Self.CriteriaComparison" />
           <EntitySet Name="Users" EntityType="Self.User" />
-          <AssociationSet Name="FK__Alternati__Alter__59063A47" Association="Self.FK__Alternati__Alter__59063A47">
+          <AssociationSet Name="FK__Alternati__Alter__0F624AF8" Association="Self.FK__Alternati__Alter__0F624AF8">
             <End Role="Alternatives" EntitySet="Alternatives" />
             <End Role="AlternativeComparisons" EntitySet="AlternativeComparisons" />
           </AssociationSet>
-          <AssociationSet Name="FK__Alternati__Alter__59FA5E80" Association="Self.FK__Alternati__Alter__59FA5E80">
+          <AssociationSet Name="FK__Alternati__Alter__10566F31" Association="Self.FK__Alternati__Alter__10566F31">
             <End Role="Alternatives" EntitySet="Alternatives" />
             <End Role="AlternativeComparisons" EntitySet="AlternativeComparisons" />
           </AssociationSet>
-          <AssociationSet Name="FK__Alternati__Crite__5812160E" Association="Self.FK__Alternati__Crite__5812160E">
+          <AssociationSet Name="FK__Alternati__Crite__0E6E26BF" Association="Self.FK__Alternati__Crite__0E6E26BF">
             <End Role="Criteria" EntitySet="Criteria" />
             <End Role="AlternativeComparisons" EntitySet="AlternativeComparisons" />
           </AssociationSet>
-          <AssociationSet Name="FK__Alternati__Crite__5535A963" Association="Self.FK__Alternati__Crite__5535A963">
-            <End Role="Criteria" EntitySet="Criteria" />
+          <AssociationSet Name="FK__Alternati__Choic__0B91BA14" Association="Self.FK__Alternati__Choic__0B91BA14">
+            <End Role="Choices" EntitySet="Choices" />
             <End Role="Alternatives" EntitySet="Alternatives" />
           </AssociationSet>
-          <AssociationSet Name="FK__Choices__UserID__4BAC3F29" Association="Self.FK__Choices__UserID__4BAC3F29">
+          <AssociationSet Name="FK__Choices__UserID__02084FDA" Association="Self.FK__Choices__UserID__02084FDA">
             <End Role="Users" EntitySet="Users" />
             <End Role="Choices" EntitySet="Choices" />
           </AssociationSet>
-          <AssociationSet Name="FK__Criteria__Choice__4E88ABD4" Association="Self.FK__Criteria__Choice__4E88ABD4">
+          <AssociationSet Name="FK__Criteria__Choice__04E4BC85" Association="Self.FK__Criteria__Choice__04E4BC85">
             <End Role="Choices" EntitySet="Choices" />
             <End Role="Criteria" EntitySet="Criteria" />
           </AssociationSet>
-          <AssociationSet Name="FK__CriteriaC__Crite__5165187F" Association="Self.FK__CriteriaC__Crite__5165187F">
+          <AssociationSet Name="FK__CriteriaC__Crite__07C12930" Association="Self.FK__CriteriaC__Crite__07C12930">
             <End Role="Criteria" EntitySet="Criteria" />
             <End Role="CriteriaComparisons" EntitySet="CriteriaComparisons" />
           </AssociationSet>
-          <AssociationSet Name="FK__CriteriaC__Crite__52593CB8" Association="Self.FK__CriteriaC__Crite__52593CB8">
+          <AssociationSet Name="FK__CriteriaC__Crite__08B54D69" Association="Self.FK__CriteriaC__Crite__08B54D69">
             <End Role="Criteria" EntitySet="Criteria" />
             <End Role="CriteriaComparisons" EntitySet="CriteriaComparisons" />
           </AssociationSet>
@@ -454,7 +454,7 @@
                 <ScalarProperty Name="AlternativeID" ColumnName="AlternativeID" />
                 <ScalarProperty Name="AlternativeName" ColumnName="AlternativeName" />
                 <ScalarProperty Name="AlternativeScore" ColumnName="AlternativeScore" />
-                <ScalarProperty Name="CriteriaID" ColumnName="CriteriaID" />
+                <ScalarProperty Name="ChoiceID" ColumnName="ChoiceID" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
                 <ScalarProperty Name="DateUpdated" ColumnName="DateUpdated" />
               </MappingFragment>

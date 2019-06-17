@@ -11,52 +11,52 @@ namespace AHP.Repository
 {
     class UserRepository : IRepository<User>
     {
-        private AHPEntities context;
+        private AHPEntities _context;
 
-        public UserRepository(AHPEntities _context)
+        public UserRepository(AHPEntities context)
         {
-            context = _context;
+            _context = context;
         }
         public async Task<User> AddAsync(User user)
         {
 
-            context.Users.Add(user);
-            await context.SaveChangesAsync();
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
             return user;
         }
 
         public async Task<List<User>> GetAllAsync()
         {
-            var users = await context.Users.ToListAsync();
+            var users = await _context.Users.ToListAsync();
             return users;
         }
 
         public async Task<User> GetByIDAsync(Guid id)
         {
-            var user = await context.Users.Where(u => u.UserID == id).FirstAsync();
-            await context.Entry(user).Collection(u => u.Choices).LoadAsync();
+            var user = await _context.Users.Where(u => u.UserID == id).FirstAsync();
+            await _context.Entry(user).Collection(u => u.Choices).LoadAsync();
             return user;
         }
 
         public async Task<User> GetByUsernameAsync(string username)
         {
-            var user = await context.Users.Where(u => u.Username == username).FirstAsync();
-            await context.Entry(user).Collection(u => u.Choices).LoadAsync();
+            var user = await _context.Users.Where(u => u.Username == username).FirstAsync();
+            await _context.Entry(user).Collection(u => u.Choices).LoadAsync();
             return user;
         }
 
         public async Task<User> UpdateAsync(User oldUser, User newUser)
         {
-            var user = await context.Users.Where(u => u == oldUser).FirstAsync();
-            context.Entry(user).CurrentValues.SetValues(newUser);
-            await context.SaveChangesAsync();
+            var user = await _context.Users.Where(u => u == oldUser).FirstAsync();
+            _context.Entry(user).CurrentValues.SetValues(newUser);
+            await _context.SaveChangesAsync();
             return newUser;
         }
 
         public async Task<int> DeleteAsync(User user)
         {
-            context.Users.Remove(user);
-            return await context.SaveChangesAsync();
+            _context.Users.Remove(user);
+            return await _context.SaveChangesAsync();
         }
     }
 }

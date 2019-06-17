@@ -24,7 +24,7 @@ namespace AHP.DAL
         public System.Guid AlternativeID { get; set; }
         public string AlternativeName { get; set; }
         public Nullable<double> AlternativeScore { get; set; }
-        public System.Guid CriteriaID { get; set; }
+        public System.Guid ChoiceID { get; set; }
         public System.DateTime DateCreated { get; set; }
         public Nullable<System.DateTime> DateUpdated { get; set; }
     
@@ -32,6 +32,6 @@ namespace AHP.DAL
         public virtual ICollection<AlternativeComparison> AlternativeComparisons { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AlternativeComparison> AlternativeComparisons1 { get; set; }
-        public virtual Criterion Criterion { get; set; }
+        public virtual Choice Choice { get; set; }
     }
 }

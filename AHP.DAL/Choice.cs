@@ -17,6 +17,7 @@ namespace AHP.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Choice()
         {
+            this.Alternatives = new HashSet<Alternative>();
             this.Criteria = new HashSet<Criterion>();
         }
     
@@ -26,6 +27,8 @@ namespace AHP.DAL
         public System.DateTime DateCreated { get; set; }
         public Nullable<System.DateTime> DateUpdated { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Alternative> Alternatives { get; set; }
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Criterion> Criteria { get; set; }
