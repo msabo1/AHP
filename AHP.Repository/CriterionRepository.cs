@@ -39,12 +39,19 @@ namespace AHP.Repository
         public async Task<Criterion> GetByIDAsync(Guid id)
         {
             var criterion = await _context.Criteria.Where(c => c.CriteriaID == id).FirstAsync();
+            await _context.Entry(criterion).Collection(c => c.CriteriaComparisons).LoadAsync();
+            await _context.Entry(criterion).Collection(c => c.CriteriaComparisons1).LoadAsync();
             return criterion;
         }
 
-        public Task<Criterion> UpdateAsync(Criterion oldEntity, Criterion newEntity)
+        public async Task<Criterion> UpdateAsync(Criterion oldCriterion, Criterion newCriterion)
         {
-            throw new NotImplementedException();
+            var criterion = await _context.Criteria.Where(c => c == oldCriterion).FirstAsync();
+            _context.Entry(criterion).CurrentValues.SetValues(newCriterion);
+            await _context.SaveChangesAsync();
+            return newCriterion;
         }
     }
+
+    public async Task<Criterion> 
 }
