@@ -27,7 +27,8 @@ namespace AHP.WebAPI
 
             //Registers all modules from referenced assemblies and all modules in WebAPI
             var builder = new ContainerBuilder();
-            var assemblies = BuildManager.GetReferencedAssemblies().Cast<Assembly>();
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.ToString().StartsWith("AHP."));
+
             builder.RegisterAssemblyModules(assemblies.ToArray());
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
