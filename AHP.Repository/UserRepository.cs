@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AHP.Repository.Common;
 using System.Data.Entity;
+using AHP.Model;
 
 namespace AHP.Repository
 {

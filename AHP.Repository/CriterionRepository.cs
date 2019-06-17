@@ -52,6 +52,4 @@ namespace AHP.Repository
             return newCriterion;
         }
     }
-
-    public async Task<Criterion> 
 }
