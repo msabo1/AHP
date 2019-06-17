@@ -1,4 +1,4 @@
-﻿System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -47,15 +47,15 @@ namespace AHP.Repository
 
         public async Task<Choice> GetByIDAsync(Guid id)
         {
-            var choice = await _context.Choices.Where(u => u.ChoiceID == id).FirstAsync();
-            await _context.Entry(choice).Collection(u => u.Criteria).LoadAsync();
-            await _context.Entry(choice).Collection(u => u.Alternatives).LoadAsync();
+            var choice = await _context.Choices.Where(c => c.ChoiceID == id).FirstAsync();
+            await _context.Entry(choice).Collection(c => c.Criteria).LoadAsync();
+            await _context.Entry(choice).Collection(a => a.Alternatives).LoadAsync();
             return choice;
         }
 
         public async Task<Choice> UpdateAsync(Choice oldChoice, Choice newChoice)
         {
-            var choice = await _context.Choices.Where(u => u == oldChoice).FirstAsync();
+            var choice = await _context.Choices.Where(c => c == oldChoice).FirstAsync();
             _context.Entry(choice).CurrentValues.SetValues(newChoice);
             await _context.SaveChangesAsync();
             return newChoice;
