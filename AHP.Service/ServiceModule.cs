@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using AHP.Service.Common;
+using Autofac;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,11 @@ namespace AHP.Service
     {   //Register components in Load()
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<Consistency>().As<IConsistency>();
+            builder.RegisterType<MatrixFiller>().As<IMatrixFiller>();
+            builder.RegisterType<FinalScoreCalculator>().As<IFinalScoreCalculator>();
+            builder.RegisterType<VectorFiller>().As<IVectorFiller>();
+
 
         }
     }

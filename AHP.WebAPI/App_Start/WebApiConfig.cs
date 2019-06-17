@@ -2,6 +2,7 @@
 using Autofac.Integration.WebApi;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web.Compilation;
@@ -27,7 +28,9 @@ namespace AHP.WebAPI
 
             //Registers all modules from referenced assemblies and all modules in WebAPI
             var builder = new ContainerBuilder();
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.ToString().StartsWith("AHP."));
+
+            var path = AppDomain.CurrentDomain.BaseDirectory;
+            var assemblies = Directory.GetFiles(path, "AHP.*.dll").Select(Assembly.LoadFrom).ToArray();
 
             builder.RegisterAssemblyModules(assemblies.ToArray());
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
