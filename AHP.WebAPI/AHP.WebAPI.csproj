@@ -270,7 +270,7 @@
       <Name>AHP.Model.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\AHP.Model\AHP.Model.csproj">
-      <Project>{207ea0f1-38bc-4df0-be7b-7cddb1ad339d}</Project>
+      <Project>{207EA0F1-38BC-4DF0-BE7B-7CDDB1AD339D}</Project>
       <Name>AHP.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\AHP.Repository.Common\AHP.Repository.Common.csproj">

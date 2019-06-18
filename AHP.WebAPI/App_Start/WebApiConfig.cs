@@ -27,15 +27,12 @@ namespace AHP.WebAPI
             //Registers all modules from referenced assemblies and all modules in WebAPI
             var builder = new ContainerBuilder();
 
-<<<<<<< HEAD
-            var path = AppDomain.CurrentDomain.BaseDirectory;
-            var assemblies = Directory.GetFiles(path, "AHP.*.dll").Select(Assembly.LoadFrom).ToArray();
-=======
+            //var path = AppDomain.CurrentDomain.BaseDirectory;
+            //var assemblies = Directory.GetFiles(path, "AHP.*.dll").Select(Assembly.LoadFrom).ToArray();
 
             //var path = AppDomain.CurrentDomain.BaseDirectory;
             //Assembly[] assemblies = Directory.GetFiles(path, "AHP.*.dll").Select(Assembly.LoadFrom).ToArray();
             var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.ToString().StartsWith("AHP."));
->>>>>>> Features/Repository
 
             builder.Register(ctx => new MapperConfiguration(cfg =>
             { cfg.AddProfile(new ModelMapperProfile()); }));

@@ -15,7 +15,7 @@ namespace AHP.Service
         string _password;
         string _username;
 
-        public UserLogin(UserRepository userRepo)
+        public UserLogin(IUserRepository userRepo)
         {
             _userRepo = userRepo;
         }
