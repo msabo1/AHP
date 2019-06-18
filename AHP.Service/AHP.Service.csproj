@@ -45,14 +45,34 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Consistency.cs" />
-    <Compile Include="FinalScoreCalculator.cs" />
-    <Compile Include="MatrixFiller.cs" />
+    <Compile Include="AHP\Consistency.cs" />
+    <Compile Include="AHP\FinalScoreCalculator.cs" />
+    <Compile Include="AHP\MatrixFiller.cs" />
     <Compile Include="ServiceModule.cs" />
     <Compile Include="UserLogin.cs" />
-    <Compile Include="VectorFiller.cs" />
+    <Compile Include="AHP\VectorFiller.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AHP.Common\AHP.Common.csproj">
+      <Project>{839f9a83-e158-478a-93e6-5aaa7b507daa}</Project>
+      <Name>AHP.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AHP.Model.Common\AHP.Model.Common.csproj">
+      <Project>{324fdfe8-dd98-4faf-bbb7-94d6b9d9efb2}</Project>
+      <Name>AHP.Model.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AHP.Model\AHP.Model.csproj">
+      <Project>{207EA0F1-38BC-4DF0-BE7B-7CDDB1AD339D}</Project>
+      <Name>AHP.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AHP.Repository.Common\AHP.Repository.Common.csproj">
+      <Project>{F2A986D4-D0AD-4B8C-A8CF-368BF8F499D0}</Project>
+      <Name>AHP.Repository.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AHP.Repository\AHP.Repository.csproj">
+      <Project>{e7478094-2838-404f-a185-9dc8c01792bd}</Project>
+      <Name>AHP.Repository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AHP.Service.Common\AHP.Service.Common.csproj">
       <Project>{A9231325-12E0-49C4-B22F-E2C14C12EDF5}</Project>
       <Name>AHP.Service.Common</Name>

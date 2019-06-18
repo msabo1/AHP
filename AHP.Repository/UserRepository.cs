@@ -11,7 +11,9 @@ using AutoMapper;
 
 namespace AHP.Repository
 {
-    class UserRepository : IUserRepository
+
+    public class UserRepository : IUserRepository
+
     {
         private AHPEntities _context;
         IMapper _mapper;

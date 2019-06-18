@@ -11,7 +11,7 @@ namespace AHP.Service
     {   //Register components in Load()
         protected override void Load(ContainerBuilder builder)
         {
-
+            builder.RegisterType<UserLogin>().As<IUserLogin>();
         }
     }
 }
