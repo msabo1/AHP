@@ -11,7 +11,7 @@ using AutoMapper;
 
 namespace AHP.Repository
 {
-    class ChoiceRepository
+    public class ChoiceRepository : IChoiceRepository
     {
 
         private AHPEntities _context;
