@@ -57,6 +57,9 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlternativeComparisonRepository.cs" />
+    <Compile Include="AlternativeRepository.cs" />
+    <Compile Include="ChoiceRepository.cs" />
     <Compile Include="CriterionRepository.cs" />
     <Compile Include="ModelMapperProfile.cs" />
     <Compile Include="RepositoryModule.cs" />
