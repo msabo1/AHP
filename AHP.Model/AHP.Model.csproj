@@ -39,14 +39,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <Compile Include="Alternative.cs" />
-    <Compile Include="AlternativeComparison.cs" />
-    <Compile Include="Choice.cs" />
-    <Compile Include="CriteriaComparison.cs" />
-    <Compile Include="Criterion.cs" />
-    <Compile Include="User.cs" />
-=======
     <Compile Include="AlternativeModel.cs" />
     <Compile Include="AlternativeComparisonModel.cs" />
     <Compile Include="ChoiceModel.cs" />
@@ -54,7 +46,6 @@
     <Compile Include="CriterionModel.cs" />
     <Compile Include="ModelMapperProfile.cs" />
     <Compile Include="UserModel.cs" />
->>>>>>> Features/Repository
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AHP.DAL\AHP.DAL.csproj">
