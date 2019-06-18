@@ -28,10 +28,9 @@ namespace AHP.WebAPI
             var builder = new ContainerBuilder();
 
 
-             var path = AppDomain.CurrentDomain.BaseDirectory;
-            //var path = (new FileInfo(AppDomain.CurrentDomain.BaseDirectory)).Directory.Parent.FullName;
-            var assemblies = Directory.GetFiles(path, "AHP.*.dll").Select(Assembly.LoadFrom).ToArray();
-
+            //var path = AppDomain.CurrentDomain.BaseDirectory;
+            //Assembly[] assemblies = Directory.GetFiles(path, "AHP.*.dll").Select(Assembly.LoadFrom).ToArray();
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.ToString().StartsWith("AHP."));
 
             builder.Register(ctx => new MapperConfiguration(cfg =>
             { cfg.AddProfile(new ModelMapperProfile()); }));
@@ -41,6 +40,10 @@ namespace AHP.WebAPI
 
             builder.RegisterAssemblyModules(assemblies.ToArray());
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+
+
+            var container = builder.Build();
+            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace AHP.WebAPI.Controllers
         public async void Post([FromBody]string[] value)
         {
             
-            await _userLogin.Check(value[0],value[1]);
+           
 
             
         }
