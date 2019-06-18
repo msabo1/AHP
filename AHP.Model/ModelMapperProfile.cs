@@ -1,6 +1,5 @@
 ﻿using AHP.DAL;
 using AHP.Model;
-using AHP.Repository.Common;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AHP.Repository
+namespace AHP.Model
 {
     public class ModelMapperProfile : Profile
     {

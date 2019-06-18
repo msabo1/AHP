@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlternativeModel.cs" />
@@ -44,9 +45,14 @@
     <Compile Include="ChoiceModel.cs" />
     <Compile Include="CriteriaComparisonModel.cs" />
     <Compile Include="CriterionModel.cs" />
+    <Compile Include="ModelMapperProfile.cs" />
     <Compile Include="UserModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AHP.DAL\AHP.DAL.csproj">
+      <Project>{F9BC0D64-B4BA-474B-9D65-29B4CE63B8F1}</Project>
+      <Name>AHP.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AHP.Model.Common\AHP.Model.Common.csproj">
       <Project>{324fdfe8-dd98-4faf-bbb7-94d6b9d9efb2}</Project>
       <Name>AHP.Model.Common</Name>
@@ -56,6 +62,10 @@
     <Reference Include="Autofac, Version=4.9.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.9.2\lib\net45\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper, Version=8.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.8.1.1\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
