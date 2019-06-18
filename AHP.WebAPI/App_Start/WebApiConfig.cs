@@ -1,4 +1,4 @@
-﻿using AHP.Repository;
+﻿using AHP.Model;
 using Autofac;
 using Autofac.Integration.WebApi;
 using AutoMapper;

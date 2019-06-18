@@ -31,7 +31,6 @@ namespace AHP.Model
             CreateMap<AlternativeComparison, AlternativeComparisonModel>();
             CreateMap<AlternativeComparisonModel, AlternativeComparison>();
 
-
         }
     }
 }
