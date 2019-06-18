@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace AHP.Model
 {
-    public class Criterion
+    public class ChoiceModel
     {
-        public System.Guid CriteriaID { get; set; }
-        public string CriteriaName { get; set; }
-        public Nullable<double> CriteriaScore { get; set; }
         public System.Guid ChoiceID { get; set; }
+        public string ChoiceName { get; set; }
+        public System.Guid UserID { get; set; }
+        public virtual ICollection<CriterionModel> Criteria { get; set; }
         public System.DateTime DateCreated { get; set; }
         public Nullable<System.DateTime> DateUpdated { get; set; }
     }

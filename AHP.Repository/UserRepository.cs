@@ -7,23 +7,25 @@ using System.Threading.Tasks;
 using AHP.Repository.Common;
 using System.Data.Entity;
 using AHP.Model;
+using AutoMapper;
 
 namespace AHP.Repository
 {
-    class UserRepository : IRepository<User>
+    class UserRepository
     {
         private AHPEntities _context;
-
-        public UserRepository(AHPEntities context)
+        IMapper _mapper;
+        public UserRepository(AHPEntities context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
-        public async Task<User> AddAsync(User user)
+        public async Task<User> AddAsync(UserModel user)
         {
 
-            _context.Users.Add(user);
+            _context.Users.Add(_mapper.Map<UserModel, User>(user));
             await _context.SaveChangesAsync();
-            return user;
+            return (_mapper.Map<UserModel, User>(user));
         }
 
         public async Task<List<User>> GetAllAsync()

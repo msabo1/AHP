@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using AHP.Repository.Common;
+using Autofac;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace AHP.Repository
     {   //Register components in Load()
         protected override void Load(ContainerBuilder builder)
         {
+            
 
         }
     }

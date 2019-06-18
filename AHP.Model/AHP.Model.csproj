@@ -37,15 +37,14 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Alternative.cs" />
-    <Compile Include="AlternativeComparison.cs" />
-    <Compile Include="Choice.cs" />
-    <Compile Include="CriteriaComparison.cs" />
-    <Compile Include="Criterion.cs" />
-    <Compile Include="Users.cs" />
+    <Compile Include="AlternativeModel.cs" />
+    <Compile Include="AlternativeComparisonModel.cs" />
+    <Compile Include="ChoiceModel.cs" />
+    <Compile Include="CriteriaComparisonModel.cs" />
+    <Compile Include="CriterionModel.cs" />
+    <Compile Include="UserModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AHP.Model.Common\AHP.Model.Common.csproj">

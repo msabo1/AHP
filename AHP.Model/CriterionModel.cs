@@ -6,15 +6,13 @@ using System.Threading.Tasks;
 
 namespace AHP.Model
 {
-    public class Users
+    public class CriterionModel
     {
-
-        public System.Guid UserID { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public ICollection<Choice> Choices { get; set; }
+        public System.Guid CriteriaID { get; set; }
+        public string CriteriaName { get; set; }
+        public Nullable<double> CriteriaScore { get; set; }
+        public System.Guid ChoiceID { get; set; }
         public System.DateTime DateCreated { get; set; }
         public Nullable<System.DateTime> DateUpdated { get; set; }
     }
-
 }

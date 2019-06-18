@@ -1,5 +1,7 @@
-﻿using Autofac;
+﻿using AHP.Repository;
+using Autofac;
 using Autofac.Integration.WebApi;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +29,20 @@ namespace AHP.WebAPI
 
             //Registers all modules from referenced assemblies and all modules in WebAPI
             var builder = new ContainerBuilder();
+
+            
+
+            builder.Register(ctx => new MapperConfiguration(cfg =>
+            {   cfg.AddProfile(new ModelMapperProfile());  }));
+
+
+            builder.Register(ctx => ctx.Resolve<MapperConfiguration>().CreateMapper()).As<IMapper>();
+
+
+
+
+
+
             var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.ToString().StartsWith("AHP."));
 
             builder.RegisterAssemblyModules(assemblies.ToArray());

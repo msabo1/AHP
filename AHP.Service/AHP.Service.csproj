@@ -49,6 +49,7 @@
     <Compile Include="FinalScoreCalculator.cs" />
     <Compile Include="MatrixFiller.cs" />
     <Compile Include="ServiceModule.cs" />
+    <Compile Include="UserLogin.cs" />
     <Compile Include="VectorFiller.cs" />
   </ItemGroup>
   <ItemGroup>
