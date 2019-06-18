@@ -13,7 +13,7 @@ namespace AHP.Model
         public System.Guid AlternativeID { get; set; }
         public string AlternativeName { get; set; }
         public Nullable<double> AlternativeScore { get; set; }
-        public System.Guid CriteriaID { get; set; }
+        public System.Guid ChoiceID { get; set; }
         public System.DateTime DateCreated { get; set; }
         public Nullable<System.DateTime> DateUpdated { get; set; }
 
