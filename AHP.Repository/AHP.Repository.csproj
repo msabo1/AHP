@@ -58,7 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CriterionRepository.cs" />
-    <Compile Include="ModelMapper.cs" />
+    <Compile Include="EntityModelMapper.cs" />
     <Compile Include="RepositoryModule.cs" />
     <Compile Include="UserRepository.cs" />
   </ItemGroup>
