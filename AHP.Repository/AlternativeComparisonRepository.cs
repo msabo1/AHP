@@ -1,5 +1,7 @@
 ﻿using AHP.DAL;
+using AHP.Model;
 using AHP.Repository.Common;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -9,44 +11,47 @@ using System.Threading.Tasks;
 
 namespace AHP.Repository
 {
-    class AlternativeComparisonRepository : IRepository<AlternativeComparison>
+    public class AlternativeComparisonRepository : IAlternativeComparisonRepository
     {
         private AHPEntities _context;
-        public AlternativeComparisonRepository(AHPEntities context)
+        IMapper _mapper;
+        public AlternativeComparisonRepository(AHPEntities context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
-        public async Task<AlternativeComparison> AddAsync(AlternativeComparison altcomp)
+        public async Task<AlternativeComparisonModel> AddAsync(AlternativeComparisonModel altcomp)
         {
-            _context.AlternativeComparisons.Add(altcomp);
+            _context.AlternativeComparisons.Add(_mapper.Map<AlternativeComparisonModel, AlternativeComparison>(altcomp));
             await _context.SaveChangesAsync();
             return altcomp;
         }
 
-        public async Task<int> DeleteAsync(AlternativeComparison altcomp)
+        public async Task<int> DeleteAsync(AlternativeComparisonModel altcomp)
         {
-            _context.AlternativeComparisons.Remove(altcomp);
+            _context.AlternativeComparisons.Remove(_mapper.Map<AlternativeComparisonModel, AlternativeComparison>(altcomp));
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<List<AlternativeComparison>> GetAllAsync()
+        public async Task<List<AlternativeComparisonModel>> GetAllAsync()
         {
-            var altcomp = await _context.AlternativeComparisons.ToListAsync();
-            return altcomp;
+            var altcomps = await _context.AlternativeComparisons.ToListAsync();
+            return _mapper.Map<List<AlternativeComparison>, List<AlternativeComparisonModel>>(altcomps);
         }
 
-        public async Task<AlternativeComparison> GetByIDAsync(Guid idC, Guid idA1, Guid idA2)
+        public async Task<AlternativeComparisonModel> GetByIDsAsync(Guid idC, Guid idA1, Guid idA2)
         {
             var altcomp = await _context.AlternativeComparisons.Where(ac => ac.CriteriaID == idC && ac.AlternativeID1 == idA1 && ac.AlternativeID2 == idA2).FirstAsync();
-            return altcomp;
+            return _mapper.Map<AlternativeComparison, AlternativeComparisonModel>(altcomp);
         }
 
-        public async Task<AlternativeComparison> UpdateAsync(AlternativeComparison oldAltcomp, AlternativeComparison newAltcomp)
+        public async Task<AlternativeComparisonModel> UpdateAsync(AlternativeComparisonModel oldAltcomp, AlternativeComparisonModel newAltcomp)
         {
-            var altcomp = await _context.AlternativeComparisons.Where(a => a == oldAltcomp).FirstAsync();
+            var _oldAltcomp = _mapper.Map<AlternativeComparisonModel, AlternativeComparison>(oldAltcomp);
+            var altcomp = await _context.AlternativeComparisons.Where(a => a == _oldAltcomp).FirstAsync();
             _context.Entry(altcomp).CurrentValues.SetValues(newAltcomp);
             await _context.SaveChangesAsync();
-            return newAltcomp;
+            return _mapper.Map<AlternativeComparison, AlternativeComparisonModel>(altcomp);
         }
     }
 }
