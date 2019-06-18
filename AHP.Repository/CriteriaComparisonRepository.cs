@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AHP.Repository
 {
-    public class CriteriaComparisonRepository : ICriteraComparisonRepository
+    public class CriteriaComparisonRepository : ICriteriaComparisonRepository
     {
         private AHPEntities _context;
         IMapper _mapper;

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AHP.Repository.Common
 {
-    public interface ICriteraComparisonRepository : IRepository<CriteriaComparisonModel>
+    public interface ICriteriaComparisonRepository : IRepository<CriteriaComparisonModel>
     {
         Task<CriteriaComparisonModel> GetByIDsAsync(Guid id1, Guid id2);
     }
