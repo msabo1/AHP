@@ -15,7 +15,7 @@ namespace AHP.Repository
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<AHPEntities>().AsSelf();
-            builder.RegisterAssemblyTypes(Assembly.Load(nameof(Repository))).Where(t => t.Name.EndsWith("Repository"));
+            builder.RegisterAssemblyTypes(Assembly.Load(nameof(Repository))).Where(t => t.Name.EndsWith("Repository")).AsImplementedInterfaces();
 
         }
     }
