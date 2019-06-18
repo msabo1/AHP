@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace AHP.Model
 {
-    public class AlternativeComparison
+    public class CriteriaComparisonModel
     {
-        public System.Guid CriteriaID { get; set; }
-        public System.Guid AlternativeID1 { get; set; }
-        public System.Guid AlternativeID2 { get; set; }
-        public double AlternativeRatio { get; set; }
+        public System.Guid CriteriaID1 { get; set; }
+        public System.Guid CriteriaID2 { get; set; }
+        public double CriteriaRatio { get; set; }
         public System.DateTime DateCreated { get; set; }
         public Nullable<System.DateTime> DateUpdated { get; set; }
     }

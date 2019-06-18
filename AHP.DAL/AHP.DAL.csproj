@@ -54,6 +54,14 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>AHP.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="AHP.edmx.diagram">
+      <DependentUpon>AHP.edmx</DependentUpon>
+    </None>
+    <None Include="App.Config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AHP.Context.cs">
@@ -91,26 +99,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="AHP.edmx.diagram">
-      <DependentUpon>AHP.edmx</DependentUpon>
-    </None>
-    <None Include="App.Config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="AHP.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AHP.Context.cs</LastGenOutput>
       <DependentUpon>AHP.edmx</DependentUpon>
+      <LastGenOutput>AHP.Context.cs</LastGenOutput>
     </Content>
     <Content Include="AHP.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>AHP.edmx</DependentUpon>
       <LastGenOutput>AHP.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

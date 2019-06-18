@@ -12,12 +12,16 @@ namespace AHP.Service
     {   //Register components in Load()
         protected override void Load(ContainerBuilder builder)
         {
+<<<<<<< HEAD
             builder.RegisterType<Consistency>().As<IConsistency>();
             builder.RegisterType<MatrixFiller>().As<IMatrixFiller>();
             builder.RegisterType<FinalScoreCalculator>().As<IFinalScoreCalculator>();
             builder.RegisterType<VectorFiller>().As<IVectorFiller>();
 
 
+=======
+            builder.RegisterType<UserLogin>().As<IUserLogin>();
+>>>>>>> Features/Repository
         }
     }
 }

@@ -38,5 +38,21 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IAlternativeComparisonRepository.cs" />
+    <Compile Include="IAlternativeRepository.cs" />
+    <Compile Include="IChoiceRepository.cs" />
+    <Compile Include="ICriteriaComparisonRepository.cs" />
+    <Compile Include="ICriterionRepository.cs" />
+    <Compile Include="IEntityModelMapper.cs" />
+    <Compile Include="IRepository.cs" />
+    <Compile Include="IUserRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AHP.Model\AHP.Model.csproj">
+      <Project>{207EA0F1-38BC-4DF0-BE7B-7CDDB1AD339D}</Project>
+      <Name>AHP.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
