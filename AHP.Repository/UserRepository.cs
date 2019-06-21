@@ -37,7 +37,7 @@ namespace AHP.Repository
 
         public async Task<UserModel> GetByUsernameAsync(string username)
         {
-            var user = await _context.Users.Where(u => u.Username == username).FirstAsync();
+            var user = await _context.Users.Where(u => u.Username == username).FirstOrDefaultAsync();
             return _mapper.Map<User, UserModel>(user);
         }
 

@@ -25,11 +25,24 @@ namespace AHP.Service
         {
             _username = username;
             _password = password;
-            UserModel user = new UserModel { UserID = Guid.NewGuid(), Username = _username, Password = _password, DateCreated = DateTime.Now };
-            UnitOfWork.UserRepository.Add(user);
-            await UnitOfWork.SaveAsync();
+           UserModel user =  await UnitOfWork.UserRepository.GetByUsernameAsync(username);
 
-            return username;
+            if (user != null)
+            {
+
+                if(user.Password == password)
+                {
+                    return "ok";
+                }
+                else
+                {
+                    return "not ok";
+                }
+            }
+            else
+            {
+                return "no user";
+            }
         }
     }
 }
