@@ -54,10 +54,11 @@ namespace AHP.Repository
             return true;
         }
 
+        //ovo prebacis u Choices Repository ako bas zelis
         public async Task<List<ChoiceModel>> GetChoices(Guid userID, int PageSize, int PageNumber)
         {
             var choices = await _context.Choices.Where(c => c.UserID == userID).OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
-            return _mapper.Map<List<Choice>, List<ChoiceModel>>(choices);
+            return _mapper.Map<List<Choice>, List<ChoiceModel>>(choices);      
         }
 
         public List<UserModel> AddRange(List<UserModel> users)
