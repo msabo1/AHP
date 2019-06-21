@@ -11,38 +11,25 @@ namespace AHP.Service
 {
     class UserLogin : IUserLogin
     {
-        IUserRepository _userRepo;
         string _password;
         string _username;
 
-        public UserLogin(IUserRepository userRepo)
+        public UserLogin(IUnitOfWork unitOfWork)
         {
-            _userRepo = userRepo;
+            UnitOfWork = unitOfWork;
         }
+
+        public IUnitOfWork UnitOfWork { get; }
 
         public async Task<string> Check(string username, string password)
         {
             _username = username;
             _password = password;
-            UserModel user = await _userRepo.GetByUsernameAsync(_username);
+            UserModel user = new UserModel { UserID = Guid.NewGuid(), Username = _username, Password = _password, DateCreated = DateTime.Now };
+            UnitOfWork.UserRepository.Add(user);
+            await UnitOfWork.SaveAsync();
 
-            if (user == null)
-            {
-                return "Username ne postoji";
-
-            }
-            else
-            {
-                if (user.Password == _password)
-                {
-                    return "User je legit";
-                }
-                else
-                {
-                    return "Kriva sifra";
-                }
-            }
+            return username;
         }
-
     }
 }

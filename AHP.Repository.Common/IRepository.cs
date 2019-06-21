@@ -8,9 +8,5 @@ namespace AHP.Repository.Common
 {
     public interface IRepository<T>
     {
-        Task<T> AddAsync(T entity);
-        Task<List<T>> GetAllAsync();
-        Task<T> UpdateAsync(T oldEntity, T newEntity);
-        Task<int> DeleteAsync(T entity);
     }
 }

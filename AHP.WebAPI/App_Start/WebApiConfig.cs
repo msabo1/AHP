@@ -30,9 +30,9 @@ namespace AHP.WebAPI
             //var path = AppDomain.CurrentDomain.BaseDirectory;
             //var assemblies = Directory.GetFiles(path, "AHP.*.dll").Select(Assembly.LoadFrom).ToArray();
 
-            //var path = AppDomain.CurrentDomain.BaseDirectory;
-            //Assembly[] assemblies = Directory.GetFiles(path, "AHP.*.dll").Select(Assembly.LoadFrom).ToArray();
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.ToString().StartsWith("AHP."));
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin");
+            Assembly[] assemblies = Directory.GetFiles(path, "AHP.*.dll").Select(Assembly.LoadFrom).ToArray();
+           
 
             builder.Register(ctx => new MapperConfiguration(cfg =>
             { cfg.AddProfile(new ModelMapperProfile()); }));

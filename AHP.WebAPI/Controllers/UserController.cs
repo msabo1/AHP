@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Mvc;
 
 namespace AHP.WebAPI.Controllers
 {
@@ -16,12 +18,11 @@ namespace AHP.WebAPI.Controllers
         {
             _userLogin = userLogin;
         }
-        public async void Post([FromBody]string[] value)
+        [System.Web.Http.Route("User/Index")]
+        public async Task<string> Get()
         {
-            
-           
+           return await _userLogin.Check("Mario", "123");
 
-            
         }
     }
 }

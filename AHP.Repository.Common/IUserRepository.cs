@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using AHP.Model;
 
 namespace AHP.Repository.Common
 {
-    public interface IUserRepository : IRepository<UserModel>
+    public interface IUserRepository
     {
+        UserModel Add(UserModel user);
+        bool Delete(UserModel user);
         Task<UserModel> GetByIDAsync(Guid id);
         Task<UserModel> GetByUsernameAsync(string username);
-        
     }
 }
