@@ -8,6 +8,7 @@ using AHP.Repository.Common;
 using System.Data.Entity;
 using AHP.Model;
 using AutoMapper;
+using AHP.Model.Common;
 
 namespace AHP.Repository
 {
@@ -22,48 +23,47 @@ namespace AHP.Repository
             _context = context;
             _mapper = mapper;
         }
-        public UserModel Add(UserModel user)
+        public IUserModel Add(IUserModel user)
         {
 
-            _context.Users.Add(_mapper.Map<UserModel, User>(user));
+            _context.Users.Add(_mapper.Map<IUserModel, User>(user));
             return user;
         }
 
-        public async Task<UserModel> GetByIDAsync(params Guid[] idValues)
+        public async Task<IUserModel> GetByIDAsync(params Guid[] idValues)
         {
             var user = await _context.Users.FindAsync(idValues);
-            return _mapper.Map<User, UserModel>(user);
+            return _mapper.Map<User, IUserModel>(user);
         }
 
-        public async Task<UserModel> GetByUsernameAsync(string username)
+        public async Task<IUserModel> GetByUsernameAsync(string username)
         {
             var user = await _context.Users.Where(u => u.Username == username).FirstOrDefaultAsync();
-            return _mapper.Map<User, UserModel>(user);
+            return _mapper.Map<User, IUserModel>(user);
         }
 
-        public async Task<UserModel> UpdateAsync(UserModel user)
+        public async Task<IUserModel> UpdateAsync(IUserModel user)
         {
             var _user = await _context.Users.FindAsync(user.UserID);
-            _context.Entry(_user).CurrentValues.SetValues(_mapper.Map<UserModel, User>(user));
+            _context.Entry(_user).CurrentValues.SetValues(_mapper.Map<IUserModel, User>(user));
             return user; 
         }
 
-        public bool Delete(UserModel user)
+        public bool Delete(IUserModel user)
         {
-            _context.Users.Remove(_mapper.Map<UserModel, User>(user));
+            _context.Users.Remove(_mapper.Map<IUserModel, User>(user));
             return true;
         }
 
-        //ovo prebacis u Choices Repository ako bas zelis
-        public async Task<List<ChoiceModel>> GetChoices(Guid userID, int PageSize, int PageNumber)
+        public async Task<List<IChoiceModel>> GetChoices(Guid userID, int PageSize, int PageNumber)
         {
             var choices = await _context.Choices.Where(c => c.UserID == userID).OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
-            return _mapper.Map<List<Choice>, List<ChoiceModel>>(choices);      
+            return _mapper.Map<List<Choice>, List<IChoiceModel>>(choices);
         }
 
-        public List<UserModel> AddRange(List<UserModel> users)
+        public List<IUserModel> AddRange(List<IUserModel> users)
         {
-            var _users = _mapper.Map<List<UserModel>, List<User>>(users);
+            var _users = _mapper.Map<List<IUserModel>, List<User>>(users);
             _context.Users.AddRange(_users);
             return users;
         }

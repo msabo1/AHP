@@ -18,6 +18,7 @@ namespace AHP.Service
             builder.RegisterType<VectorFiller>().As<IVectorFiller>();
 
             builder.RegisterType<UserLogin>().As<IUserLogin>();
+           // builder.RegisterType<ChangeUsernameTestUpdate>().As<IChangeUsernameTestUpdate>();
         }
     }
 }

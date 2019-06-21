@@ -1,4 +1,7 @@
-﻿using AHP.Service;
+﻿using AHP.Model;
+using AHP.Model.Common;
+using AHP.Service;
+using AHP.Service.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,10 +22,15 @@ namespace AHP.WebAPI.Controllers
             _userLogin = userLogin;
         }
         [System.Web.Http.Route("User/Index")]
-        public async Task<string> Get()
+        public async Task<bool> Get(UserModel user)
         {
-           return await _userLogin.Check("Mario21221", "1233");
-
+           
+           return await _userLogin.Check(user.Username, user.Password);
         }
+        //public async Task<IUserModel> Post(UserModel user)
+        //{
+            
+        //}
+       
     }
 }
