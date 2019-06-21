@@ -49,7 +49,7 @@
     <Compile Include="AHP\FinalScoreCalculator.cs" />
     <Compile Include="AHP\MatrixFiller.cs" />
     <Compile Include="ServiceModule.cs" />
-    <Compile Include="UserLogin.cs" />
+    <Compile Include="User CRUD\UserLogin.cs" />
     <Compile Include="AHP\VectorFiller.cs" />
   </ItemGroup>
   <ItemGroup>

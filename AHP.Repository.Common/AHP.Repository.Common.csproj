@@ -44,6 +44,10 @@
     <Compile Include="IUserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AHP.Model.Common\AHP.Model.Common.csproj">
+      <Project>{324FDFE8-DD98-4FAF-BBB7-94D6B9D9EFB2}</Project>
+      <Name>AHP.Model.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AHP.Model\AHP.Model.csproj">
       <Project>{207EA0F1-38BC-4DF0-BE7B-7CDDB1AD339D}</Project>
       <Name>AHP.Model</Name>

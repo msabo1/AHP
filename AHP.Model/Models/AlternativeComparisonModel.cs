@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AHP.Model.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AHP.Model
 {
-    public class AlternativeComparisonModel
+    public class AlternativeComparisonModel : IAlternativeComparisonModel
     {
         public System.Guid CriteriaID { get; set; }
         public System.Guid AlternativeID1 { get; set; }

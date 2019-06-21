@@ -66,6 +66,10 @@
       <Project>{f9bc0d64-b4ba-474b-9d65-29b4ce63b8f1}</Project>
       <Name>AHP.DAL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AHP.Model.Common\AHP.Model.Common.csproj">
+      <Project>{324FDFE8-DD98-4FAF-BBB7-94D6B9D9EFB2}</Project>
+      <Name>AHP.Model.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AHP.Model\AHP.Model.csproj">
       <Project>{207ea0f1-38bc-4df0-be7b-7cddb1ad339d}</Project>
       <Name>AHP.Model</Name>

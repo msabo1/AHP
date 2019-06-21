@@ -38,5 +38,13 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Model Interfaces\IAlternativeComparisonModel.cs" />
+    <Compile Include="Model Interfaces\IAlternativeModel.cs" />
+    <Compile Include="Model Interfaces\IChoiceModel.cs" />
+    <Compile Include="Model Interfaces\ICriteriaComparisonModel.cs" />
+    <Compile Include="Model Interfaces\ICriterionModel.cs" />
+    <Compile Include="Model Interfaces\IUserModel.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

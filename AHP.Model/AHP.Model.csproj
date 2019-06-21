@@ -39,13 +39,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlternativeModel.cs" />
-    <Compile Include="AlternativeComparisonModel.cs" />
-    <Compile Include="ChoiceModel.cs" />
-    <Compile Include="CriteriaComparisonModel.cs" />
-    <Compile Include="CriterionModel.cs" />
+    <Compile Include="ModelModule.cs" />
+    <Compile Include="Models\AlternativeModel.cs" />
+    <Compile Include="Models\AlternativeComparisonModel.cs" />
+    <Compile Include="Models\ChoiceModel.cs" />
+    <Compile Include="Models\CriteriaComparisonModel.cs" />
+    <Compile Include="Models\CriterionModel.cs" />
     <Compile Include="ModelMapperProfile.cs" />
-    <Compile Include="UserModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AHP.DAL\AHP.DAL.csproj">

@@ -6,13 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AHP.Model;
+using AHP.Service.Common;
+using AHP.Model.Common;
 
 namespace AHP.Service
 {
     class UserLogin : IUserLogin
     {
-        string _password;
-        string _username;
+    
 
         public UserLogin(IUnitOfWork unitOfWork)
         {
@@ -21,27 +22,26 @@ namespace AHP.Service
 
         public IUnitOfWork UnitOfWork { get; }
 
-        public async Task<string> Check(string username, string password)
+        public async Task<bool> Check(string username, string password)
         {
-            _username = username;
-            _password = password;
-            UserModel user =  await UnitOfWork.UserRepository.GetByUsernameAsync(username);
+            
+            IUserModel user =  await UnitOfWork.UserRepository.GetByUsernameAsync(username);
 
             if (user != null)
             {
 
                 if(user.Password == password)
                 {
-                    return "ok";
+                    return true;
                 }
                 else
                 {
-                    return "not ok";
+                    return false;
                 }
             }
             else
             {
-                return "no user";
+                return false;
             }
         }
     }
