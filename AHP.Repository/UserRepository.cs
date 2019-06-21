@@ -41,6 +41,14 @@ namespace AHP.Repository
             return _mapper.Map<User, UserModel>(user);
         }
 
+        public UserModel Update(UserModel user)
+        {
+            var _user = _mapper.Map<UserModel, User>(user);
+            _context.Users.Attach(_user);
+            _context.Entry(_user).State = EntityState.Modified;
+            return user; 
+        }
+
         public bool Delete(UserModel user)
         {
             _context.Users.Remove(_mapper.Map<UserModel, User>(user));
