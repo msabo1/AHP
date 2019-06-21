@@ -31,7 +31,7 @@ namespace AHP.Repository
 
         public async Task<UserModel> GetByIDAsync(Guid id)
         {
-            var user = await _context.Users.Where(u => u.UserID == id).FirstAsync();
+            var user = await _context.Users.FindAsync(id);
             return _mapper.Map<User, UserModel>(user);
         }
 
@@ -41,11 +41,10 @@ namespace AHP.Repository
             return _mapper.Map<User, UserModel>(user);
         }
 
-        public UserModel Update(UserModel user)
+        public async Task<UserModel> UpdateAsync(UserModel user)
         {
-            var _user = _mapper.Map<UserModel, User>(user);
-            _context.Users.Attach(_user);
-            _context.Entry(_user).State = EntityState.Modified;
+            var _user = await _context.Users.FindAsync(user.UserID);
+            _context.Entry(_user).CurrentValues.SetValues(_mapper.Map<UserModel, User>(user));
             return user; 
         }
 

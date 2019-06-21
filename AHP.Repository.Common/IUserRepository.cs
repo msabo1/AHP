@@ -10,6 +10,6 @@ namespace AHP.Repository.Common
         bool Delete(UserModel user);
         Task<UserModel> GetByIDAsync(Guid id);
         Task<UserModel> GetByUsernameAsync(string username);
-        UserModel Update(UserModel user);
+        Task<UserModel> UpdateAsync(UserModel user);
     }
 }

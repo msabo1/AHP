@@ -21,7 +21,7 @@ namespace AHP.WebAPI.Controllers
         [System.Web.Http.Route("User/Index")]
         public async Task<string> Get()
         {
-           return await _userLogin.Check("Mari222o", "1233");
+           return await _userLogin.Check("Mario", "1233");
 
         }
     }

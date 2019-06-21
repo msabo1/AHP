@@ -27,7 +27,7 @@ namespace AHP.Service
             _password = password;
             UserModel user =  await UnitOfWork.UserRepository.GetByUsernameAsync(username);
             user.Password = "345";
-            UnitOfWork.UserRepository.Update(user);
+            UnitOfWork.UserRepository.UpdateAsync(user);
             await UnitOfWork.SaveAsync();
 
             if (user != null)
