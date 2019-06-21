@@ -29,9 +29,9 @@ namespace AHP.Repository
             return user;
         }
 
-        public async Task<UserModel> GetByIDAsync(Guid id)
+        public async Task<UserModel> GetByIDAsync(params Guid[] idValues)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users.FindAsync(idValues);
             return _mapper.Map<User, UserModel>(user);
         }
 
@@ -52,6 +52,13 @@ namespace AHP.Repository
         {
             _context.Users.Remove(_mapper.Map<UserModel, User>(user));
             return true;
+        }
+
+        public List<UserModel> AddRange(List<UserModel> users)
+        {
+            var _users = _mapper.Map<List<UserModel>, List<User>>(users);
+            _context.Users.AddRange(_users);
+            return users;
         }
     }
 }

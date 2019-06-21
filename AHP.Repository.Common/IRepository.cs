@@ -8,5 +8,10 @@ namespace AHP.Repository.Common
 {
     public interface IRepository<T>
     {
+        T Add(T entity);
+        List<T> AddRange(List<T> entities);
+        bool Delete(T entity);
+        Task<T> GetByIDAsync(params Guid[] idValues);
+        Task<T> UpdateAsync(T entity);
     }
 }
