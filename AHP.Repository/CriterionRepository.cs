@@ -32,9 +32,10 @@ namespace AHP.Repository
             return criteria;
         }
 
-        public bool Delete(ICriterionModel criterion)
+        public async Task<bool> DeleteAsync(ICriterionModel criterion)
         {
-            _context.Criteria.Remove(_mapper.Map<ICriterionModel, Criterion>(criterion));
+            var _criterion = await _context.Criteria.FindAsync(criterion.CriteriaID);
+            _context.Criteria.Remove(_criterion);
             return true;
         }
 
@@ -47,7 +48,7 @@ namespace AHP.Repository
 
         public async Task<ICriterionModel> UpdateAsync(ICriterionModel criterion)
         {
-            var _criterion = await _context.Users.FindAsync(criterion.CriteriaID);
+            var _criterion = await _context.Criteria.FindAsync(criterion.CriteriaID);
             _context.Entry(_criterion).CurrentValues.SetValues(_mapper.Map<ICriterionModel, Criterion>(criterion));
             return criterion;
         }

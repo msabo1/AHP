@@ -41,9 +41,10 @@ namespace AHP.Repository
             return cc;
         }
 
-        public bool Delete(ICriteriaComparisonModel cc)
+        public async Task<bool> DeleteAsync(ICriteriaComparisonModel cc)
         {
-            _context.CriteriaComparisons.Remove(_mapper.Map<ICriteriaComparisonModel, CriteriaComparison>(cc));
+            var _cc = await _context.CriteriaComparisons.FindAsync(cc.CriteriaID1, cc.CriteriaID2);
+            _context.CriteriaComparisons.Remove(_cc);
             return true;
         }
 

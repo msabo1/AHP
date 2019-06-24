@@ -49,9 +49,10 @@ namespace AHP.Repository
             return user; 
         }
 
-        public bool Delete(IUserModel user)
+        public async Task<bool> DeleteAsync(IUserModel user)
         {
-            _context.Users.Remove(_mapper.Map<IUserModel, User>(user));
+            var _user = await _context.Users.FindAsync(user.UserID);
+            _context.Users.Remove(_user);
             return true;
         }
 
