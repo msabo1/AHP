@@ -1,11 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using System.Transactions;
 
 namespace AHP.Repository.Common
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork: IDisposable
     {
-        IUserRepository UserRepository { get; set; }
-
+        TransactionScope transactionScope { get;}
         Task<int> SaveAsync();
     }
 }

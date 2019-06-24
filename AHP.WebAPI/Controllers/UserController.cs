@@ -34,6 +34,7 @@ namespace AHP.WebAPI.Controllers
             _userUpdate = userUpdate;
             _userDelete = userDelete;
         }
+<<<<<<< HEAD
 
 
         [System.Web.Http.Route("User/Register")]
@@ -80,6 +81,13 @@ namespace AHP.WebAPI.Controllers
 
 
 
+=======
+        [System.Web.Http.Route("User/Index")]
+        public async Task<bool> Get()
+        {
+           
+           return await _userLogin.Check("Vlatko", "123");
+>>>>>>> 1e4969cba3cb843e954dc18528cadeb7d5f5fe38
         }
 
 

@@ -21,6 +21,7 @@ namespace AHP.Repository
             .AsImplementedInterfaces();
 
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
+            builder.RegisterType<UnitOfWorkFactory>().As<IUnitOfWorkFactory>();
 
             builder.RegisterType<AHPEntities>().AsSelf().SingleInstance();
 
