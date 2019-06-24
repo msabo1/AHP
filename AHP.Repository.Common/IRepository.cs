@@ -13,5 +13,6 @@ namespace AHP.Repository.Common
         bool Delete(T entity);
         Task<T> GetByIDAsync(params Guid[] idValues);
         Task<T> UpdateAsync(T entity);
+        Task<int> SaveAsync();
     }
 }

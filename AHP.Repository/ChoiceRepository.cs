@@ -59,5 +59,10 @@ namespace AHP.Repository
             _context.Choices.AddRange(_choices);
             return choices;
         }
+
+        public async Task<int> SaveAsync()
+        {
+            return await _context.SaveChangesAsync();
+        }
     }
 }

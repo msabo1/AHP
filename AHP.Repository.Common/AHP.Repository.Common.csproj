@@ -39,9 +39,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAlternativeComparisonRepository.cs" />
+    <Compile Include="IAlternativeRepository.cs" />
+    <Compile Include="IChoiceRepository.cs" />
+    <Compile Include="ICriteriaComparisonRepository.cs" />
     <Compile Include="ICriterionRepository.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="IUnitOfWork.cs" />
+    <Compile Include="IUnitOfWorkFactory.cs" />
     <Compile Include="IUserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -53,6 +58,9 @@
       <Project>{207EA0F1-38BC-4DF0-BE7B-7CDDB1AD339D}</Project>
       <Name>AHP.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Transactions" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

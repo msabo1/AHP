@@ -68,5 +68,10 @@ namespace AHP.Repository
             _context.Users.AddRange(_users);
             return users;
         }
+
+        public async Task<int> SaveAsync()
+        {
+            return await _context.SaveChangesAsync();
+        }
     }
 }
