@@ -35,14 +35,15 @@ namespace AHP.Repository
 
         public async Task<IAlternativeModel> UpdateAsync(IAlternativeModel alternative)
         {
-            var _user = await _context.Alternatives.FindAsync(alternative.AlternativeID);
-            _context.Entry(_user).CurrentValues.SetValues(_mapper.Map<IAlternativeModel, Alternative>(alternative));
+            var _alternative = await _context.Alternatives.FindAsync(alternative.AlternativeID);
+            _context.Entry(_alternative).CurrentValues.SetValues(_mapper.Map<IAlternativeModel, Alternative>(alternative));
             return alternative;
         }
 
-        public bool Delete(IAlternativeModel alternative)
+        public async Task<bool> DeleteAsync(IAlternativeModel alternative)
         {
-            _context.Alternatives.Remove(_mapper.Map<IAlternativeModel, Alternative>(alternative));
+            var _alternative = await _context.Alternatives.FindAsync(alternative.AlternativeID);
+            _context.Alternatives.Remove(_alternative);
             return true;
         }
 
