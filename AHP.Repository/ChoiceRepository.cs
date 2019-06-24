@@ -40,9 +40,10 @@ namespace AHP.Repository
             return choice;
         }
 
-        public bool Delete(IChoiceModel choice)
+        public async Task<bool> DeleteAsync(IChoiceModel choice)
         {
-            _context.Choices.Remove(_mapper.Map<IChoiceModel, Choice>(choice));
+            var _choice = await _context.Choices.FindAsync(choice.ChoiceID);
+            _context.Choices.Remove(_choice);
             return true;
         }
 
