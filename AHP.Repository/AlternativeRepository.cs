@@ -29,7 +29,7 @@ namespace AHP.Repository
 
         public async Task<IAlternativeModel> GetByIDAsync(params Guid[] idValues)
         {
-            var alternative = await _context.Alternatives.FindAsync(idValues);
+            var alternative = await _context.Alternatives.FindAsync(idValues[0]);
             return _mapper.Map<Alternative, IAlternativeModel>(alternative);
         }
 
@@ -58,6 +58,11 @@ namespace AHP.Repository
             var _alternatives = _mapper.Map<List<IAlternativeModel>, List<Alternative>>(alternatives);
             _context.Alternatives.AddRange(_alternatives);
             return alternatives;
+        }
+
+        public async Task<int> SaveAsync()
+        {
+            return await _context.SaveChangesAsync();
         }
     }
 }

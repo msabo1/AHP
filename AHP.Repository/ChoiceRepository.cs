@@ -29,7 +29,7 @@ namespace AHP.Repository
 
         public async Task<IChoiceModel> GetByIDAsync(params Guid[] idValues)
         {
-            var choice = await _context.Choices.FindAsync(idValues);
+            var choice = await _context.Choices.FindAsync(idValues[0]);
             return _mapper.Map<Choice, IChoiceModel>(choice);
         }
 
@@ -58,6 +58,11 @@ namespace AHP.Repository
             var _choices = _mapper.Map<List<IChoiceModel>, List<Choice>>(choices);
             _context.Choices.AddRange(_choices);
             return choices;
+        }
+
+        public async Task<int> SaveAsync()
+        {
+            return await _context.SaveChangesAsync();
         }
     }
 }

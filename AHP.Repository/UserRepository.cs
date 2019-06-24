@@ -49,17 +49,18 @@ namespace AHP.Repository
             return user; 
         }
 
-        public bool Delete(IUserModel user)
-        {   
-            _context.Users.Remove(_mapper.Map<IUserModel, User>(user));
+        public async Task<bool> DeleteAsync(IUserModel user)
+        {
+            var _user = await _context.Users.FindAsync(user.UserID);
+            _context.Users.Remove(_user);
             return true;
         }
 
 
-        public async Task<List<IChoiceModel>> GetChoices(Guid userID, int PageSize, int PageNumber)
+        public async Task<IUserModel> LoadChoicesPage(IUserModel user, int PageSize, int PageNumber)
         {
-            var choices = await _context.Choices.Where(c => c.UserID == userID).OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
-            return _mapper.Map<List<Choice>, List<IChoiceModel>>(choices);
+            await _context.Entry(_mapper.Map<IUserModel, User>(user)).Collection(u => u.Choices).Query().OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).LoadAsync();
+            return user;
         }
 
         public List<IUserModel> AddRange(List<IUserModel> users)

@@ -32,22 +32,23 @@ namespace AHP.Repository
             return criteria;
         }
 
-        public bool Delete(ICriterionModel criterion)
+        public async Task<bool> DeleteAsync(ICriterionModel criterion)
         {
-            _context.Criteria.Remove(_mapper.Map<ICriterionModel, Criterion>(criterion));
+            var _criterion = await _context.Criteria.FindAsync(criterion.CriteriaID);
+            _context.Criteria.Remove(_criterion);
             return true;
         }
 
         public async Task<ICriterionModel> GetByIDAsync(params Guid[] idValues)
         {
-            var criterion = await _context.Criteria.FindAsync(idValues);
+            var criterion = await _context.Criteria.FindAsync(idValues[0]);
             return _mapper.Map<Criterion, ICriterionModel>(criterion);
         }
 
 
         public async Task<ICriterionModel> UpdateAsync(ICriterionModel criterion)
         {
-            var _criterion = await _context.Users.FindAsync(criterion.CriteriaID);
+            var _criterion = await _context.Criteria.FindAsync(criterion.CriteriaID);
             _context.Entry(_criterion).CurrentValues.SetValues(_mapper.Map<ICriterionModel, Criterion>(criterion));
             return criterion;
         }
@@ -56,6 +57,11 @@ namespace AHP.Repository
         {
             var criteria = await _context.Criteria.Where(c => c.ChoiceID == choiceID).OrderBy(x => x.DateCreated).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
             return _mapper.Map<List<Criterion>, List<ICriterionModel>>(criteria);
+        }
+
+        public async Task<int> SaveAsync()
+        {
+            return await _context.SaveChangesAsync();
         }
     }
 }

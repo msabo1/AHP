@@ -30,7 +30,7 @@ namespace AHP.Repository
 
         public async Task<ICriteriaComparisonModel> GetByIDAsync(params Guid[] idValues)
         {
-            var cc = await _context.CriteriaComparisons.FindAsync(idValues);
+            var cc = await _context.CriteriaComparisons.FindAsync(idValues[0], idValues[1]);
             return _mapper.Map<CriteriaComparison, ICriteriaComparisonModel>(cc);
         }
 
@@ -41,9 +41,10 @@ namespace AHP.Repository
             return cc;
         }
 
-        public bool Delete(ICriteriaComparisonModel cc)
+        public async Task<bool> DeleteAsync(ICriteriaComparisonModel cc)
         {
-            _context.CriteriaComparisons.Remove(_mapper.Map<ICriteriaComparisonModel, CriteriaComparison>(cc));
+            var _cc = await _context.CriteriaComparisons.FindAsync(cc.CriteriaID1, cc.CriteriaID2);
+            _context.CriteriaComparisons.Remove(_cc);
             return true;
         }
 
@@ -59,6 +60,11 @@ namespace AHP.Repository
             var _ccs = _mapper.Map<List<ICriteriaComparisonModel>, List<CriteriaComparison>>(ccs);
             _context.CriteriaComparisons.AddRange(_ccs);
             return ccs;
+        }
+
+        public async Task<int> SaveAsync()
+        {
+            return await _context.SaveChangesAsync();
         }
     }
 }

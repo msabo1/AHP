@@ -29,7 +29,7 @@ namespace AHP.Repository
 
         public async Task<IAlternativeComparisonModel> GetByIDAsync(params Guid[] idValues)
         {
-            var ac = await _context.AlternativeComparisons.FindAsync(idValues);
+            var ac = await _context.AlternativeComparisons.FindAsync(idValues[0], idValues[1], idValues[2]);
             return _mapper.Map<AlternativeComparison, IAlternativeComparisonModel>(ac);
         }
 
@@ -58,6 +58,11 @@ namespace AHP.Repository
             var _acs = _mapper.Map<List<IAlternativeComparisonModel>, List<AlternativeComparison>>(acs);
             _context.AlternativeComparisons.AddRange(_acs);
             return acs;
+        }
+
+        public async Task<int> SaveAsync()
+        {
+            return await _context.SaveChangesAsync();
         }
     }
 }
