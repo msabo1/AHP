@@ -42,10 +42,10 @@
     <Compile Include="AHP\IConsistency.cs" />
     <Compile Include="AHP\IFinalScoreCalculator.cs" />
     <Compile Include="AHP\IMatrixFiller.cs" />
-    <Compile Include="User CRUD Interfaces\IUserLogin.cs" />
     <Compile Include="AHP\IVectorFiller.cs" />
-    <Compile Include="User CRUD Interfaces\IUserRegister.cs" />
-    <Compile Include="User CRUD Interfaces\IUserUpdate.cs" />
+    <Compile Include="User CRUD Interfaces\IUserLoginService.cs" />
+    <Compile Include="User CRUD Interfaces\IUserRegisterService.cs" />
+    <Compile Include="User CRUD Interfaces\IUserUpdateService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AHP.Model.Common\AHP.Model.Common.csproj">
@@ -57,5 +57,6 @@
       <Name>AHP.Model</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
