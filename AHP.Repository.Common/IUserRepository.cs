@@ -8,7 +8,9 @@ namespace AHP.Repository.Common
 {
     public interface IUserRepository : IRepository<IUserModel>
     {
+
         Task<IUserModel> GetByUsernameAsync(string username);
         Task<List<IChoiceModel>> GetChoices(Guid userID, int PageSize, int PageNumber);
+
     }
 }
