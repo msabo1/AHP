@@ -57,5 +57,10 @@ namespace AHP.Repository
             var criteria = await _context.Criteria.Where(c => c.ChoiceID == choiceID).OrderBy(x => x.DateCreated).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
             return _mapper.Map<List<Criterion>, List<ICriterionModel>>(criteria);
         }
+
+        public async Task<int> SaveAsync()
+        {
+            return await _context.SaveChangesAsync();
+        }
     }
 }

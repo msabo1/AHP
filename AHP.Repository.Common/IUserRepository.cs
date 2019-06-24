@@ -11,7 +11,6 @@ namespace AHP.Repository.Common
 
         Task<IUserModel> GetByUsernameAsync(string username);
         Task<List<IChoiceModel>> GetChoices(Guid userID, int PageSize, int PageNumber);
-        Task<int> SaveAsync();
 
     }
 }

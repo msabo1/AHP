@@ -60,5 +60,10 @@ namespace AHP.Repository
             _context.CriteriaComparisons.AddRange(_ccs);
             return ccs;
         }
+
+        public async Task<int> SaveAsync()
+        {
+            return await _context.SaveChangesAsync();
+        }
     }
 }
