@@ -40,7 +40,7 @@ namespace AHP.Repository
 
         public async Task<ICriterionModel> GetByIDAsync(params Guid[] idValues)
         {
-            var criterion = await _context.Criteria.FindAsync(idValues);
+            var criterion = await _context.Criteria.FindAsync(idValues[0]);
             return _mapper.Map<Criterion, ICriterionModel>(criterion);
         }
 

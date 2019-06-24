@@ -29,7 +29,7 @@ namespace AHP.Repository
 
         public async Task<IAlternativeComparisonModel> GetByIDAsync(params Guid[] idValues)
         {
-            var ac = await _context.AlternativeComparisons.FindAsync(idValues);
+            var ac = await _context.AlternativeComparisons.FindAsync(idValues[0], idValues[1], idValues[2]);
             return _mapper.Map<AlternativeComparison, IAlternativeComparisonModel>(ac);
         }
 

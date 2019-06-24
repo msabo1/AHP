@@ -10,7 +10,7 @@ namespace AHP.Repository.Common
     {
 
         Task<IUserModel> GetByUsernameAsync(string username);
-        Task<List<IChoiceModel>> GetChoices(Guid userID, int PageSize, int PageNumber);
+        Task<IUserModel> LoadChoicesPage(IUserModel user, int PageSize, int PageNumber);
 
     }
 }

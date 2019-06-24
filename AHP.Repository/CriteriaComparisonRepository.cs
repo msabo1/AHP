@@ -30,7 +30,7 @@ namespace AHP.Repository
 
         public async Task<ICriteriaComparisonModel> GetByIDAsync(params Guid[] idValues)
         {
-            var cc = await _context.CriteriaComparisons.FindAsync(idValues);
+            var cc = await _context.CriteriaComparisons.FindAsync(idValues[0], idValues[1]);
             return _mapper.Map<CriteriaComparison, ICriteriaComparisonModel>(cc);
         }
 

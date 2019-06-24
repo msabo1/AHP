@@ -32,7 +32,7 @@ namespace AHP.Repository
 
         public async Task<IUserModel> GetByIDAsync(params Guid[] idValues)
         {
-            var user = await _context.Users.FindAsync(idValues);
+            var user = await _context.Users.FindAsync(idValues[0]);
             return _mapper.Map<User, IUserModel>(user);
         }
 
@@ -56,10 +56,10 @@ namespace AHP.Repository
         }
 
 
-        public async Task<List<IChoiceModel>> GetChoices(Guid userID, int PageSize, int PageNumber)
+        public async Task<IUserModel> LoadChoicesPage(IUserModel user, int PageSize, int PageNumber)
         {
-            var choices = await _context.Choices.Where(c => c.UserID == userID).OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
-            return _mapper.Map<List<Choice>, List<IChoiceModel>>(choices);
+            await _context.Entry(_mapper.Map<IUserModel, User>(user)).Collection(u => u.Choices).Query().OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).LoadAsync();
+            return user;
         }
 
         public List<IUserModel> AddRange(List<IUserModel> users)
