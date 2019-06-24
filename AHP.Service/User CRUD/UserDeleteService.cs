@@ -22,11 +22,12 @@ namespace AHP.Service
         public async Task<bool> Delete(IUserModel user)
         {
             bool a=true;
-            //using (var uof = _unitOfWorkFactory.Create())
-            //{
-            //    a = await _userRepository.DeleteAsync(user);
-            //    uof.Commit();
-            //}
+            using (var uof = _unitOfWorkFactory.Create())
+            {
+                a = await _userRepository.DeleteAsync(user);
+                await _userRepository.SaveAsync();
+                uof.Commit();
+            }
             return a;
         }
 
