@@ -16,6 +16,8 @@ namespace AHP.Model
         public ICollection<Common.IChoiceModel> Choices { get; set; }
         public System.DateTime DateCreated { get; set; }
         public Nullable<System.DateTime> DateUpdated { get; set; }
+
+     
     }
 
 }

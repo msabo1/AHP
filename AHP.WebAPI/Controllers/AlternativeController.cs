@@ -12,31 +12,7 @@ namespace AHP.WebAPI.Controllers
 {
     public class AlternativeController : ApiController
     {
-        IAlternativeAddService _alternativeAdd;
-        IMapper _mapper;
-        public AlternativeController(
-            IAlternativeAddService alternativeAdd;
-            IMapper mapper
-            )
-        {
-            _alternativeAdd = alternativeAdd;
-            _mapper = mapper;
-           
-        }
-
-
-        [Route("Alternative/Add")]
-        public async Task<IHttpActionResult> Post(AlternativeControllerModel alternative)
-        {
-            var _alternative = _mapper.Map<AlternativeControllerModel, IAlternativeModel>(alternative);
-            var status = await _alternativeAdd.Add(_alternative);
-
-            if (status != null)
-                return Ok(_mapper.Map<IAlternativeModel, AlternativeControllerModel>(status));
-            else
-                return NotFound();
-        }
-
+    
     }
     public class AlternativeControllerModel
     {

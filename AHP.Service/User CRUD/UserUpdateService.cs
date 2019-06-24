@@ -10,16 +10,30 @@ namespace AHP.Service
 {
     class UserUpdateService : IUserUpdateService
     {
-        IUnitOfWork _unitOfWork;
-
-        public UserUpdateService(IUnitOfWork unitOfWork)
+        IUnitOfWorkFactory _unitOfWorkFactory;
+        IUserRepository _userRepository;
+        public UserUpdateService(IUnitOfWorkFactory unitOfWorkFactory, IUserRepository userRepository)
         {
-            _unitOfWork = unitOfWork;
+            _unitOfWorkFactory = unitOfWorkFactory;
+            _userRepository = userRepository;
         }
+       
 
         public async Task<IUserModel> Update(IUserModel user)
         {
-            return await _unitOfWork.UserRepository.UpdateAsync(user);
+           
+            IUserModel updated;
+            using (var uof = _unitOfWorkFactory.Create())
+            {
+                var _baseUser = await _userRepository.GetByIDAsync(user.UserID);
+                _baseUser.DateUpdated = DateTime.Now;
+                if (user.Password != null) _baseUser.Password = user.Password;
+                if (user.Username != null) _baseUser.Username = user.Username;
+                updated = await _userRepository.UpdateAsync(_baseUser);
+                await _userRepository.SaveAsync();
+                uof.Commit();
+            }
+            return updated;
         }
 
     }

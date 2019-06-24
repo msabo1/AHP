@@ -32,7 +32,7 @@ namespace AHP.Repository
 
         public async Task<IUserModel> GetByIDAsync(params Guid[] idValues)
         {
-            var user = await _context.Users.FindAsync(idValues);
+            var user = await _context.Users.FindAsync(idValues[0]);
             return _mapper.Map<User, IUserModel>(user);
         }
 
@@ -50,7 +50,7 @@ namespace AHP.Repository
         }
 
         public bool Delete(IUserModel user)
-        {
+        {   
             _context.Users.Remove(_mapper.Map<IUserModel, User>(user));
             return true;
         }
