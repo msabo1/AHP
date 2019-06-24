@@ -5,23 +5,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace AHP.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
-        public IUserRepository UserRepository { get; set; }
         private AHPEntities _context;
+        public TransactionScope transactionScope { get; }
 
-        public UnitOfWork(IUserRepository userRepository, AHPEntities context)
+        public UnitOfWork (AHPEntities context)
         {
-            this.UserRepository = userRepository;
             _context = context;
+            transactionScope = new TransactionScope();
         }
 
         public async Task<int> SaveAsync()
         {
-            return await _context.SaveChangesAsync();
+            int result = await _context.SaveChangesAsync();
+            transactionScope.Complete();
+            return result;
+        }
+
+        public void Commit()
+        {
+            transactionScope.Complete();
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

@@ -15,17 +15,28 @@ namespace AHP.Service
     {
     
 
-        public UserLogin(IUnitOfWork unitOfWork)
+        public UserLogin(IUnitOfWorkFactory unitOfWorkFactory, IUserRepository userRepository)
         {
-            UnitOfWork = unitOfWork;
+            UnitOfWorkFactory = unitOfWorkFactory;
+            UserRepository = userRepository;
         }
 
-        public IUnitOfWork UnitOfWork { get; }
+        public IUnitOfWorkFactory UnitOfWorkFactory { get; }
+        public IUserRepository UserRepository { get; }
 
         public async Task<bool> Check(string username, string password)
         {
-            
-            IUserModel user =  await UnitOfWork.UserRepository.GetByUsernameAsync(username);
+
+            IUserModel user = new UserModel { UserID = Guid.NewGuid(), Username = username, Password = password, DateCreated = DateTime.Now };
+            using(var uof = UnitOfWorkFactory.Create())
+            {
+                using (uof.transactionScope)
+                {
+                    UserRepository.Add(user);
+                    await uof.SaveAsync();
+                }
+                
+            }
 
             if (user != null)
             {

@@ -22,10 +22,10 @@ namespace AHP.WebAPI.Controllers
             _userLogin = userLogin;
         }
         [System.Web.Http.Route("User/Index")]
-        public async Task<bool> Get(UserModel user)
+        public async Task<bool> Get()
         {
            
-           return await _userLogin.Check(user.Username, user.Password);
+           return await _userLogin.Check("Vlatko", "123");
         }
         //public async Task<IUserModel> Post(UserModel user)
         //{
