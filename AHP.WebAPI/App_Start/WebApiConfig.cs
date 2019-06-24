@@ -1,4 +1,5 @@
 ﻿using AHP.Model;
+using AHP.WebAPI.MapperProfiles;
 using Autofac;
 using Autofac.Integration.WebApi;
 using AutoMapper;
@@ -35,7 +36,10 @@ namespace AHP.WebAPI
            
 
             builder.Register(ctx => new MapperConfiguration(cfg =>
-            { cfg.AddProfile(new ModelMapperProfile()); }));
+            {
+                cfg.AddProfile(new ModelMapperProfile());
+                cfg.AddProfile(new ControllerMapperProfile());
+            }));
 
 
             builder.Register(ctx => ctx.Resolve<MapperConfiguration>().CreateMapper()).As<IMapper>();

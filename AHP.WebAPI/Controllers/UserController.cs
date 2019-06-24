@@ -2,6 +2,7 @@
 using AHP.Model.Common;
 using AHP.Service;
 using AHP.Service.Common;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,53 +19,68 @@ namespace AHP.WebAPI.Controllers
         IUserLoginService _userLogin;
         IUserRegisterService _userRegister;
         IUserUpdateService _userUpdate;
+        IUserDeleteService _userDelete;
+        IMapper _mapper;
         public UserController(
+            IMapper mapper,
             IUserLoginService userLogin, 
             IUserRegisterService userRegister,
-            IUserUpdateService userUpdate)
+            IUserUpdateService userUpdate,
+            IUserDeleteService userDelete)
         {
+            _mapper = mapper;
             _userRegister = userRegister;
             _userLogin = userLogin;
             _userUpdate = userUpdate;
+            _userDelete = userDelete;
         }
 
 
         [System.Web.Http.Route("User/Register")]
-        public async Task<IHttpActionResult> Post(UserModel user)
+        public async Task<IHttpActionResult> Post(UserControllerModel user)
         {
-            var status = await _userRegister.Check(user);
+            var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
+            var status = await _userRegister.Check(_user);
 
             if (status != null)
-                return Ok(status);
+                return Ok(_mapper.Map<IUserModel, UserControllerModel>(status));
             else
                 return NotFound();
         }
 
         [System.Web.Http.Route("User/Login")]
-        public async Task<IHttpActionResult> Get(UserModel user)
+        public async Task<IHttpActionResult> Get(UserControllerModel user)
         {
-
-            var status = await _userLogin.Check(user.Username, user.Password);
+            var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
+            var status = await _userLogin.Check(_user.Username, _user.Password);
             if (status != null)
-                return Ok(status);
+                return Ok(_mapper.Map<IUserModel, UserControllerModel>(status));
             else
                 return NotFound();
         }
         [System.Web.Http.Route("User/Update")]
-        public async Task<IHttpActionResult> Put(UserModel user)
+        public async Task<IHttpActionResult> Put(UserControllerModel user)
         {
-            var status = await _userUpdate.Update(user);
+            var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
+            var status = await _userUpdate.Update(_user);
             if (status != null)
-                return Ok(status);
+                return Ok(_mapper.Map<IUserModel, UserControllerModel>(status));
             else
                 return NotFound();
 
         }
-        //public async Task<bool> Delete(UserModel user)
-        //{
+        public IHttpActionResult Delete(UserControllerModel user)
+        {
+            var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
+            var status = _userDelete.Delete(_user);
+            if (status)
+                return Ok();
+            else
+                return NotFound();
 
 
-        //}
+
+        }
 
 
     }

@@ -43,6 +43,7 @@
     <Compile Include="AHP\IFinalScoreCalculator.cs" />
     <Compile Include="AHP\IMatrixFiller.cs" />
     <Compile Include="AHP\IVectorFiller.cs" />
+    <Compile Include="User CRUD Interfaces\IUserDeleteService.cs" />
     <Compile Include="User CRUD Interfaces\IUserLoginService.cs" />
     <Compile Include="User CRUD Interfaces\IUserRegisterService.cs" />
     <Compile Include="User CRUD Interfaces\IUserUpdateService.cs" />
