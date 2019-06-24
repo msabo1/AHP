@@ -28,14 +28,11 @@ namespace AHP.Service
         {
 
             IUserModel user = new UserModel { UserID = Guid.NewGuid(), Username = username, Password = password, DateCreated = DateTime.Now };
-            using(var uof = UnitOfWorkFactory.Create())
+            using (var uof = UnitOfWorkFactory.Create())
             {
-                using (uof.transactionScope)
-                {
-                    UserRepository.Add(user);
-                    await uof.SaveAsync();
-                }
-                
+                UserRepository.Add(user);
+                await UserRepository.SaveAsync();
+                uof.Commit();
             }
 
             if (user != null)

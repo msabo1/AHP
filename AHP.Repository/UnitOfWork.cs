@@ -11,20 +11,18 @@ namespace AHP.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private AHPEntities _context;
-        public TransactionScope transactionScope { get; }
+        private readonly TransactionScope transactionScope;
+        private bool disposedValue = false;
 
-        public UnitOfWork (AHPEntities context)
+        public UnitOfWork()
         {
-            _context = context;
-            transactionScope = new TransactionScope();
-        }
-
-        public async Task<int> SaveAsync()
-        {
-            int result = await _context.SaveChangesAsync();
-            transactionScope.Complete();
-            return result;
+            transactionScope = new TransactionScope(
+                TransactionScopeOption.RequiresNew,
+                new TransactionOptions()
+                {
+                    IsolationLevel = IsolationLevel.ReadCommitted
+                },
+                TransactionScopeAsyncFlowOption.Enabled);
         }
 
         public void Commit()
@@ -32,8 +30,25 @@ namespace AHP.Repository
             transactionScope.Complete();
         }
 
+
         public void Dispose()
         {
+            Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    if (transactionScope != null)
+                    {
+                        transactionScope.Dispose();
+                    }
+                }
+                disposedValue = true;
+            }
         }
     }
 }

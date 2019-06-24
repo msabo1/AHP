@@ -25,7 +25,7 @@ namespace AHP.WebAPI.Controllers
         public async Task<bool> Get()
         {
            
-           return await _userLogin.Check("Vlatko", "123");
+           return await _userLogin.Check("Tomljanovic", "123");
         }
         //public async Task<IUserModel> Post(UserModel user)
         //{
