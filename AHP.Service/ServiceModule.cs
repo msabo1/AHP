@@ -17,8 +17,8 @@ namespace AHP.Service
             builder.RegisterType<FinalScoreCalculator>().As<IFinalScoreCalculator>();
             builder.RegisterType<VectorFiller>().As<IVectorFiller>();
 
-            builder.RegisterType<UserLogin>().As<IUserLogin>();
-           // builder.RegisterType<ChangeUsernameTestUpdate>().As<IChangeUsernameTestUpdate>();
+            builder.RegisterType<UserLoginService>().As<IUserLoginService>();
+            builder.RegisterType<UserRegisterService>().As<IUserRegisterService>();
         }
     }
 }

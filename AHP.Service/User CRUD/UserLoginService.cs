@@ -11,37 +11,38 @@ using AHP.Model.Common;
 
 namespace AHP.Service
 {
-    class UserLogin : IUserLogin
+    class UserLoginService : IUserLoginService
     {
-    
 
-        public UserLogin(IUnitOfWork unitOfWork)
+        IUnitOfWork _unitOfWork;
+        public UserLoginService(IUnitOfWork unitOfWork)
         {
-            UnitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
         }
 
-        public IUnitOfWork UnitOfWork { get; }
+        
 
-        public async Task<bool> Check(string username, string password)
+        public async Task<IUserModel> Check(string username, string password)
         {
             
-            IUserModel user =  await UnitOfWork.UserRepository.GetByUsernameAsync(username);
+            IUserModel user =  await _unitOfWork.UserRepository.GetByUsernameAsync(username);
 
             if (user != null)
             {
 
                 if(user.Password == password)
                 {
-                    return true;
+                    return user;
                 }
                 else
                 {
-                    return false;
+                    user = null;
+                    return user;
                 }
             }
             else
             {
-                return false;
+                return user;
             }
         }
     }

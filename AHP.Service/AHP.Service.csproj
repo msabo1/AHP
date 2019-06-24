@@ -49,8 +49,10 @@
     <Compile Include="AHP\FinalScoreCalculator.cs" />
     <Compile Include="AHP\MatrixFiller.cs" />
     <Compile Include="ServiceModule.cs" />
+    <Compile Include="User CRUD\UserRegister.cs" />
     <Compile Include="User CRUD\UserLogin.cs" />
     <Compile Include="AHP\VectorFiller.cs" />
+    <Compile Include="User CRUD\UserUpdate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AHP.Common\AHP.Common.csproj">

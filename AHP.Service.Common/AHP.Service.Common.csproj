@@ -42,8 +42,10 @@
     <Compile Include="AHP\IConsistency.cs" />
     <Compile Include="AHP\IFinalScoreCalculator.cs" />
     <Compile Include="AHP\IMatrixFiller.cs" />
-    <Compile Include="IUserLogin.cs" />
+    <Compile Include="User CRUD Interfaces\IUserLogin.cs" />
     <Compile Include="AHP\IVectorFiller.cs" />
+    <Compile Include="User CRUD Interfaces\IUserRegister.cs" />
+    <Compile Include="User CRUD Interfaces\IUserUpdate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AHP.Model.Common\AHP.Model.Common.csproj">
