@@ -10,7 +10,7 @@ namespace AHP.Repository.Common
     {
         T Add(T entity);
         List<T> AddRange(List<T> entities);
-        bool Delete(T entity);
+        Task<bool> DeleteAsync(T entity);
         Task<T> GetByIDAsync(params Guid[] idValues);
         Task<T> UpdateAsync(T entity);
         Task<int> SaveAsync();

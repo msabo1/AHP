@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Mvc;
+using RouteAttribute = System.Web.Http.RouteAttribute;
 
 namespace AHP.WebAPI.Controllers
 {
@@ -34,10 +35,8 @@ namespace AHP.WebAPI.Controllers
             _userUpdate = userUpdate;
             _userDelete = userDelete;
         }
-<<<<<<< HEAD
 
-
-        [System.Web.Http.Route("User/Register")]
+        [Route("User/Register")]
         public async Task<IHttpActionResult> Post(UserControllerModel user)
         {
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
@@ -49,7 +48,7 @@ namespace AHP.WebAPI.Controllers
                 return NotFound();
         }
 
-        [System.Web.Http.Route("User/Login")]
+        [Route("User/Login")]
         public async Task<IHttpActionResult> Get(UserControllerModel user)
         {
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
@@ -59,7 +58,8 @@ namespace AHP.WebAPI.Controllers
             else
                 return NotFound();
         }
-        [System.Web.Http.Route("User/Update")]
+
+        [Route("User/Update")]
         public async Task<IHttpActionResult> Put(UserControllerModel user)
         {
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
@@ -70,27 +70,17 @@ namespace AHP.WebAPI.Controllers
                 return NotFound();
 
         }
-        public IHttpActionResult Delete(UserControllerModel user)
+
+        [Route("User/Delete")]
+        public async Task<IHttpActionResult> Delete(UserControllerModel user)
         {
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
-            var status = _userDelete.Delete(_user);
+            var status =  await _userDelete.Delete(_user);
             if (status)
                 return Ok();
             else
                 return NotFound();
-
-
-
-=======
-        [System.Web.Http.Route("User/Index")]
-        public async Task<bool> Get()
-        {
-           
-           return await _userLogin.Check("Tomljanovic", "123");
->>>>>>> d6bc07b5c5531bf5bdbcecbe7da6c0d09a023a00
         }
-
-
     }
     public class UserControllerModel
     {

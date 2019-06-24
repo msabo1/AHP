@@ -1,5 +1,6 @@
 ﻿using AHP.Model.Common;
 using AHP.Repository.Common;
+using AHP.Service.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,16 +11,24 @@ namespace AHP.Service
 {
     class UserDeleteService : IUserDeleteService
     {
-        IUnitOfWork _unitOfWork;
-
-        public UserDeleteService(IUnitOfWork unitOfWork)
+        IUnitOfWorkFactory _unitOfWorkFactory;
+        IUserRepository _userRepository;
+        public UserDeleteService(IUnitOfWorkFactory unitOfWorkFactory, IUserRepository userRepository)
         {
-            _unitOfWork = unitOfWork;
+            _unitOfWorkFactory = unitOfWorkFactory;
+            _userRepository = userRepository;
         }
 
-        public bool Delete(IUserModel user)
+        public async Task<bool> Delete(IUserModel user)
         {
-            return _unitOfWork.UserRepository.Delete(user);
+            bool a=true;
+            using (var uof = _unitOfWorkFactory.Create())
+            {
+                a = await _userRepository.DeleteAsync(user);
+                await _userRepository.SaveAsync();
+                uof.Commit();
+            }
+            return a;
         }
 
     }

@@ -51,7 +51,6 @@
     <Compile Include="AHP\MatrixFiller.cs" />
     <Compile Include="ServiceModule.cs" />
     <Compile Include="AHP\VectorFiller.cs" />
-    <Compile Include="User CRUD\IUserDeleteService.cs" />
     <Compile Include="User CRUD\UserDeleteService.cs" />
     <Compile Include="User CRUD\UserLoginService.cs" />
     <Compile Include="User CRUD\UserRegisterService.cs" />

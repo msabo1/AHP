@@ -14,6 +14,9 @@ namespace AHP.WebAPI.MapperProfiles
         public ControllerMapperProfile(){
         CreateMap<UserControllerModel, IUserModel>();
         CreateMap<IUserModel, UserControllerModel>();
+
+        CreateMap<AlternativeControllerModel, IAlternativeModel>();
+        CreateMap<IAlternativeModel, AlternativeControllerModel>();
         }
     }
 }
