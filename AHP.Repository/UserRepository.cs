@@ -57,10 +57,11 @@ namespace AHP.Repository
         }
 
 
-        public async Task<IUserModel> LoadChoicesPage(IUserModel user, int PageSize, int PageNumber)
+        public async Task<IUserModel> LoadChoicesPage(IUserModel user, int PageNumber , int PageSize = 5)
         {
-            await _context.Entry(_mapper.Map<IUserModel, User>(user)).Collection(u => u.Choices).Query().OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).LoadAsync();
-            return user;
+            var _user = await _context.Users.FindAsync(user.UserID);
+            await _context.Entry(_user).Collection(u => u.Choices).Query().OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).LoadAsync();
+           return _mapper.Map<User, IUserModel>(_user); ;
         }
 
         public List<IUserModel> AddRange(List<IUserModel> users)

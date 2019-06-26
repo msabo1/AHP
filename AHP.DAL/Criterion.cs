@@ -30,11 +30,11 @@ namespace AHP.DAL
         public Nullable<System.DateTime> DateUpdated { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AlternativeComparison> AlternativeComparisons { get; set; }
-        public virtual Choice Choice { get; set; }
+        public ICollection<AlternativeComparison> AlternativeComparisons { get; set; }
+        public Choice Choice { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CriteriaComparison> CriteriaComparisons { get; set; }
+        public ICollection<CriteriaComparison> CriteriaComparisons { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CriteriaComparison> CriteriaComparisons1 { get; set; }
+        public ICollection<CriteriaComparison> CriteriaComparisons1 { get; set; }
     }
 }

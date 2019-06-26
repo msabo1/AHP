@@ -25,7 +25,8 @@ namespace AHP.Service
             IUserModel user;
             using (var uof = _unitOfWorkFactory.Create())
             {
-                user = await _userRepository.GetByUsernameAsync(username);      
+                user = await _userRepository.GetByUsernameAsync(username);
+                user = await _userRepository.LoadChoicesPage(user, 0);
                 uof.Commit();
                 
             }

@@ -10,7 +10,6 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Mvc;
 using RouteAttribute = System.Web.Http.RouteAttribute;
 
 namespace AHP.WebAPI.Controllers
@@ -36,7 +35,7 @@ namespace AHP.WebAPI.Controllers
             _userDelete = userDelete;
         }
 
-        [Route("User/Register")]
+       
         public async Task<IHttpActionResult> Post(UserControllerModel user)
         {
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
@@ -47,7 +46,6 @@ namespace AHP.WebAPI.Controllers
             else
                 return NotFound();
         }
-
         [Route("User/Login")]
         public async Task<IHttpActionResult> Get(UserControllerModel user)
         {
@@ -59,7 +57,7 @@ namespace AHP.WebAPI.Controllers
                 return NotFound();
         }
 
-        [Route("User/Update")]
+      
         public async Task<IHttpActionResult> Put(UserControllerModel user)
         {
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
@@ -68,10 +66,9 @@ namespace AHP.WebAPI.Controllers
                 return Ok(_mapper.Map<IUserModel, UserControllerModel>(status));
             else
                 return NotFound();
-
         }
 
-        [Route("User/Delete")]
+
         public async Task<IHttpActionResult> Delete(UserControllerModel user)
         {
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
@@ -87,5 +84,6 @@ namespace AHP.WebAPI.Controllers
         public System.Guid UserID { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public ICollection<IChoiceModel> Choices { get; set; }
     }
 }

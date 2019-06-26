@@ -28,9 +28,9 @@ namespace AHP.DAL
         public Nullable<System.DateTime> DateUpdated { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Alternative> Alternatives { get; set; }
-        public virtual User User { get; set; }
+        public ICollection<Alternative> Alternatives { get; set; }
+        public User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Criterion> Criteria { get; set; }
+        public ICollection<Criterion> Criteria { get; set; }
     }
 }
