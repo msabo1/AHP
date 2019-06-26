@@ -10,5 +10,6 @@ namespace AHP.Repository.Common
     public interface ICriterionRepository : IRepository<ICriterionModel>
     {
         Task<List<ICriterionModel>> GetPageByChoiceID(Guid choiceID, int pageNumber, int pageSize);
+        Task<ICriterionModel> LoadCriteriaComparisonsPage(ICriterionModel criterion, int PageNumber, int PageSize = 5);
     }
 }

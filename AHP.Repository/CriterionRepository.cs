@@ -59,6 +59,14 @@ namespace AHP.Repository
             return _mapper.Map<List<Criterion>, List<ICriterionModel>>(criteria);
         }
 
+        public async Task<ICriterionModel> LoadCriteriaComparisonsPage(ICriterionModel criterion, int PageNumber, int PageSize = 5)
+        {
+            var _criterion = await _context.Criteria.FindAsync(criterion.CriteriaID);
+            await _context.Entry(_criterion).Collection(c => c.CriteriaComparisons).Query().OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).LoadAsync();
+            await _context.Entry(_criterion).Collection(c => c.CriteriaComparisons1).Query().OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).LoadAsync();
+            return _mapper.Map<Criterion, ICriterionModel>(_criterion);
+        }
+
         public async Task<int> SaveAsync()
         {
             return await _context.SaveChangesAsync();
