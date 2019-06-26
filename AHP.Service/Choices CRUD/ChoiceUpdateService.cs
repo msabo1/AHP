@@ -6,21 +6,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AHP.Service.Common;
+using AHP.Service.Common.Choice_CRUD_Interfaces;
 
 namespace AHP.Service
 {
-    public class ChoiceUpdateService
+    public class ChoiceUpdateService : IChoiceUpdateService
     {
-        IUnitOfWork _unitOfWork;
+        IUnitOfWorkFactory _unitOfWorkFactory;
+        IChoiceRepository _choiceRepository;
 
-        public ChoiceUpdateService(IUnitOfWork unitOfWork)
+        public ChoiceUpdateService(IUnitOfWorkFactory unitOfWorkFactory, IChoiceRepository choiceRepository)
         {
-            _unitOfWork = unitOfWork;
+            _unitOfWorkFactory = unitOfWorkFactory;
+            _choiceRepository = choiceRepository;
         }
 
         public async Task<IChoiceModel> Update(IChoiceModel choice)
         {
-            return await _unitOfWork.ChoiceRepository.UpdateAsync(choice);
+            IChoiceModel updated;
+            using(var uow = _unitOfWorkFactory.Create())
+            {
+                var _baseChoice = await _choiceRepository.GetByIDAsync(choice.ChoiceID);
+                _baseChoice.DateUpdated = DateTime.Now;
+                if (choice.ChoiceID != null) _baseChoice.ChoiceID = choice.ChoiceID;
+                updated = await _choiceRepository.UpdateAsync(_baseChoice);
+                await _choiceRepository.SaveAsync();
+                uow.Commit();
+            }
+            return updated;
         }
+        
     }
 }

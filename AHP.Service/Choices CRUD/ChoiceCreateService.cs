@@ -2,6 +2,7 @@
 using AHP.Model.Common;
 using AHP.Repository.Common;
 using AHP.Service.Common;
+using AHP.Service.Common.Choice_CRUD_Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +15,18 @@ namespace AHP.Service
 
     public class ChoiceCreateService : IChoiceCreateService
     {
-        IUnitOfWork _unitOfWork;
+        IUnitOfWorkFactory _unitOfWorkFactory;
+        IChoiceRepository _choiceRepository;
 
-        public ChoiceCreateService(IUnitOfWork unitOfWork) 
+        public ChoiceCreateService(IUnitOfWorkFactory unitOfWorkFactory, IChoiceRepository choiceRepository)
         {
-            _unitOfWork = unitOfWork;
+            _unitOfWorkFactory = unitOfWorkFactory;
+            _choiceRepository = choiceRepository;
         }
 
         public async Task<IChoiceModel> Check(IChoiceModel choice)
         {
-            IChoiceModel _choice = await _unitOfWork.ChoiceRepository.GetByChoiceNameAsync(choice.ChoiceName);
+            IChoiceModel _choice = await _choiceRepository.GetByIDAsync(choice.ChoiceID);
 
             if (_choice != null)
             {
@@ -32,13 +35,15 @@ namespace AHP.Service
             else
             {
                 choice.ChoiceID = Guid.NewGuid();
-                //choice.UserID = Guid.NewGuid();
                 choice.DateCreated = DateTime.Now;
                 choice.DateUpdated = DateTime.Now;
-                choice = _unitOfWork.ChoiceRepository.Add(choice);
+                using (var uow = _unitOfWorkFactory.Create())
+                {
+                    _choiceRepository.Add(choice);
+                    await _choiceRepository.SaveAsync();
+                    uow.Commit();
+                }
 
-                //Try catch nekakav ovdje za provjeru jel uspjela transakcija
-                await _unitOfWork.SaveAsync();
                 return choice;
             }
         }

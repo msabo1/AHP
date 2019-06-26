@@ -1,5 +1,6 @@
 ﻿using AHP.Model.Common;
 using AHP.Repository.Common;
+using AHP.Service.Common.Choice_CRUD_Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,18 +9,27 @@ using System.Threading.Tasks;
 
 namespace AHP.Service
 {
-    public class ChoiceDeleteService
+    public class ChoiceDeleteService : IChoiceDeleteService
     {
-        IUnitOfWork _unitOfWork;
+        IUnitOfWorkFactory _unitOfWorkFactory;
+        IChoiceRepository _choiceRepository;
 
-        public ChoiceDeleteService(IUnitOfWork unitOfWork)
+        public ChoiceDeleteService(IUnitOfWorkFactory unitOfWorkFactory, IChoiceRepository choiceRepository)
         {
-            _unitOfWork = unitOfWork;
+            _unitOfWorkFactory = unitOfWorkFactory;
+            _choiceRepository = choiceRepository;
         }
 
-        public bool Delete (IChoiceModel choice)
+        public async Task<bool> Delete(IChoiceModel choice)
         {
-            return _unitOfWork.ChoiceRepository.Delete(choice);
+            bool b = true;
+            using (var uow = _unitOfWorkFactory.Create())
+            {
+                b = await _choiceRepository.DeleteAsync(choice);
+                await _choiceRepository.SaveAsync();
+                uow.Commit();
+            }
+            return b;
         }
     }
 }

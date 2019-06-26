@@ -6,9 +6,9 @@ namespace AHP.Repository.Common
 {
     public interface IUnitOfWork: IDisposable
     {
-        object ChoiceRepository { get; set; }
+
 
         void Commit();
-
+        
     }
 }

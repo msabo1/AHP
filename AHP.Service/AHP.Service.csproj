@@ -49,6 +49,11 @@
     <Compile Include="AHP\Consistency.cs" />
     <Compile Include="AHP\FinalScoreCalculator.cs" />
     <Compile Include="AHP\MatrixFiller.cs" />
+    <Compile Include="Alternative CRUD\AlternativeAddService.cs" />
+    <Compile Include="Choices CRUD\ChoiceCreateService.cs" />
+    <Compile Include="Choices CRUD\ChoiceDeleteService.cs" />
+    <Compile Include="Choices CRUD\ChoiceReadService.cs" />
+    <Compile Include="Choices CRUD\ChoiceUpdateService.cs" />
     <Compile Include="ServiceModule.cs" />
     <Compile Include="AHP\VectorFiller.cs" />
     <Compile Include="User CRUD\UserDeleteService.cs" />
