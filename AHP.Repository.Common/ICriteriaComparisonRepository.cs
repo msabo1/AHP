@@ -10,6 +10,7 @@ namespace AHP.Repository.Common
     public interface ICriteriaComparisonRepository : IRepository<ICriteriaComparisonModel>
     {
         Task<List<ICriteriaComparisonModel>> GetCriteriaComparisonsByCriterionID(Guid criteriaID, int PageSize, int PageNumber);
+        Task<bool> DeleteByCriteriaID(Guid criteriaID);
 
     }
 }
