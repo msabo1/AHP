@@ -11,5 +11,7 @@ namespace AHP.Repository.Common
     public interface IAlternativeComparisonRepository : IRepository<IAlternativeComparisonModel>
     {
         Task<List<IAlternativeComparisonModel>> GetByCriteriaAlternativesID(Guid criteriaID, Guid alternativeID, int PageSize, int PageNumber);
+        Task<bool> DeleteByAlternativeID(Guid alternativeID);
+        Task<bool> DeleteByCriteriaID(Guid criteriaID);
     }
 }

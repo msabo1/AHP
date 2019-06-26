@@ -48,6 +48,12 @@ namespace AHP.Repository
             return true;
         }
 
+        public async Task<bool> DeleteByCriteriaID(Guid criteriaID)
+        {
+            var ccs = await _context.CriteriaComparisons.Where(cc => cc.CriteriaID1 == criteriaID || cc.CriteriaID2 == criteriaID).ToListAsync();
+            _context.CriteriaComparisons.RemoveRange(ccs);
+            return true;
+        }
 
         public async Task<List<ICriteriaComparisonModel>> GetCriteriaComparisonsByCriterionID(Guid criteriaID, int PageSize, int PageNumber)
         {
