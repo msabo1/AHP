@@ -33,6 +33,20 @@ namespace AHP.Repository
             return _mapper.Map<AlternativeComparison, IAlternativeComparisonModel>(ac);
         }
 
+        public async Task<bool> DeleteByAlternativeID(Guid alternativeID)
+        {
+            var acs = await _context.AlternativeComparisons.Where(ac => ac.AlternativeID1 == alternativeID || ac.AlternativeID2 == alternativeID).ToListAsync();
+            _context.AlternativeComparisons.RemoveRange(acs);
+            return true;
+        }
+
+        public async Task<bool> DeleteByCriteriaID(Guid criteriaID)
+        {
+            var acs = await _context.AlternativeComparisons.Where(ac => ac.CriteriaID == criteriaID).ToListAsync();
+            _context.AlternativeComparisons.RemoveRange(acs);
+            return true;
+        }
+
         public async Task<IAlternativeComparisonModel> UpdateAsync(IAlternativeComparisonModel ac)
         {
             var _ac = await _context.AlternativeComparisons.FindAsync(ac.AlternativeID1, ac.AlternativeID2);
