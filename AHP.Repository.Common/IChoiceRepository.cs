@@ -1,15 +1,14 @@
-﻿using AHP.Model;
+﻿using AHP.Model.Common;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AHP.Repository.Common
 {
-    public interface IChoiceRepository : IRepository<ChoiceModel>
+    public interface IChoiceRepository : IRepository<IChoiceModel>
     {
-        Task<List<ChoiceModel>> AddRangeAsync(List<ChoiceModel> choices);
-
-        Task<ChoiceModel> GetByIDAsync(Guid id);
+        Task<List<IChoiceModel>> GetChoicesByUserID(Guid userID, int PageSize, int PageNumber);
     }
 }

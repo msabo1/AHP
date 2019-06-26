@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 
-namespace AHP.Service
+namespace AHP.Service.Common
 {
     public interface IUserLogin
     {
-        Task<string> Check(string username, string password);
+        Task<bool> Check(string username, string password);
     }
 }

@@ -43,13 +43,14 @@
     <Reference Include="Autofac, Version=4.9.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.9.2\lib\net45\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="System.Transactions" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AHP\Consistency.cs" />
     <Compile Include="AHP\FinalScoreCalculator.cs" />
     <Compile Include="AHP\MatrixFiller.cs" />
     <Compile Include="ServiceModule.cs" />
-    <Compile Include="UserLogin.cs" />
+    <Compile Include="User CRUD\UserLogin.cs" />
     <Compile Include="AHP\VectorFiller.cs" />
   </ItemGroup>
   <ItemGroup>

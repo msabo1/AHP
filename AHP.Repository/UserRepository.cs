@@ -8,6 +8,7 @@ using AHP.Repository.Common;
 using System.Data.Entity;
 using AHP.Model;
 using AutoMapper;
+using AHP.Model.Common;
 
 namespace AHP.Repository
 {
@@ -22,46 +23,55 @@ namespace AHP.Repository
             _context = context;
             _mapper = mapper;
         }
-        public async Task<UserModel> AddAsync(UserModel user)
+        public IUserModel Add(IUserModel user)
         {
 
-            _context.Users.Add(_mapper.Map<UserModel, User>(user));
-            await _context.SaveChangesAsync();
+            _context.Users.Add(_mapper.Map<IUserModel, User>(user));
             return user;
         }
 
-        public async Task<List<UserModel>> GetAllAsync()
+        public async Task<IUserModel> GetByIDAsync(params Guid[] idValues)
         {
-            var users = await _context.Users.ToListAsync();
-            return _mapper.Map<List<User>, List<UserModel>>(users);
+            var user = await _context.Users.FindAsync(idValues[0]);
+            return _mapper.Map<User, IUserModel>(user);
         }
 
-        public async Task<UserModel> GetByIDAsync(Guid id)
+        public async Task<IUserModel> GetByUsernameAsync(string username)
         {
-            var user = await _context.Users.Where(u => u.UserID == id).FirstAsync();
-            await _context.Entry(user).Collection(u => u.Choices).LoadAsync();
-            return _mapper.Map<User, UserModel>(user);
+            var user = await _context.Users.Where(u => u.Username == username).FirstOrDefaultAsync();
+            return _mapper.Map<User, IUserModel>(user);
         }
 
-        public async Task<UserModel> GetByUsernameAsync(string username)
+        public async Task<IUserModel> UpdateAsync(IUserModel user)
         {
-            var user = await _context.Users.Where(u => u.Username == username).FirstAsync();
-            await _context.Entry(user).Collection(u => u.Choices).LoadAsync();
-            return _mapper.Map<User, UserModel>(user);
+            var _user = await _context.Users.FindAsync(user.UserID);
+            _context.Entry(_user).CurrentValues.SetValues(_mapper.Map<IUserModel, User>(user));
+            return user; 
         }
 
-        public async Task<UserModel> UpdateAsync(UserModel oldUser, UserModel newUser)
+        public async Task<bool> DeleteAsync(IUserModel user)
         {
-            var _oldUser = _mapper.Map<UserModel, User>(oldUser);
-            var user = await _context.Users.Where(u => u == _oldUser).FirstAsync();
-            _context.Entry(user).CurrentValues.SetValues(newUser);
-            await _context.SaveChangesAsync();
-            return _mapper.Map<User, UserModel>(user);
+            var _user = await _context.Users.FindAsync(user.UserID);
+            _context.Users.Remove(_user);
+            return true;
         }
 
-        public async Task<int> DeleteAsync(UserModel user)
+
+        public async Task<IUserModel> LoadChoicesPage(IUserModel user, int PageSize, int PageNumber)
         {
-            _context.Users.Remove(_mapper.Map<UserModel, User>(user));
+            await _context.Entry(_mapper.Map<IUserModel, User>(user)).Collection(u => u.Choices).Query().OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).LoadAsync();
+            return user;
+        }
+
+        public List<IUserModel> AddRange(List<IUserModel> users)
+        {
+            var _users = _mapper.Map<List<IUserModel>, List<User>>(users);
+            _context.Users.AddRange(_users);
+            return users;
+        }
+
+        public async Task<int> SaveAsync()
+        {
             return await _context.SaveChangesAsync();
         }
     }

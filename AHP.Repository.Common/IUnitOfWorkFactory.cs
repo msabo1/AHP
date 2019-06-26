@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace AHP.Repository.Common
 {
-    public interface IEntityModelMapper<ModelT, EntityT>
+    public interface IUnitOfWorkFactory
     {
-        EntityT ModelToEntity(ModelT model);
-        ModelT EntityToModel(EntityT entity);
+        IUnitOfWork Create();
     }
 }

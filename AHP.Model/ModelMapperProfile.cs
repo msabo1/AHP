@@ -1,5 +1,6 @@
 ﻿using AHP.DAL;
 using AHP.Model;
+using AHP.Model.Common;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
@@ -13,23 +14,23 @@ namespace AHP.Model
     {
         public ModelMapperProfile()
         {
-            CreateMap<User, UserModel>();
-            CreateMap<UserModel, User>();
+            CreateMap<User, IUserModel>();
+            CreateMap<IUserModel, User>();
 
-            CreateMap<Choice, ChoiceModel>();
-            CreateMap<ChoiceModel, Choice>();
+            CreateMap<Choice, IChoiceModel>();
+            CreateMap<IChoiceModel, Choice>();
 
-            CreateMap<Criterion, CriterionModel>();
-            CreateMap<CriterionModel, UserModel>();
+            CreateMap<Criterion, ICriterionModel>();
+            CreateMap<ICriterionModel, Criterion>();
 
-            CreateMap<Alternative, AlternativeModel>();
-            CreateMap<AlternativeModel, Alternative>();
+            CreateMap<Alternative, IAlternativeModel>();
+            CreateMap<IAlternativeModel, Alternative>();
 
-            CreateMap<CriteriaComparison, CriteriaComparisonModel>();
-            CreateMap<CriteriaComparisonModel, CriteriaComparison>();
+            CreateMap<CriteriaComparison, ICriteriaComparisonModel>();
+            CreateMap<ICriteriaComparisonModel, CriteriaComparison>();
 
-            CreateMap<AlternativeComparison, AlternativeComparisonModel>();
-            CreateMap<AlternativeComparisonModel, AlternativeComparison>();
+            CreateMap<AlternativeComparison, IAlternativeComparisonModel>();
+            CreateMap<IAlternativeComparisonModel, AlternativeComparison>();
 
         }
     }

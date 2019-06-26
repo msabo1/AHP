@@ -20,7 +20,10 @@ namespace AHP.Repository
             .Where(t => t.Name.EndsWith("Repository"))
             .AsImplementedInterfaces();
 
-            builder.RegisterType<AHPEntities>().AsSelf();
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
+            builder.RegisterType<UnitOfWorkFactory>().As<IUnitOfWorkFactory>();
+
+            builder.RegisterType<AHPEntities>().AsSelf().SingleInstance();
 
         }
     }

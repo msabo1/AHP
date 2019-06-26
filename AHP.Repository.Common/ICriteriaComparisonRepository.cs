@@ -1,4 +1,4 @@
-﻿using AHP.Model;
+﻿using AHP.Model.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace AHP.Repository.Common
 {
-    public interface ICriteriaComparisonRepository : IRepository<CriteriaComparisonModel>
+    public interface ICriteriaComparisonRepository : IRepository<ICriteriaComparisonModel>
     {
-        Task<CriteriaComparisonModel> GetByIDsAsync(Guid id1, Guid id2);
+        Task<List<ICriteriaComparisonModel>> GetCriteriaComparisonsByCriterionID(Guid criteriaID, int PageSize, int PageNumber);
+
     }
 }

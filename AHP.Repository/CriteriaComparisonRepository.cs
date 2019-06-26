@@ -1,5 +1,5 @@
 ﻿using AHP.DAL;
-using AHP.Model;
+using AHP.Model.Common;
 using AHP.Repository.Common;
 using AutoMapper;
 using System;
@@ -20,40 +20,51 @@ namespace AHP.Repository
             _context = context;
             _mapper = mapper;
         }
-        public async Task<CriteriaComparisonModel> AddAsync(CriteriaComparisonModel criteriaComparison)
+
+        public ICriteriaComparisonModel Add(ICriteriaComparisonModel cc)
         {
 
-            _context.CriteriaComparisons.Add(_mapper.Map<CriteriaComparisonModel, CriteriaComparison>(criteriaComparison));
-            await _context.SaveChangesAsync();
-            return criteriaComparison;
+            _context.CriteriaComparisons.Add(_mapper.Map<ICriteriaComparisonModel, CriteriaComparison>(cc));
+            return cc;
         }
 
-        public async Task<List<CriteriaComparisonModel>> GetAllAsync()
+        public async Task<ICriteriaComparisonModel> GetByIDAsync(params Guid[] idValues)
         {
-            var criteriaComparisons = await _context.CriteriaComparisons.ToListAsync();
-            return _mapper.Map<List<CriteriaComparison>, List<CriteriaComparisonModel>>(criteriaComparisons);
+            var cc = await _context.CriteriaComparisons.FindAsync(idValues[0], idValues[1]);
+            return _mapper.Map<CriteriaComparison, ICriteriaComparisonModel>(cc);
         }
 
-        public async Task<CriteriaComparisonModel> GetByIDsAsync(Guid id1, Guid id2)
+        public async Task<ICriteriaComparisonModel> UpdateAsync(ICriteriaComparisonModel cc)
         {
-            var criteriaComparison = await _context.CriteriaComparisons.Where(cc => cc.CriteriaID1 == id1 && cc.CriteriaID2 == id2).FirstAsync();
-            return _mapper.Map<CriteriaComparison, CriteriaComparisonModel>(criteriaComparison);
+            var _cc = await _context.CriteriaComparisons.FindAsync(cc.CriteriaID1,cc.CriteriaID2);
+            _context.Entry(_cc).CurrentValues.SetValues(_mapper.Map<ICriteriaComparisonModel, CriteriaComparison>(cc));
+            return cc;
         }
 
-        public async Task<CriteriaComparisonModel> UpdateAsync(CriteriaComparisonModel oldComparison, CriteriaComparisonModel newComparison)
+        public async Task<bool> DeleteAsync(ICriteriaComparisonModel cc)
         {
-            var _oldComparison = _mapper.Map<CriteriaComparisonModel, CriteriaComparison>(oldComparison);
-            var comparison = await _context.CriteriaComparisons.Where(cc => cc == _oldComparison).FirstAsync();
-            _context.Entry(comparison).CurrentValues.SetValues(newComparison);
-            await _context.SaveChangesAsync();
-            return _mapper.Map<CriteriaComparison, CriteriaComparisonModel>(comparison);
+            var _cc = await _context.CriteriaComparisons.FindAsync(cc.CriteriaID1, cc.CriteriaID2);
+            _context.CriteriaComparisons.Remove(_cc);
+            return true;
         }
 
-        public async Task<int> DeleteAsync(CriteriaComparisonModel criteriaComparison)
+
+        public async Task<List<ICriteriaComparisonModel>> GetCriteriaComparisonsByCriterionID(Guid criteriaID, int PageSize, int PageNumber)
         {
-            _context.CriteriaComparisons.Remove(_mapper.Map<CriteriaComparisonModel, CriteriaComparison>(criteriaComparison));
+            var ccs = await _context.CriteriaComparisons.Where(cc => cc.CriteriaID1 == criteriaID || cc.CriteriaID2 == criteriaID).OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
+            return _mapper.Map<List<CriteriaComparison>, List<ICriteriaComparisonModel>>(ccs);
+        }
+
+        public List<ICriteriaComparisonModel> AddRange(List<ICriteriaComparisonModel> ccs)
+        {
+            var _ccs = _mapper.Map<List<ICriteriaComparisonModel>, List<CriteriaComparison>>(ccs);
+            _context.CriteriaComparisons.AddRange(_ccs);
+            return ccs;
+        }
+
+        public async Task<int> SaveAsync()
+        {
             return await _context.SaveChangesAsync();
         }
     }
 }
-
