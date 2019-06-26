@@ -54,6 +54,10 @@
     <Compile Include="AlternativeCRUD\AlternativeGetService.cs" />
     <Compile Include="AlternativeCRUD\AlternativeUpdateService.cs" />
     <Compile Include="CalculateAHPScores.cs" />
+    <Compile Include="Choices CRUD\ChoiceCreateService.cs" />
+    <Compile Include="Choices CRUD\ChoiceDeleteService.cs" />
+    <Compile Include="Choices CRUD\ChoiceReadService.cs" />
+    <Compile Include="Choices CRUD\ChoiceUpdateService.cs" />
     <Compile Include="ServiceModule.cs" />
     <Compile Include="AHP\VectorFiller.cs" />
     <Compile Include="UserCRUD\UserDeleteService.cs" />

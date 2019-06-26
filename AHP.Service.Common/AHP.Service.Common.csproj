@@ -47,6 +47,10 @@
     <Compile Include="AlternativeCRUDInterfaces\IAlternativeDeleteService.cs" />
     <Compile Include="AlternativeCRUDInterfaces\IAlternativeGetService.cs" />
     <Compile Include="AlternativeCRUDInterfaces\IAlternativeUpdateService.cs" />
+    <Compile Include="Choice CRUD Interfaces\IChoiceCreateService.cs" />
+    <Compile Include="Choice CRUD Interfaces\IChoiceDeleteService.cs" />
+    <Compile Include="Choice CRUD Interfaces\IChoiceReadService.cs" />
+    <Compile Include="Choice CRUD Interfaces\IChoiceUpdateService.cs" />
     <Compile Include="UserCRUDInterfaces\IUserDeleteService.cs" />
     <Compile Include="UserCRUDInterfaces\IUserLoginService.cs" />
     <Compile Include="UserCRUDInterfaces\IUserRegisterService.cs" />
