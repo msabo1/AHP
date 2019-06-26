@@ -21,11 +21,11 @@ namespace AHP.Service
 
         public async Task<IUserModel> Update(IUserModel user)
         {
-           
+            
             IUserModel updated;
+            var _baseUser = await _userRepository.GetByIDAsync(user.UserID);
             using (var uof = _unitOfWorkFactory.Create())
             {
-                var _baseUser = await _userRepository.GetByIDAsync(user.UserID);
                 _baseUser.DateUpdated = DateTime.Now;
                 if (user.Password != null) _baseUser.Password = user.Password;
                 if (user.Username != null) _baseUser.Username = user.Username;

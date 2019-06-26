@@ -20,32 +20,27 @@ namespace AHP.Service
             _unitOfWorkFactory = unitOfWorkFactory;
             _userRepository = userRepository;
         }
-        public async Task<IUserModel> Check(string username, string password)
+        public async Task<IUserModel> Check(IUserModel user)
         {
-            IUserModel user;
-            using (var uof = _unitOfWorkFactory.Create())
-            {
-                user = await _userRepository.GetByUsernameAsync(username);
-                user = await _userRepository.LoadChoicesPage(user, 0);
-                uof.Commit();
-                
-            }
+            
+            var _user = await _userRepository.GetByUsernameAsync(user.Username);
+  
             if (user != null)
             {
 
-                if (user.Password == password)
+                if (_user.Password == user.Password)
                 {
-                    return user;
+                    return _user;
                 }
                 else
                 {
-                    user = null;
-                    return user;
+                    ;
+                    return null;
                 }
             }
             else
             {
-                return user;
+                return null;
             }
         }
     }

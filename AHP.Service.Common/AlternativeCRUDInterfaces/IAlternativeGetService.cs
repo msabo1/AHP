@@ -5,6 +5,6 @@ namespace AHP.Service.Common
 {
     public interface IAlternativeGetService
     {
-        Task<IAlternativeModel> Get(IAlternativeModel alternative);
+        Task<IChoiceModel> Get(IChoiceModel choice, int page = 1);
     }
 }

@@ -33,33 +33,48 @@ namespace AHP.WebAPI.Controllers
             _userLogin = userLogin;
             _userUpdate = userUpdate;
             _userDelete = userDelete;
-        }
+        }    
 
-       
         public async Task<IHttpActionResult> Post(UserControllerModel user)
         {
+            if (user.Equals(null))
+            {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
             var status = await _userRegister.Check(_user);
 
             if (status != null)
-                return Ok(_mapper.Map<IUserModel, UserControllerModel>(status));
+            {
+                return BadRequest();
+            }
             else
+            {
                 return NotFound();
-        }
-        [Route("User/Login")]
+            }
+                
+        }    
         public async Task<IHttpActionResult> Get(UserControllerModel user)
         {
+            if (user.Equals(null))
+            {
+                return BadRequest();
+            }
+
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
-            var status = await _userLogin.Check(_user.Username, _user.Password);
+            var status = await _userLogin.Check(_user);
+
             if (status != null)
                 return Ok(_mapper.Map<IUserModel, UserControllerModel>(status));
             else
                 return NotFound();
         }
-
-      
         public async Task<IHttpActionResult> Put(UserControllerModel user)
         {
+            if (user.Equals(null))
+            {
+                return BadRequest();
+            }
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
             var status = await _userUpdate.Update(_user);
             if (status != null)
@@ -67,10 +82,12 @@ namespace AHP.WebAPI.Controllers
             else
                 return NotFound();
         }
-
-
         public async Task<IHttpActionResult> Delete(UserControllerModel user)
         {
+            if (user.Equals(null))
+            {
+                return BadRequest();
+            }
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
             var status =  await _userDelete.Delete(_user);
             if (status)

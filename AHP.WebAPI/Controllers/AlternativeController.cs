@@ -15,44 +15,79 @@ namespace AHP.WebAPI.Controllers
     {
         IAlternativeAddService _alternativeAdd;
         IAlternativeGetService _alternativeGet;
+        IAlternativeUpdateService _alternativeUpdate;
+        IAlternativeDeleteService _alternativeDelete;
         IMapper _mapper;
         public AlternativeController(
             IMapper mapper,
+            IAlternativeUpdateService alternativeUpdate,
             IAlternativeAddService alternativeAdd,
-            IAlternativeGetService alternativeGet
+            IAlternativeGetService alternativeGet,
+            IAlternativeDeleteService alternativeDelete
           )
         {
             _mapper = mapper;
+            _alternativeUpdate = alternativeUpdate;
             _alternativeAdd = alternativeAdd;
             _alternativeGet = alternativeGet;
+            _alternativeDelete = alternativeDelete;
         }
 
         public async Task<IHttpActionResult> Post(AlternativeControllerModel alternative)
         {
+            if (alternative.Equals(null))
+            {
+                return BadRequest();
+            }
+
             var _alternative = _mapper.Map<AlternativeControllerModel, IAlternativeModel>(alternative);
             var status = await _alternativeAdd.Add(_alternative);
             return Ok(_mapper.Map<IAlternativeModel, AlternativeControllerModel> (status));
         }
 
-        public async Task<IHttpActionResult> Get(AlternativeControllerModel alternative)
+        //public async Task<IHttpActionResult> Get(ChoiceControllerModel choice, int page = 1)
+        //{
+        //    if (choice.Equals(null) || page<1)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    var _choice = _mapper.Map<ChoiceControllerModel, IChoiceModel>(choice);
+        //    var status = await _alternativeGet.Get(_choice, page);
+        //    return Ok(_mapper.Map<IChoiceModel, IChoiceControllerModel>(status));
+        //}
+
+
+        public async Task<IHttpActionResult> Put(AlternativeControllerModel alternative)
         {
+            if (alternative.Equals(null))
+            {
+                return BadRequest();
+            }
+
             var _alternative = _mapper.Map<AlternativeControllerModel, IAlternativeModel>(alternative);
-            var status = await _alternativeGet.Get(_alternative);
-            return Ok(_mapper.Map<IAlternativeModel, AlternativeControllerModel>(status));
+            var status = await _alternativeUpdate.Update(_alternative);
+            return Ok(status);
         }
 
 
-        //public async Task<IHttpActionResult> Put(AlternativeControllerModel alternative)
-        //{
-        //    var _alternative = _mapper.Map<AlternativeControllerModel, IAlternativeModel>(alternative);
-        //    var status = await _alternativeUpdate.Update(_alternative);
-        //}
+        public async Task<IHttpActionResult> Delete(AlternativeControllerModel alternative)
+        {
+            if (alternative.Equals(null))
+            {
+                return BadRequest();
+            }
 
-
-        //public async Task<IHttpActionResult> Delete(AlternativeControllerModel user)
-        //{
-        //    var _user = _mapper.Map<AlternativeControllerModel, IAlternativeModel>(user);
-        //}
+            var _alternative = _mapper.Map<AlternativeControllerModel, IAlternativeModel>(alternative);
+            var status = await _alternativeDelete.Delete(_alternative);
+            if (status)
+            {
+                return Ok(status);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
 
 
     }

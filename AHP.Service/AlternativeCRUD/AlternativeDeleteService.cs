@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AHP.Service
+namespace AHP.Service.AlternativeCRUD
 {
-    class AlternativeUpdateService : IAlternativeUpdateService
+    class AlternativeDeleteService : IAlternativeDeleteService
     {
         IAlternativeRepository _altRepo;
         IUnitOfWorkFactory _unitOfWorkFactory;
-        public AlternativeUpdateService(
+        public AlternativeDeleteService(
             IAlternativeRepository altRepo,
             IUnitOfWorkFactory unitOfWorkFactory
             )
@@ -22,23 +22,15 @@ namespace AHP.Service
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
-        public async Task<IAlternativeModel> Update(IAlternativeModel alternative)
+        public async Task<bool> Delete(IAlternativeModel alternative)
         {
             using (var uof = _unitOfWorkFactory.Create())
             {
-                var _alternative = await _altRepo.GetByIDAsync(alternative.AlternativeID);
-                _alternative.AlternativeName = alternative.AlternativeName;
-                alternative = _altRepo.Add(alternative);
+                var deleted = await _altRepo.DeleteAsync(alternative);
                 await _altRepo.SaveAsync();
                 uof.Commit();
-                return alternative;
+                return deleted;
             }
-
         }
-
-
-
     }
-
 }
-

@@ -33,11 +33,11 @@ namespace AHP.Service
                         user.UserID = Guid.NewGuid();
                         user.DateCreated = DateTime.Now;
                         user.DateUpdated = DateTime.Now;
-                        using (var uof = _unitOfWorkFactory.Create())
+                        using (var uow = _unitOfWorkFactory.Create())
                         {
                              user = _userRepository.Add(user);
                              await _userRepository.SaveAsync();
-                             uof.Commit();
+                             uow.Commit();
                         }
                         return user;
                     

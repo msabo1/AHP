@@ -50,6 +50,7 @@
     <Compile Include="AHP\FinalScoreCalculator.cs" />
     <Compile Include="AHP\MatrixFiller.cs" />
     <Compile Include="AlternativeCRUD\AlternativeAddService.cs" />
+    <Compile Include="AlternativeCRUD\AlternativeDeleteService.cs" />
     <Compile Include="AlternativeCRUD\AlternativeGetService.cs" />
     <Compile Include="AlternativeCRUD\AlternativeUpdateService.cs" />
     <Compile Include="CalculateAHPScores.cs" />
