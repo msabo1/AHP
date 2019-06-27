@@ -48,20 +48,20 @@ namespace AHP.Repository
         }
 
 
-        public async Task<List<IChoiceModel>> GetChoicesByUserID(Guid userID, int PageSize, int PageNumber)
+        public async Task<List<IChoiceModel>> GetChoicesByUserIDAsync(Guid userID, int PageSize, int PageNumber)
         {
             var choices = await _context.Choices.Where(c => c.UserID == userID).OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
             return _mapper.Map<List<Choice>, List<IChoiceModel>>(choices);
         }
 
-        public async Task<IChoiceModel> LoadCriteriaPage(IChoiceModel choice, int PageNumber, int PageSize = 5)
+        public async Task<IChoiceModel> LoadCriteriaPageAsync(IChoiceModel choice, int PageNumber, int PageSize = 5)
         {
             var _choice = await _context.Choices.FindAsync(choice.ChoiceID);
             await _context.Entry(_choice).Collection(c => c.Criteria).Query().OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).LoadAsync();
             return _mapper.Map<Choice, IChoiceModel>(_choice); ;
         }
 
-        public async Task<IChoiceModel> LoadAlternativesPage(IChoiceModel choice, int PageNumber, int PageSize = 5)
+        public async Task<IChoiceModel> LoadAlternativesPageAsync(IChoiceModel choice, int PageNumber, int PageSize = 5)
         {
             var _choice = await _context.Choices.FindAsync(choice.ChoiceID);
             await _context.Entry(_choice).Collection(c => c.Alternatives).Query().OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).LoadAsync();

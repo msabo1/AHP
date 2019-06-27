@@ -57,7 +57,7 @@ namespace AHP.Repository
         }
 
 
-        public async Task<IUserModel> LoadChoicesPage(IUserModel user, int PageNumber , int PageSize = 5)
+        public async Task<IUserModel> LoadChoicesPageAsync(IUserModel user, int PageNumber , int PageSize = 5)
         {
             var _user = await _context.Users.FindAsync(user.UserID);
             await _context.Entry(_user).Collection(u => u.Choices).Query().OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).LoadAsync();
