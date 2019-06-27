@@ -10,8 +10,8 @@ namespace AHP.Repository.Common
 {
     public interface IAlternativeComparisonRepository : IRepository<IAlternativeComparisonModel>
     {
-        Task<List<IAlternativeComparisonModel>> GetByCriteriaAlternativesID(Guid criteriaID, Guid alternativeID, int PageNumber, int PageSize = 5);
-        Task<bool> DeleteByAlternativeID(Guid alternativeID);
-        Task<bool> DeleteByCriteriaID(Guid criteriaID);
+        Task<List<IAlternativeComparisonModel>> GetByCriteriaAlternativesIDAsync(Guid criteriaID, Guid alternativeID, int PageNumber, int PageSize = 5);
+        Task<bool> DeleteByAlternativeIDAsync(Guid alternativeID);
+        Task<bool> DeleteByCriteriaIDAsync(Guid criteriaID);
     }
 }

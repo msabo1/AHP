@@ -9,8 +9,8 @@ namespace AHP.Repository.Common
 {
     public interface ICriteriaComparisonRepository : IRepository<ICriteriaComparisonModel>
     {
-        Task<List<ICriteriaComparisonModel>> GetCriteriaComparisonsByCriterionID(Guid criteriaID, int PageNumber, int PageSize = 5);
-        Task<bool> DeleteByCriteriaID(Guid criteriaID);
+        Task<List<ICriteriaComparisonModel>> GetCriteriaComparisonsByCriterionIDAsync(Guid criteriaID, int PageNumber, int PageSize = 5);
+        Task<bool> DeleteByCriteriaIDAsync(Guid criteriaID);
 
     }
 }

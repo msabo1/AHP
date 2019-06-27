@@ -48,14 +48,14 @@ namespace AHP.Repository
             return true;
         }
 
-        public async Task<bool> DeleteByCriteriaID(Guid criteriaID)
+        public async Task<bool> DeleteByCriteriaIDAsync(Guid criteriaID)
         {
             var ccs = await _context.CriteriaComparisons.Where(cc => cc.CriteriaID1 == criteriaID || cc.CriteriaID2 == criteriaID).ToListAsync();
             _context.CriteriaComparisons.RemoveRange(ccs);
             return true;
         }
 
-        public async Task<List<ICriteriaComparisonModel>> GetCriteriaComparisonsByCriterionID(Guid criteriaID,  int PageNumber, int PageSize = 5)
+        public async Task<List<ICriteriaComparisonModel>> GetCriteriaComparisonsByCriterionIDAsync(Guid criteriaID,  int PageNumber, int PageSize = 5)
         {
             var ccs = await _context.CriteriaComparisons.Where(cc => cc.CriteriaID1 == criteriaID || cc.CriteriaID2 == criteriaID).OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
             return _mapper.Map<List<CriteriaComparison>, List<ICriteriaComparisonModel>>(ccs);

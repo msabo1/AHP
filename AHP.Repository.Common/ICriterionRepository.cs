@@ -9,7 +9,7 @@ namespace AHP.Repository.Common
 {
     public interface ICriterionRepository : IRepository<ICriterionModel>
     {
-        Task<List<ICriterionModel>> GetPageByChoiceID(Guid choiceID, int pageNumber, int pageSize);
-        Task<ICriterionModel> LoadCriteriaComparisonsPage(ICriterionModel criterion, int PageNumber, int PageSize = 5);
+        Task<List<ICriterionModel>> GetPageByChoiceIDAsync(Guid choiceID, int pageNumber, int pageSize);
+        Task<ICriterionModel> LoadCriteriaComparisonsPageAsync(ICriterionModel criterion, int PageNumber, int PageSize = 5);
     }
 }
