@@ -32,7 +32,7 @@ namespace AHP.Repository
 
         public async Task<IUserModel> GetByIDAsync(params Guid[] idValues)
         {
-            var user = await _context.Users.FindAsync(idValues);
+            var user = await _context.Users.FindAsync(idValues[0]);
             return _mapper.Map<User, IUserModel>(user);
         }
 
@@ -49,17 +49,19 @@ namespace AHP.Repository
             return user; 
         }
 
-        public bool Delete(IUserModel user)
+        public async Task<bool> DeleteAsync(IUserModel user)
         {
-            _context.Users.Remove(_mapper.Map<IUserModel, User>(user));
+            var _user = await _context.Users.FindAsync(user.UserID);
+            _context.Users.Remove(_user);
             return true;
         }
 
 
-        public async Task<List<IChoiceModel>> GetChoices(Guid userID, int PageSize, int PageNumber)
+        public async Task<IUserModel> LoadChoicesPage(IUserModel user, int PageNumber , int PageSize = 5)
         {
-            var choices = await _context.Choices.Where(c => c.UserID == userID).OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
-            return _mapper.Map<List<Choice>, List<IChoiceModel>>(choices);
+            var _user = await _context.Users.FindAsync(user.UserID);
+            await _context.Entry(_user).Collection(u => u.Choices).Query().OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).LoadAsync();
+           return _mapper.Map<User, IUserModel>(_user); ;
         }
 
         public List<IUserModel> AddRange(List<IUserModel> users)
@@ -67,6 +69,11 @@ namespace AHP.Repository
             var _users = _mapper.Map<List<IUserModel>, List<User>>(users);
             _context.Users.AddRange(_users);
             return users;
+        }
+
+        public async Task<int> SaveAsync()
+        {
+            return await _context.SaveChangesAsync();
         }
     }
 }

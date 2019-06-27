@@ -44,18 +44,23 @@
     <Reference Include="Autofac, Version=4.9.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.9.2\lib\net45\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="System.Transactions" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AHP\Consistency.cs" />
     <Compile Include="AHP\FinalScoreCalculator.cs" />
     <Compile Include="AHP\MatrixFiller.cs" />
+    <Compile Include="AlternativeCRUD\AlternativeAddService.cs" />
+    <Compile Include="AlternativeCRUD\AlternativeDeleteService.cs" />
+    <Compile Include="AlternativeCRUD\AlternativeGetService.cs" />
+    <Compile Include="AlternativeCRUD\AlternativeUpdateService.cs" />
+    <Compile Include="CalculateAHPScores.cs" />
     <Compile Include="ServiceModule.cs" />
     <Compile Include="AHP\VectorFiller.cs" />
-    <Compile Include="User CRUD\IUserDeleteService.cs" />
-    <Compile Include="User CRUD\UserDeleteService.cs" />
-    <Compile Include="User CRUD\UserLoginService.cs" />
-    <Compile Include="User CRUD\UserRegisterService.cs" />
-    <Compile Include="User CRUD\UserUpdateService.cs" />
+    <Compile Include="UserCRUD\UserDeleteService.cs" />
+    <Compile Include="UserCRUD\UserLoginService.cs" />
+    <Compile Include="UserCRUD\UserRegisterService.cs" />
+    <Compile Include="UserCRUD\UserUpdateService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AHP.Common\AHP.Common.csproj">
@@ -83,5 +88,6 @@
       <Name>AHP.Service.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

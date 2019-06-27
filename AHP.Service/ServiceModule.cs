@@ -19,6 +19,8 @@ namespace AHP.Service
 
             builder.RegisterType<UserLoginService>().As<IUserLoginService>();
             builder.RegisterType<UserRegisterService>().As<IUserRegisterService>();
+            builder.RegisterType<UserDeleteService>().As<IUserDeleteService>();
+            builder.RegisterType<UserUpdateService>().As<IUserUpdateService>();
         }
     }
 }

@@ -5,23 +5,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace AHP.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
-        public IUserRepository UserRepository { get; set; }
-        private AHPEntities _context;
+        private readonly TransactionScope transactionScope;
+        private bool disposedValue = false;
 
-        public UnitOfWork(IUserRepository userRepository, AHPEntities context)
+        public UnitOfWork()
         {
-            this.UserRepository = userRepository;
-            _context = context;
+            transactionScope = new TransactionScope(
+                TransactionScopeOption.RequiresNew,
+                new TransactionOptions()
+                {
+                    IsolationLevel = IsolationLevel.ReadCommitted
+                },
+                TransactionScopeAsyncFlowOption.Enabled);
         }
 
-        public async Task<int> SaveAsync()
+        public void Commit()
         {
-            return await _context.SaveChangesAsync();
+            transactionScope.Complete();
+        }
+
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    if (transactionScope != null)
+                    {
+                        transactionScope.Dispose();
+                    }
+                }
+                disposedValue = true;
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Mvc;
+using RouteAttribute = System.Web.Http.RouteAttribute;
 
 namespace AHP.WebAPI.Controllers
 {
@@ -33,61 +33,74 @@ namespace AHP.WebAPI.Controllers
             _userLogin = userLogin;
             _userUpdate = userUpdate;
             _userDelete = userDelete;
-        }
+        }    
 
-
-        [System.Web.Http.Route("User/Register")]
         public async Task<IHttpActionResult> Post(UserControllerModel user)
         {
+            if (user.Equals(null))
+            {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
             var status = await _userRegister.Check(_user);
 
             if (status != null)
-                return Ok(_mapper.Map<IUserModel, UserControllerModel>(status));
+            {
+                return BadRequest();
+            }
             else
+            {
                 return NotFound();
-        }
-
-        [System.Web.Http.Route("User/Login")]
+            }
+                
+        }    
         public async Task<IHttpActionResult> Get(UserControllerModel user)
         {
+            if (user.Equals(null))
+            {
+                return BadRequest();
+            }
+
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
-            var status = await _userLogin.Check(_user.Username, _user.Password);
+            var status = await _userLogin.Check(_user);
+
             if (status != null)
                 return Ok(_mapper.Map<IUserModel, UserControllerModel>(status));
             else
                 return NotFound();
         }
-        [System.Web.Http.Route("User/Update")]
         public async Task<IHttpActionResult> Put(UserControllerModel user)
         {
+            if (user.Equals(null))
+            {
+                return BadRequest();
+            }
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
             var status = await _userUpdate.Update(_user);
             if (status != null)
                 return Ok(_mapper.Map<IUserModel, UserControllerModel>(status));
             else
                 return NotFound();
-
         }
-        public IHttpActionResult Delete(UserControllerModel user)
+        public async Task<IHttpActionResult> Delete(UserControllerModel user)
         {
+            if (user.Equals(null))
+            {
+                return BadRequest();
+            }
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
-            var status = _userDelete.Delete(_user);
+            var status =  await _userDelete.Delete(_user);
             if (status)
                 return Ok();
             else
                 return NotFound();
-
-
-
         }
-
-
     }
     public class UserControllerModel
     {
         public System.Guid UserID { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public ICollection<IChoiceModel> Choices { get; set; }
     }
 }

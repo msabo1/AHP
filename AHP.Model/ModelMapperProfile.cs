@@ -21,7 +21,7 @@ namespace AHP.Model
             CreateMap<IChoiceModel, Choice>();
 
             CreateMap<Criterion, ICriterionModel>();
-            CreateMap<ICriterionModel, IUserModel>();
+            CreateMap<ICriterionModel, Criterion>();
 
             CreateMap<Alternative, IAlternativeModel>();
             CreateMap<IAlternativeModel, Alternative>();

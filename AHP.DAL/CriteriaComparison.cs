@@ -20,7 +20,7 @@ namespace AHP.DAL
         public System.DateTime DateCreated { get; set; }
         public Nullable<System.DateTime> DateUpdated { get; set; }
     
-        public virtual Criterion Criterion { get; set; }
-        public virtual Criterion Criterion1 { get; set; }
+        public Criterion Criterion { get; set; }
+        public Criterion Criterion1 { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace AHP.Repository
 
         public async Task<IChoiceModel> GetByIDAsync(params Guid[] idValues)
         {
-            var choice = await _context.Choices.FindAsync(idValues);
+            var choice = await _context.Choices.FindAsync(idValues[0]);
             return _mapper.Map<Choice, IChoiceModel>(choice);
         }
 
@@ -40,9 +40,10 @@ namespace AHP.Repository
             return choice;
         }
 
-        public bool Delete(IChoiceModel choice)
+        public async Task<bool> DeleteAsync(IChoiceModel choice)
         {
-            _context.Choices.Remove(_mapper.Map<IChoiceModel, Choice>(choice));
+            var _choice = await _context.Choices.FindAsync(choice.ChoiceID);
+            _context.Choices.Remove(_choice);
             return true;
         }
 
@@ -53,11 +54,30 @@ namespace AHP.Repository
             return _mapper.Map<List<Choice>, List<IChoiceModel>>(choices);
         }
 
+        public async Task<IChoiceModel> LoadCriteriaPage(IChoiceModel choice, int PageNumber, int PageSize = 5)
+        {
+            var _choice = await _context.Choices.FindAsync(choice.ChoiceID);
+            await _context.Entry(_choice).Collection(c => c.Criteria).Query().OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).LoadAsync();
+            return _mapper.Map<Choice, IChoiceModel>(_choice); ;
+        }
+
+        public async Task<IChoiceModel> LoadAlternativesPage(IChoiceModel choice, int PageNumber, int PageSize = 5)
+        {
+            var _choice = await _context.Choices.FindAsync(choice.ChoiceID);
+            await _context.Entry(_choice).Collection(c => c.Alternatives).Query().OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).LoadAsync();
+            return _mapper.Map<Choice, IChoiceModel>(_choice); ;
+        }
+
         public List<IChoiceModel> AddRange(List<IChoiceModel> choices)
         {
             var _choices = _mapper.Map<List<IChoiceModel>, List<Choice>>(choices);
             _context.Choices.AddRange(_choices);
             return choices;
+        }
+
+        public async Task<int> SaveAsync()
+        {
+            return await _context.SaveChangesAsync();
         }
     }
 }

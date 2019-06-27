@@ -44,10 +44,14 @@
     <Compile Include="AHP\IFinalScoreCalculator.cs" />
     <Compile Include="AHP\IMatrixFiller.cs" />
     <Compile Include="AHP\IVectorFiller.cs" />
-    <Compile Include="User CRUD Interfaces\IUserDeleteService.cs" />
-    <Compile Include="User CRUD Interfaces\IUserLoginService.cs" />
-    <Compile Include="User CRUD Interfaces\IUserRegisterService.cs" />
-    <Compile Include="User CRUD Interfaces\IUserUpdateService.cs" />
+    <Compile Include="AlternativeCRUDInterfaces\IAlternativeAddService.cs" />
+    <Compile Include="AlternativeCRUDInterfaces\IAlternativeDeleteService.cs" />
+    <Compile Include="AlternativeCRUDInterfaces\IAlternativeGetService.cs" />
+    <Compile Include="AlternativeCRUDInterfaces\IAlternativeUpdateService.cs" />
+    <Compile Include="UserCRUDInterfaces\IUserDeleteService.cs" />
+    <Compile Include="UserCRUDInterfaces\IUserLoginService.cs" />
+    <Compile Include="UserCRUDInterfaces\IUserRegisterService.cs" />
+    <Compile Include="UserCRUDInterfaces\IUserUpdateService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AHP.Model.Common\AHP.Model.Common.csproj">

@@ -56,11 +56,17 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Transactions" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlternativeComparisonRepository.cs" />
+    <Compile Include="AlternativeRepository.cs" />
+    <Compile Include="ChoiceRepository.cs" />
+    <Compile Include="CriteriaComparisonRepository.cs" />
     <Compile Include="CriterionRepository.cs" />
     <Compile Include="RepositoryModule.cs" />
     <Compile Include="UnitOfWork.cs" />
+    <Compile Include="UnitOfWorkFactory.cs" />
     <Compile Include="UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>

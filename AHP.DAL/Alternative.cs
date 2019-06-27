@@ -28,9 +28,9 @@ namespace AHP.DAL
         public System.DateTime DateCreated { get; set; }
         public Nullable<System.DateTime> DateUpdated { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AlternativeComparison> AlternativeComparisons { get; set; }
+        public ICollection<AlternativeComparison> AlternativeComparisons { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AlternativeComparison> AlternativeComparisons1 { get; set; }
-        public virtual Choice Choice { get; set; }
+        public ICollection<AlternativeComparison> AlternativeComparisons1 { get; set; }
+        public Choice Choice { get; set; }
     }
 }

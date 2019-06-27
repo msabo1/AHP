@@ -29,25 +29,26 @@ namespace AHP.Repository
 
         public async Task<IAlternativeModel> GetByIDAsync(params Guid[] idValues)
         {
-            var alternative = await _context.Alternatives.FindAsync(idValues);
+            var alternative = await _context.Alternatives.FindAsync(idValues[0]);
             return _mapper.Map<Alternative, IAlternativeModel>(alternative);
         }
 
         public async Task<IAlternativeModel> UpdateAsync(IAlternativeModel alternative)
         {
-            var _user = await _context.Alternatives.FindAsync(alternative.AlternativeID);
-            _context.Entry(_user).CurrentValues.SetValues(_mapper.Map<IAlternativeModel, Alternative>(alternative));
+            var _alternative = await _context.Alternatives.FindAsync(alternative.AlternativeID);
+            _context.Entry(_alternative).CurrentValues.SetValues(_mapper.Map<IAlternativeModel, Alternative>(alternative));
             return alternative;
         }
 
-        public bool Delete(IAlternativeModel alternative)
+        public async Task<bool> DeleteAsync(IAlternativeModel alternative)
         {
-            _context.Alternatives.Remove(_mapper.Map<IAlternativeModel, Alternative>(alternative));
+            var _alternative = await _context.Alternatives.FindAsync(alternative.AlternativeID);
+            _context.Alternatives.Remove(_alternative);
             return true;
         }
 
 
-        public async Task<List<IAlternativeModel>> GetAlternativesByChoiceID(Guid choiceID, int PageSize, int PageNumber)
+        public async Task<List<IAlternativeModel>> GetAlternativesByChoiceID(Guid choiceID, int PageNumber, int PageSize = 5)
         {
             var alternatives = await _context.Alternatives.Where(c => c.ChoiceID == choiceID).OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
             return _mapper.Map<List<Alternative>, List<IAlternativeModel>>(alternatives);
@@ -58,6 +59,11 @@ namespace AHP.Repository
             var _alternatives = _mapper.Map<List<IAlternativeModel>, List<Alternative>>(alternatives);
             _context.Alternatives.AddRange(_alternatives);
             return alternatives;
+        }
+
+        public async Task<int> SaveAsync()
+        {
+            return await _context.SaveChangesAsync();
         }
     }
 }
