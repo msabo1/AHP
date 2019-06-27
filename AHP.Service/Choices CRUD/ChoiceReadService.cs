@@ -23,30 +23,13 @@ namespace AHP.Service
             _choiceRepository = choiceRepository;
         }
 
-        public async Task<IChoiceModel> CheckAsync(Guid choiceID)
+        public async Task<List<IChoiceModel>> GetAsync(Guid userId, int page)
         {
-            IChoiceModel choice;
-            using (var uow = _unitOfWorkFactory.Create())
-            {
-                choice = await _choiceRepository.GetByIDAsync(choiceID);
-                uow.Commit();
-            }
-            if (choice != null)
-            {
-                if(choice.ChoiceID == choiceID)
-                {
-                    return choice;
-                }
-                else
-                {
-                    choice = null;
-                    return choice;
-                }
-            }
-            else
-            {
-                return choice;
-            }
+            
+            
+                var choices = await _choiceRepository.GetChoicesByUserIDAsync(userId, page );
+
+            return choices;
         }
     }
 }

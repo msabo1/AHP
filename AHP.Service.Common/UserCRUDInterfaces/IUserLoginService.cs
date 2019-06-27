@@ -5,6 +5,6 @@ namespace AHP.Service.Common
 {
     public interface IUserLoginService
     {
-        Task<IUserModel> CheckAsync(IUserModel user);
+        Task<IUserModel> GetAsync(IUserModel user);
     }
 }

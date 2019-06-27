@@ -22,16 +22,11 @@ namespace AHP.Service
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
-        public async Task<IChoiceModel> GetAsync(IChoiceModel choice, int page = 1)
+        public async Task<List<IAlternativeModel>> GetAsync(Guid id, int page = 1)
         {
-            var comparisons = await _altRepo.GetAlternativesByChoiceIDAsync(choice.ChoiceID, page);
+            var alternatives = await _altRepo.GetAlternativesByChoiceIDAsync(id, page);
 
-            foreach (IAlternativeModel comparison in comparisons)
-            {
-                choice.Alternatives.Add(comparison);
-            }
-
-            return choice;
+            return alternatives;
         }
 
     }

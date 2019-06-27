@@ -34,19 +34,19 @@ namespace AHP.WebAPI.Controllers
             _userUpdate = userUpdate;
             _userDelete = userDelete;
         }    
-
+       
         public async Task<IHttpActionResult> Post(UserControllerModel user)
         {
             if (user.Equals(null))
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return BadRequest();
             }
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
             var status = await _userRegister.CheckAsync(_user);
 
             if (status != null)
             {
-                return BadRequest();
+                return Ok(status);
             }
             else
             {
@@ -62,7 +62,7 @@ namespace AHP.WebAPI.Controllers
             }
 
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
-            var status = await _userLogin.CheckAsync(_user);
+            var status = await _userLogin.GetAsync(_user);
 
             if (status != null)
                 return Ok(_mapper.Map<IUserModel, UserControllerModel>(status));

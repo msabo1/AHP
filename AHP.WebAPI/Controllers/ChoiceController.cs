@@ -34,11 +34,11 @@ namespace AHP.WebAPI.Controllers
             
         }
 
-        [Route("Choice/Create")]
+
         public async Task<IHttpActionResult> Post(ChoiceControllerModel choice)
         {
             var _choice = _mapper.Map<ChoiceControllerModel, IChoiceModel>(choice);
-            var status = await _choiceCreate.CheckAsync(_choice);
+            var status = await _choiceCreate.CreateAsync(_choice);
 
             if(status != null)
             {
@@ -49,24 +49,19 @@ namespace AHP.WebAPI.Controllers
                 return NotFound();
             }
         }
-
-        [Route("Choice/Read")]
-        public async Task<IHttpActionResult> Get(ChoiceControllerModel choice)
+        public async Task<IHttpActionResult> Get(Guid id, int page)
         {
-            var _choice = _mapper.Map<ChoiceControllerModel, IChoiceModel>(choice);
-            var status = await _choiceRead.CheckAsync(_choice.ChoiceID);
+            var status = await _choiceRead.GetAsync(id, page);
 
-            if (status != null)
+            if (status.Any())
             {
-                return Ok(_mapper.Map<IChoiceModel, ChoiceControllerModel>(status));
+                return Ok(_mapper.Map<List<IChoiceModel>, List<ChoiceControllerModel>>(status));
             }
             else
             {
                 return NotFound();
             }
         }
-
-        [Route("Choice/Update")]
         public async Task<IHttpActionResult> Put(ChoiceControllerModel choice)
         {
             var _choice = _mapper.Map<ChoiceControllerModel, IChoiceModel>(choice);
@@ -81,8 +76,6 @@ namespace AHP.WebAPI.Controllers
                 return NotFound();
             }
         }
-
-        [Route("Choice/Delete")]
         public async Task<IHttpActionResult> Delete(ChoiceControllerModel choice)
         {
             var _choice = _mapper.Map<ChoiceControllerModel, IChoiceModel>(choice);

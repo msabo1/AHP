@@ -17,6 +17,9 @@ namespace AHP.WebAPI.MapperProfiles
 
         CreateMap<AlternativeControllerModel, IAlternativeModel>();
         CreateMap<IAlternativeModel, AlternativeControllerModel>();
+
+        CreateMap<ChoiceControllerModel, IChoiceModel>();
+        CreateMap<IChoiceModel, ChoiceControllerModel>();
         }
     }
 }

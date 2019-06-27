@@ -24,11 +24,13 @@ namespace AHP.Service
         public async Task<IChoiceModel> UpdateAsync(IChoiceModel choice)
         {
             IChoiceModel updated;
-            using(var uow = _unitOfWorkFactory.Create())
+
+            var _baseChoice = await _choiceRepository.GetByIDAsync(choice.ChoiceID);
+            if (choice.ChoiceName != null) _baseChoice.ChoiceName = choice.ChoiceName;
+            _baseChoice.DateUpdated = DateTime.Now;
+
+            using (var uow = _unitOfWorkFactory.Create())
             {
-                var _baseChoice = await _choiceRepository.GetByIDAsync(choice.ChoiceID);
-                _baseChoice.DateUpdated = DateTime.Now;
-                if (choice.ChoiceID != null) _baseChoice.ChoiceID = choice.ChoiceID;
                 updated = await _choiceRepository.UpdateAsync(_baseChoice);
                 await _choiceRepository.SaveAsync();
                 uow.Commit();

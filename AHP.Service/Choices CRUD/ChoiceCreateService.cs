@@ -24,16 +24,9 @@ namespace AHP.Service
             _choiceRepository = choiceRepository;
         }
 
-        public async Task<IChoiceModel> CheckAsync(IChoiceModel choice)
+        public async Task<IChoiceModel> CreateAsync(IChoiceModel choice)
         {
-            IChoiceModel _choice = await _choiceRepository.GetByIDAsync(choice.ChoiceID);
-
-            if (_choice != null)
-            {
-                return null;
-            }
-            else
-            {
+            
                 choice.ChoiceID = Guid.NewGuid();
                 choice.DateCreated = DateTime.Now;
                 choice.DateUpdated = DateTime.Now;
@@ -45,7 +38,7 @@ namespace AHP.Service
                 }
 
                 return choice;
-            }
+            
         }
     }
 }

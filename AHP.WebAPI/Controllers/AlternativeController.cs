@@ -42,18 +42,27 @@ namespace AHP.WebAPI.Controllers
 
             var _alternative = _mapper.Map<AlternativeControllerModel, IAlternativeModel>(alternative);
             var status = await _alternativeAdd.AddAsync(_alternative);
-            return Ok(_mapper.Map<IAlternativeModel, AlternativeControllerModel> (status));
+            return Ok(_mapper.Map<IAlternativeModel, AlternativeControllerModel>(status));
         }
 
-        public async Task<IHttpActionResult> Get(ChoiceControllerModel choice, int page = 1)
+        public async Task<IHttpActionResult> Get(GetPage request)
         {
-            if (choice.Equals(null) || page < 1)
+            int page = request.page;
+            Guid choiceId = request.choiceId;
+            if (choiceId.Equals(null) || page < 1)
             {
                 return BadRequest();
             }
-            var _choice = _mapper.Map<ChoiceControllerModel, IChoiceModel>(choice);
-            var status = await _alternativeGet.GetAsync(_choice, page);
-            return Ok(_mapper.Map<IChoiceModel, ChoiceControllerModel>(status));
+
+            var status = await _alternativeGet.GetAsync(choiceId, page);
+            if (status.Any())
+            {
+                return Ok(_mapper.Map<List<IAlternativeModel>, List<AlternativeControllerModel>>(status));
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
 
@@ -91,6 +100,10 @@ namespace AHP.WebAPI.Controllers
 
 
     }
+    public class GetPage{
+        public Guid choiceId;
+        public int page;
+        }
     public class AlternativeControllerModel
     {
         public ICollection<IAlternativeComparisonModel> AlternativeComparisons1 { get; set; }

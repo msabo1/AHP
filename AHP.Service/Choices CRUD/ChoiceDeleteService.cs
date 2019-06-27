@@ -13,11 +13,20 @@ namespace AHP.Service
     {
         IUnitOfWorkFactory _unitOfWorkFactory;
         IChoiceRepository _choiceRepository;
+        ICriterionRepository _criterionRepository;
+        IAlternativeRepository _alternativeRepository;
 
-        public ChoiceDeleteService(IUnitOfWorkFactory unitOfWorkFactory, IChoiceRepository choiceRepository)
+        public ChoiceDeleteService(
+            IUnitOfWorkFactory unitOfWorkFactory, 
+            IChoiceRepository choiceRepository,
+            ICriterionRepository criterionRepository,
+            IAlternativeRepository alternativeRepository
+            )
         {
             _unitOfWorkFactory = unitOfWorkFactory;
             _choiceRepository = choiceRepository;
+            _criterionRepository = criterionRepository;
+            _alternativeRepository = alternativeRepository;
         }
 
         public async Task<bool> DeleteAsync(IChoiceModel choice)
