@@ -5,6 +5,6 @@ namespace AHP.Service.Common
 {
     public interface IAlternativeDeleteService
     {
-        Task<bool> Delete(IAlternativeModel alternative);
+        Task<bool> DeleteAsync(IAlternativeModel alternative);
     }
 }

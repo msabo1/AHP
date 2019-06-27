@@ -38,7 +38,7 @@ namespace AHP.WebAPI.Controllers
         public async Task<IHttpActionResult> Post(ChoiceControllerModel choice)
         {
             var _choice = _mapper.Map<ChoiceControllerModel, IChoiceModel>(choice);
-            var status = await _choiceCreate.Check(_choice);
+            var status = await _choiceCreate.CheckAsync(_choice);
 
             if(status != null)
             {
@@ -54,7 +54,7 @@ namespace AHP.WebAPI.Controllers
         public async Task<IHttpActionResult> Get(ChoiceControllerModel choice)
         {
             var _choice = _mapper.Map<ChoiceControllerModel, IChoiceModel>(choice);
-            var status = await _choiceRead.Check(_choice.ChoiceID);
+            var status = await _choiceRead.CheckAsync(_choice.ChoiceID);
 
             if (status != null)
             {
@@ -70,7 +70,7 @@ namespace AHP.WebAPI.Controllers
         public async Task<IHttpActionResult> Put(ChoiceControllerModel choice)
         {
             var _choice = _mapper.Map<ChoiceControllerModel, IChoiceModel>(choice);
-            var status = await _choiceUpdate.Update(_choice);
+            var status = await _choiceUpdate.UpdateAsync(_choice);
 
             if (status != null)
             {
@@ -86,7 +86,7 @@ namespace AHP.WebAPI.Controllers
         public async Task<IHttpActionResult> Delete(ChoiceControllerModel choice)
         {
             var _choice = _mapper.Map<ChoiceControllerModel, IChoiceModel>(choice);
-            var status = await _choiceDelete.Delete(_choice);
+            var status = await _choiceDelete.DeleteAsync(_choice);
 
             if (status)
             {

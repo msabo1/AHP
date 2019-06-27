@@ -5,6 +5,6 @@ namespace AHP.Service.Common
 {
     public interface IAlternativeGetService
     {
-        Task<IChoiceModel> Get(IChoiceModel choice, int page = 1);
+        Task<IChoiceModel> GetAsync(IChoiceModel choice, int page = 1);
     }
 }

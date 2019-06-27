@@ -24,7 +24,7 @@ namespace AHP.Service
             _choiceRepository = choiceRepository;
         }
 
-        public async Task<IChoiceModel> Check(IChoiceModel choice)
+        public async Task<IChoiceModel> CheckAsync(IChoiceModel choice)
         {
             IChoiceModel _choice = await _choiceRepository.GetByIDAsync(choice.ChoiceID);
 

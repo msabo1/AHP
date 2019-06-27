@@ -20,7 +20,7 @@ namespace AHP.Service
             _choiceRepository = choiceRepository;
         }
 
-        public async Task<bool> Delete(IChoiceModel choice)
+        public async Task<bool> DeleteAsync(IChoiceModel choice)
         {
             bool b = true;
             using (var uow = _unitOfWorkFactory.Create())

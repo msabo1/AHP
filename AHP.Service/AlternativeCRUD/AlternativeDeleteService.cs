@@ -22,7 +22,7 @@ namespace AHP.Service.AlternativeCRUD
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
-        public async Task<bool> Delete(IAlternativeModel alternative)
+        public async Task<bool> DeleteAsync(IAlternativeModel alternative)
         {
             using (var uof = _unitOfWorkFactory.Create())
             {

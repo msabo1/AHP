@@ -23,7 +23,7 @@ namespace AHP.Service
             _choiceRepository = choiceRepository;
         }
 
-        public async Task<IChoiceModel> Check(Guid choiceID)
+        public async Task<IChoiceModel> CheckAsync(Guid choiceID)
         {
             IChoiceModel choice;
             using (var uow = _unitOfWorkFactory.Create())

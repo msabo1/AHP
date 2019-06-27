@@ -41,20 +41,20 @@ namespace AHP.WebAPI.Controllers
             }
 
             var _alternative = _mapper.Map<AlternativeControllerModel, IAlternativeModel>(alternative);
-            var status = await _alternativeAdd.Add(_alternative);
+            var status = await _alternativeAdd.AddAsync(_alternative);
             return Ok(_mapper.Map<IAlternativeModel, AlternativeControllerModel> (status));
         }
 
-        //public async Task<IHttpActionResult> Get(ChoiceControllerModel choice, int page = 1)
-        //{
-        //    if (choice.Equals(null) || page<1)
-        //    {
-        //        return BadRequest();
-        //    }
-        //    var _choice = _mapper.Map<ChoiceControllerModel, IChoiceModel>(choice);
-        //    var status = await _alternativeGet.Get(_choice, page);
-        //    return Ok(_mapper.Map<IChoiceModel, IChoiceControllerModel>(status));
-        //}
+        public async Task<IHttpActionResult> Get(ChoiceControllerModel choice, int page = 1)
+        {
+            if (choice.Equals(null) || page < 1)
+            {
+                return BadRequest();
+            }
+            var _choice = _mapper.Map<ChoiceControllerModel, IChoiceModel>(choice);
+            var status = await _alternativeGet.GetAsync(_choice, page);
+            return Ok(_mapper.Map<IChoiceModel, ChoiceControllerModel>(status));
+        }
 
 
         public async Task<IHttpActionResult> Put(AlternativeControllerModel alternative)
@@ -65,7 +65,7 @@ namespace AHP.WebAPI.Controllers
             }
 
             var _alternative = _mapper.Map<AlternativeControllerModel, IAlternativeModel>(alternative);
-            var status = await _alternativeUpdate.Update(_alternative);
+            var status = await _alternativeUpdate.UpdateAsync(_alternative);
             return Ok(status);
         }
 
@@ -78,7 +78,7 @@ namespace AHP.WebAPI.Controllers
             }
 
             var _alternative = _mapper.Map<AlternativeControllerModel, IAlternativeModel>(alternative);
-            var status = await _alternativeDelete.Delete(_alternative);
+            var status = await _alternativeDelete.DeleteAsync(_alternative);
             if (status)
             {
                 return Ok(status);

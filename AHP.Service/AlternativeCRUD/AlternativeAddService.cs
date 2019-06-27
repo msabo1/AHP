@@ -22,7 +22,7 @@ namespace AHP.Service
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
-        public async Task<IAlternativeModel> Add(IAlternativeModel alternative)
+        public async Task<IAlternativeModel> AddAsync(IAlternativeModel alternative)
         {
             alternative.AlternativeID = Guid.NewGuid();
             alternative.DateCreated = DateTime.Now;

@@ -19,7 +19,7 @@ namespace AHP.Service
             _userRepository = userRepository;
         }
 
-        public async Task<bool> Delete(IUserModel user)
+        public async Task<bool> DeleteAsync(IUserModel user)
         {
             bool a=true;
             using (var uof = _unitOfWorkFactory.Create())

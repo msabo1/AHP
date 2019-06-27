@@ -21,7 +21,7 @@ namespace AHP.Service
             _choiceRepository = choiceRepository;
         }
 
-        public async Task<IChoiceModel> Update(IChoiceModel choice)
+        public async Task<IChoiceModel> UpdateAsync(IChoiceModel choice)
         {
             IChoiceModel updated;
             using(var uow = _unitOfWorkFactory.Create())

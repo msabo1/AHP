@@ -10,6 +10,6 @@ namespace AHP.Service.Common.Choice_CRUD_Interfaces
 {
     public interface IChoiceReadService
     {
-        Task<IChoiceModel> Check(Guid ChoiceID);
+        Task<IChoiceModel> CheckAsync(Guid ChoiceID);
     }
 }

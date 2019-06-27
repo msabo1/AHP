@@ -20,7 +20,7 @@ namespace AHP.Service
             _unitOfWorkFactory = unitOfWorkFactory;
             _userRepository = userRepository;
         }
-        public async Task<IUserModel> Check(IUserModel user)
+        public async Task<IUserModel> CheckAsync(IUserModel user)
         {
             
             var _user = await _userRepository.GetByUsernameAsync(user.Username);

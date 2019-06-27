@@ -19,7 +19,7 @@ namespace AHP.Service
             _userRepository = userRepository;
         }
 
-        public async Task<IUserModel> Check(IUserModel user)
+        public async Task<IUserModel> CheckAsync(IUserModel user)
         {
            
                     IUserModel _user = await _userRepository.GetByUsernameAsync(user.Username);

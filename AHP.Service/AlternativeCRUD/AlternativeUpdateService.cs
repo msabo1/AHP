@@ -22,16 +22,17 @@ namespace AHP.Service
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
-        public async Task<IAlternativeModel> Update(IAlternativeModel alternative)
+        public async Task<IAlternativeModel> UpdateAsync(IAlternativeModel alternative)
         {
+            var _alternative = await _altRepo.GetByIDAsync(alternative.AlternativeID);
             using (var uof = _unitOfWorkFactory.Create())
             {
-                var _alternative = await _altRepo.GetByIDAsync(alternative.AlternativeID);
                 _alternative.AlternativeName = alternative.AlternativeName;
-                alternative = _altRepo.Add(alternative);
+                _alternative.DateUpdated = DateTime.Now;
+                var updatedAlternative = await _altRepo.UpdateAsync(_alternative);
                 await _altRepo.SaveAsync();
                 uof.Commit();
-                return alternative;
+                return updatedAlternative;
             }
 
         }

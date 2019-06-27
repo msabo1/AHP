@@ -19,7 +19,7 @@ namespace AHP.Service
         }
        
 
-        public async Task<IUserModel> Update(IUserModel user)
+        public async Task<IUserModel> UpdateAsync(IUserModel user)
         {
             
             IUserModel updated;

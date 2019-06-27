@@ -5,6 +5,6 @@ namespace AHP.Service.Common
 {
     public interface IUserDeleteService
     {
-        Task<bool> Delete(IUserModel user);
+        Task<bool> DeleteAsync(IUserModel user);
     }
 }

@@ -10,6 +10,6 @@ namespace AHP.Service.Common.Choice_CRUD_Interfaces
 {
     public interface IChoiceUpdateService
     {
-        Task<IChoiceModel> Update(IChoiceModel choice);
+        Task<IChoiceModel> UpdateAsync(IChoiceModel choice);
     }
 }

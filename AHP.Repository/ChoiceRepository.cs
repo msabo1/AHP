@@ -48,7 +48,7 @@ namespace AHP.Repository
         }
 
 
-        public async Task<List<IChoiceModel>> GetChoicesByUserIDAsync(Guid userID, int PageSize, int PageNumber)
+        public async Task<List<IChoiceModel>> GetChoicesByUserIDAsync(Guid userID, int PageNumber, int PageSize = 5)
         {
             var choices = await _context.Choices.Where(c => c.UserID == userID).OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
             return _mapper.Map<List<Choice>, List<IChoiceModel>>(choices);

@@ -48,7 +48,7 @@ namespace AHP.Repository
         }
 
 
-        public async Task<List<IAlternativeModel>> GetAlternativesByChoiceIDAsync(Guid choiceID, int PageSize, int PageNumber)
+        public async Task<List<IAlternativeModel>> GetAlternativesByChoiceIDAsync(Guid choiceID, int PageNumber, int PageSize = 5)
         {
             var alternatives = await _context.Alternatives.Where(c => c.ChoiceID == choiceID).OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
             return _mapper.Map<List<Alternative>, List<IAlternativeModel>>(alternatives);

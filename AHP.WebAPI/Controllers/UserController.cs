@@ -42,7 +42,7 @@ namespace AHP.WebAPI.Controllers
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
-            var status = await _userRegister.Check(_user);
+            var status = await _userRegister.CheckAsync(_user);
 
             if (status != null)
             {
@@ -62,7 +62,7 @@ namespace AHP.WebAPI.Controllers
             }
 
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
-            var status = await _userLogin.Check(_user);
+            var status = await _userLogin.CheckAsync(_user);
 
             if (status != null)
                 return Ok(_mapper.Map<IUserModel, UserControllerModel>(status));
@@ -76,7 +76,7 @@ namespace AHP.WebAPI.Controllers
                 return BadRequest();
             }
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
-            var status = await _userUpdate.Update(_user);
+            var status = await _userUpdate.UpdateAsync(_user);
             if (status != null)
                 return Ok(_mapper.Map<IUserModel, UserControllerModel>(status));
             else
@@ -89,7 +89,7 @@ namespace AHP.WebAPI.Controllers
                 return BadRequest();
             }
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
-            var status =  await _userDelete.Delete(_user);
+            var status =  await _userDelete.DeleteAsync(_user);
             if (status)
                 return Ok();
             else

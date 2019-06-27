@@ -5,6 +5,6 @@ namespace AHP.Service.Common
 {
     public interface IUserUpdateService
     {
-        Task<IUserModel> Update(IUserModel user);
+        Task<IUserModel> UpdateAsync(IUserModel user);
     }
 }

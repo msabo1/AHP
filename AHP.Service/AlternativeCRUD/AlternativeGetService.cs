@@ -22,9 +22,9 @@ namespace AHP.Service
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
-        public async Task<IChoiceModel> Get(IChoiceModel choice, int page = 1)
+        public async Task<IChoiceModel> GetAsync(IChoiceModel choice, int page = 1)
         {
-            var comparisons = await _altRepo.GetAlternativesByChoiceID(choice.ChoiceID, page);
+            var comparisons = await _altRepo.GetAlternativesByChoiceIDAsync(choice.ChoiceID, page);
 
             foreach (IAlternativeModel comparison in comparisons)
             {

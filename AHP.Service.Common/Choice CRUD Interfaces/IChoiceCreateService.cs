@@ -10,6 +10,6 @@ namespace AHP.Service.Common.Choice_CRUD_Interfaces
 {
     public interface IChoiceCreateService
     {
-        Task<IChoiceModel> Check(IChoiceModel user);
+        Task<IChoiceModel> CheckAsync(IChoiceModel user);
     }
 }

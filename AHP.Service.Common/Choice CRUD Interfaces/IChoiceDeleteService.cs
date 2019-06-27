@@ -10,6 +10,6 @@ namespace AHP.Service.Common.Choice_CRUD_Interfaces
 {
     public interface IChoiceDeleteService
     {
-        Task<bool> Delete(IChoiceModel choice);
+        Task<bool> DeleteAsync(IChoiceModel choice);
     }
 }
