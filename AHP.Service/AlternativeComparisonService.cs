@@ -23,14 +23,32 @@ namespace AHP.Service
 
         public async Task<List<IAlternativeComparisonModel>> AddAsync(List<IAlternativeComparisonModel> comparisons)
         {
-            using (var uof = _unitOfWorkFactory.Create())
+                foreach(IAlternativeComparisonModel comparison in comparisons)
             {
+                comparison.DateCreated = DateTime.Now;
+                comparison.DateUpdated = DateTime.Now;
+            }
                 comparisons = _altCompRepo.AddRange(comparisons);
                 await _altCompRepo.SaveAsync();
-                uof.Commit();
-            }
+                
+            
             return comparisons;
 
+        }
+        public async Task<List<IAlternativeComparisonModel>> GetAsync(Guid alternativeId,Guid criteriaId, int page = 1)
+        {
+            var alternatives = await _altCompRepo.GetByCriteriaAlternativesIDAsync(criteriaId, alternativeId, page);
+
+            return alternatives;
+        }
+        public async Task<bool> UpdateAsync(List<IAlternativeComparisonModel> comparisons)
+        {
+            foreach(IAlternativeComparisonModel comparison in comparisons)
+            {
+                await _altCompRepo.UpdateAsync(comparison);
+            }
+            await _altCompRepo.SaveAsync();
+            return true;
         }
     }
 }

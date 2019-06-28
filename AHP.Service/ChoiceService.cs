@@ -34,12 +34,10 @@ namespace AHP.Service
         public async Task<bool> DeleteAsync(IChoiceModel choice)
         {
             bool b = true;
-            using (var uow = _unitOfWorkFactory.Create())
-            {
+            
                 b = await _choiceRepository.DeleteAsync(choice);
                 await _choiceRepository.SaveAsync();
-                uow.Commit();
-            }
+             
             return b;
         }
         public async Task<List<IChoiceModel>> GetAsync(Guid userId, int page)
@@ -54,12 +52,9 @@ namespace AHP.Service
             if (choice.ChoiceName != null) _baseChoice.ChoiceName = choice.ChoiceName;
             _baseChoice.DateUpdated = DateTime.Now;
 
-            using (var uow = _unitOfWorkFactory.Create())
-            {
-                updated = await _choiceRepository.UpdateAsync(_baseChoice);
-                await _choiceRepository.SaveAsync();
-                uow.Commit();
-            }
+            updated = await _choiceRepository.UpdateAsync(_baseChoice);
+            await _choiceRepository.SaveAsync();
+          
             return updated;
         }
 

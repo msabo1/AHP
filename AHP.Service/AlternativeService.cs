@@ -27,23 +27,20 @@ namespace AHP.Service
             alternative.DateCreated = DateTime.Now;
             alternative.DateUpdated = DateTime.Now;
 
-            using (var uof = _unitOfWorkFactory.Create())
-            {
+          
                 alternative = _altRepo.Add(alternative);
                 await _altRepo.SaveAsync();
-                uof.Commit();
-            }
+               
             return alternative;
         }
         public async Task<bool> DeleteAsync(IAlternativeModel alternative)
         {
-            using (var uof = _unitOfWorkFactory.Create())
-            {
+            
                 var deleted = await _altRepo.DeleteAsync(alternative);
                 await _altRepo.SaveAsync();
-                uof.Commit();
+               
                 return deleted;
-            }
+            
         }
         public async Task<List<IAlternativeModel>> GetAsync(Guid id, int page = 1)
         {
@@ -54,15 +51,14 @@ namespace AHP.Service
         public async Task<IAlternativeModel> UpdateAsync(IAlternativeModel alternative)
         {
             var _alternative = await _altRepo.GetByIDAsync(alternative.AlternativeID);
-            using (var uof = _unitOfWorkFactory.Create())
-            {
+         
                 _alternative.AlternativeName = alternative.AlternativeName;
                 _alternative.DateUpdated = DateTime.Now;
                 var updatedAlternative = await _altRepo.UpdateAsync(_alternative);
                 await _altRepo.SaveAsync();
-                uof.Commit();
+               
                 return updatedAlternative;
-            }
+           
 
         }
     }

@@ -9,6 +9,10 @@ namespace AHP.Service.Common
 {
     public interface IAlternativeComparisonService
     {
-        List<IAlternativeComparisonModel> AddAsync(List<IAlternativeComparisonModel> lista);
+        Task <List<IAlternativeComparisonModel>> AddAsync(List<IAlternativeComparisonModel> alternativeList);
+
+        Task<List<IAlternativeComparisonModel>> GetAsync(Guid alternativeId, Guid criteriaId, int page = 1);
+
+        Task<List<IAlternativeComparisonModel>> UpdateAsync(List<IAlternativeComparisonModel> comparisons);
     }
 }

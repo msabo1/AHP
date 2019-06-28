@@ -27,6 +27,10 @@ namespace AHP.WebAPI.Controllers
 
         public async Task<IHttpActionResult> Post(ChoiceControllerModel choice)
         {
+            if (choice == null)
+            {
+                return BadRequest();
+            }
             var _choice = _mapper.Map<ChoiceControllerModel, IChoiceModel>(choice);
             var status = await _choiceService.CreateAsync(_choice);
 
@@ -39,9 +43,13 @@ namespace AHP.WebAPI.Controllers
                 return NotFound();
             }
         }
-        public async Task<IHttpActionResult> Get(Guid id, int page)
+        public async Task<IHttpActionResult> Get(ChoiceRequest request)
         {
-            var status = await _choiceService.GetAsync(id, page);
+            if (request == null)
+            {
+                return BadRequest();
+            }
+            var status = await _choiceService.GetAsync(request.userId, request.page);
 
             if (status.Any())
             {
@@ -54,6 +62,10 @@ namespace AHP.WebAPI.Controllers
         }
         public async Task<IHttpActionResult> Put(ChoiceControllerModel choice)
         {
+            if (choice == null)
+            {
+                return BadRequest();
+            }
             var _choice = _mapper.Map<ChoiceControllerModel, IChoiceModel>(choice);
             var status = await _choiceService.UpdateAsync(_choice);
 
@@ -68,6 +80,10 @@ namespace AHP.WebAPI.Controllers
         }
         public async Task<IHttpActionResult> Delete(ChoiceControllerModel choice)
         {
+            if (choice == null)
+            {
+                return BadRequest();
+            }
             var _choice = _mapper.Map<ChoiceControllerModel, IChoiceModel>(choice);
             var status = await _choiceService.DeleteAsync(_choice);
 
@@ -83,7 +99,11 @@ namespace AHP.WebAPI.Controllers
 
 
     }
-
+    public class ChoiceRequest
+    {
+        public Guid userId;
+        public int page;
+    }
     public class ChoiceControllerModel
     {
         public System.Guid ChoiceID { get; set; }

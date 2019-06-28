@@ -31,12 +31,10 @@ namespace AHP.Service.UserCRUD
                 user.UserID = Guid.NewGuid();
                 user.DateCreated = DateTime.Now;
                 user.DateUpdated = DateTime.Now;
-                using (var uow = _unitOfWorkFactory.Create())
-                {
+              
                     user = _userRepository.Add(user);
                     await _userRepository.SaveAsync();
-                    uow.Commit();
-                }
+              
                 return user;
             }
         }
@@ -65,26 +63,22 @@ namespace AHP.Service.UserCRUD
 
             IUserModel updated;
             var _baseUser = await _userRepository.GetByIDAsync(user.UserID);
-            using (var uof = _unitOfWorkFactory.Create())
-            {
+      
                 _baseUser.DateUpdated = DateTime.Now;
                 if (user.Password != null) _baseUser.Password = user.Password;
                 if (user.Username != null) _baseUser.Username = user.Username;
                 updated = await _userRepository.UpdateAsync(_baseUser);
                 await _userRepository.SaveAsync();
-                uof.Commit();
-            }
+              
             return updated;
         }
         public async Task<bool> DeleteAsync(IUserModel user)
         {
             bool a = true;
-            using (var uof = _unitOfWorkFactory.Create())
-            {
+            
                 a = await _userRepository.DeleteAsync(user);
                 await _userRepository.SaveAsync();
-                uof.Commit();
-            }
+             
             return a;
         }
 

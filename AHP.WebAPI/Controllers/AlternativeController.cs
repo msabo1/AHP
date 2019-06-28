@@ -26,7 +26,7 @@ namespace AHP.WebAPI.Controllers
 
         public async Task<IHttpActionResult> Post(AlternativeControllerModel alternative)
         {
-            if (alternative.Equals(null))
+            if (alternative==null)
             {
                 return BadRequest();
             }
@@ -38,6 +38,10 @@ namespace AHP.WebAPI.Controllers
 
         public async Task<IHttpActionResult> Get(GetPage request)
         {
+            if(request == null)
+            {
+                return BadRequest();
+            }
             int page = request.page;
             Guid choiceId = request.Id;
             if (choiceId.Equals(null) || page < 1)
@@ -59,7 +63,7 @@ namespace AHP.WebAPI.Controllers
 
         public async Task<IHttpActionResult> Put(AlternativeControllerModel alternative)
         {
-            if (alternative.Equals(null))
+            if (alternative==null)
             {
                 return BadRequest();
             }
@@ -72,7 +76,7 @@ namespace AHP.WebAPI.Controllers
 
         public async Task<IHttpActionResult> Delete(AlternativeControllerModel alternative)
         {
-            if (alternative.Equals(null))
+            if (alternative == null)
             {
                 return BadRequest();
             }
