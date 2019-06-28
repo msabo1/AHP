@@ -43,6 +43,7 @@
     <Compile Include="AHP\IFinalScoreCalculator.cs" />
     <Compile Include="AHP\IMatrixFiller.cs" />
     <Compile Include="AHP\IVectorFiller.cs" />
+    <Compile Include="ICriteriaComparisonService.cs" />
     <Compile Include="IAlternativeComparisonService.cs" />
     <Compile Include="IAlternativeService.cs" />
     <Compile Include="IChoiceService.cs" />

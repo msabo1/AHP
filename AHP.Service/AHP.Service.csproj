@@ -53,6 +53,7 @@
     <Compile Include="AlternativeService.cs" />
     <Compile Include="CalculateAHPScores.cs" />
     <Compile Include="ChoiceService.cs" />
+    <Compile Include="CriteriaComparisonService.cs" />
     <Compile Include="ServiceModule.cs" />
     <Compile Include="AHP\VectorFiller.cs" />
     <Compile Include="UserService.cs" />
