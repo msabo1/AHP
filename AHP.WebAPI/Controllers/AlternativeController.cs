@@ -13,24 +13,15 @@ namespace AHP.WebAPI.Controllers
 {
     public class AlternativeController : ApiController
     {
-        IAlternativeAddService _alternativeAdd;
-        IAlternativeGetService _alternativeGet;
-        IAlternativeUpdateService _alternativeUpdate;
-        IAlternativeDeleteService _alternativeDelete;
+        IAlternativeService _alternativeService;
         IMapper _mapper;
         public AlternativeController(
             IMapper mapper,
-            IAlternativeUpdateService alternativeUpdate,
-            IAlternativeAddService alternativeAdd,
-            IAlternativeGetService alternativeGet,
-            IAlternativeDeleteService alternativeDelete
+            IAlternativeService alternativeService
           )
         {
             _mapper = mapper;
-            _alternativeUpdate = alternativeUpdate;
-            _alternativeAdd = alternativeAdd;
-            _alternativeGet = alternativeGet;
-            _alternativeDelete = alternativeDelete;
+            _alternativeService = alternativeService;
         }
 
         public async Task<IHttpActionResult> Post(AlternativeControllerModel alternative)
@@ -41,27 +32,27 @@ namespace AHP.WebAPI.Controllers
             }
 
             var _alternative = _mapper.Map<AlternativeControllerModel, IAlternativeModel>(alternative);
-            var status = await _alternativeAdd.AddAsync(_alternative);
+            var status = await _alternativeService.AddAsync(_alternative);
             return Ok(_mapper.Map<IAlternativeModel, AlternativeControllerModel>(status));
         }
 
         public async Task<IHttpActionResult> Get(GetPage request)
         {
             int page = request.page;
-            Guid choiceId = request.choiceId;
+            Guid choiceId = request.Id;
             if (choiceId.Equals(null) || page < 1)
             {
                 return BadRequest();
             }
 
-            var status = await _alternativeGet.GetAsync(choiceId, page);
+            var status = await _alternativeService.GetAsync(choiceId, page);
             if (status.Any())
             {
                 return Ok(_mapper.Map<List<IAlternativeModel>, List<AlternativeControllerModel>>(status));
             }
             else
             {
-                return NotFound();
+                return BadRequest();
             }
         }
 
@@ -74,7 +65,7 @@ namespace AHP.WebAPI.Controllers
             }
 
             var _alternative = _mapper.Map<AlternativeControllerModel, IAlternativeModel>(alternative);
-            var status = await _alternativeUpdate.UpdateAsync(_alternative);
+            var status = await _alternativeService.UpdateAsync(_alternative);
             return Ok(status);
         }
 
@@ -87,7 +78,7 @@ namespace AHP.WebAPI.Controllers
             }
 
             var _alternative = _mapper.Map<AlternativeControllerModel, IAlternativeModel>(alternative);
-            var status = await _alternativeDelete.DeleteAsync(_alternative);
+            var status = await _alternativeService.DeleteAsync(_alternative);
             if (status)
             {
                 return Ok(status);
@@ -101,7 +92,7 @@ namespace AHP.WebAPI.Controllers
 
     }
     public class GetPage{
-        public Guid choiceId;
+        public Guid Id;
         public int page;
         }
     public class AlternativeControllerModel

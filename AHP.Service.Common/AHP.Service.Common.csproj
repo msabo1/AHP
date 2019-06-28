@@ -43,18 +43,10 @@
     <Compile Include="AHP\IFinalScoreCalculator.cs" />
     <Compile Include="AHP\IMatrixFiller.cs" />
     <Compile Include="AHP\IVectorFiller.cs" />
-    <Compile Include="AlternativeCRUDInterfaces\IAlternativeAddService.cs" />
-    <Compile Include="AlternativeCRUDInterfaces\IAlternativeDeleteService.cs" />
-    <Compile Include="AlternativeCRUDInterfaces\IAlternativeGetService.cs" />
-    <Compile Include="AlternativeCRUDInterfaces\IAlternativeUpdateService.cs" />
-    <Compile Include="Choice CRUD Interfaces\IChoiceCreateService.cs" />
-    <Compile Include="Choice CRUD Interfaces\IChoiceDeleteService.cs" />
-    <Compile Include="Choice CRUD Interfaces\IChoiceReadService.cs" />
-    <Compile Include="Choice CRUD Interfaces\IChoiceUpdateService.cs" />
-    <Compile Include="UserCRUDInterfaces\IUserDeleteService.cs" />
-    <Compile Include="UserCRUDInterfaces\IUserLoginService.cs" />
-    <Compile Include="UserCRUDInterfaces\IUserRegisterService.cs" />
-    <Compile Include="UserCRUDInterfaces\IUserUpdateService.cs" />
+    <Compile Include="IAlternativeComparisonService.cs" />
+    <Compile Include="IAlternativeService.cs" />
+    <Compile Include="IChoiceService.cs" />
+    <Compile Include="IUserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AHP.Model.Common\AHP.Model.Common.csproj">

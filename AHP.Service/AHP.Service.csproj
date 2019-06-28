@@ -49,21 +49,13 @@
     <Compile Include="AHP\Consistency.cs" />
     <Compile Include="AHP\FinalScoreCalculator.cs" />
     <Compile Include="AHP\MatrixFiller.cs" />
-    <Compile Include="AlternativeCRUD\AlternativeAddService.cs" />
-    <Compile Include="AlternativeCRUD\AlternativeDeleteService.cs" />
-    <Compile Include="AlternativeCRUD\AlternativeGetService.cs" />
-    <Compile Include="AlternativeCRUD\AlternativeUpdateService.cs" />
+    <Compile Include="AlternativeComparisonService.cs" />
+    <Compile Include="AlternativeService.cs" />
     <Compile Include="CalculateAHPScores.cs" />
-    <Compile Include="Choices CRUD\ChoiceCreateService.cs" />
-    <Compile Include="Choices CRUD\ChoiceDeleteService.cs" />
-    <Compile Include="Choices CRUD\ChoiceReadService.cs" />
-    <Compile Include="Choices CRUD\ChoiceUpdateService.cs" />
+    <Compile Include="ChoiceService.cs" />
     <Compile Include="ServiceModule.cs" />
     <Compile Include="AHP\VectorFiller.cs" />
-    <Compile Include="UserCRUD\UserDeleteService.cs" />
-    <Compile Include="UserCRUD\UserLoginService.cs" />
-    <Compile Include="UserCRUD\UserRegisterService.cs" />
-    <Compile Include="UserCRUD\UserUpdateService.cs" />
+    <Compile Include="UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AHP.Common\AHP.Common.csproj">

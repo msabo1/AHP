@@ -1,5 +1,5 @@
 ﻿using AHP.Model.Common;
-using AHP.Service.Common.Choice_CRUD_Interfaces;
+using AHP.Service.Common;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
@@ -13,32 +13,22 @@ namespace AHP.WebAPI.Controllers
 {
     public class ChoiceController : ApiController
     {
-        IChoiceReadService _choiceRead;
-        IChoiceCreateService _choiceCreate;
-        IChoiceUpdateService _choiceUpdate;
-        IChoiceDeleteService _choiceDelete;
+        IChoiceService _choiceService;
         IMapper _mapper;
 
         public ChoiceController(
             IMapper mapper, 
-            IChoiceReadService choiceRead, 
-            IChoiceCreateService choiceCreate, 
-            IChoiceUpdateService choiceUpdate, 
-            IChoiceDeleteService choiceDelete)
+            IChoiceService choiceService)
         {
             _mapper = mapper;
-            _choiceCreate = choiceCreate;
-            _choiceRead = choiceRead;
-            _choiceUpdate = choiceUpdate;
-            _choiceDelete = choiceDelete;
-            
+            _choiceService = choiceService;
         }
 
 
         public async Task<IHttpActionResult> Post(ChoiceControllerModel choice)
         {
             var _choice = _mapper.Map<ChoiceControllerModel, IChoiceModel>(choice);
-            var status = await _choiceCreate.CreateAsync(_choice);
+            var status = await _choiceService.CreateAsync(_choice);
 
             if(status != null)
             {
@@ -51,7 +41,7 @@ namespace AHP.WebAPI.Controllers
         }
         public async Task<IHttpActionResult> Get(Guid id, int page)
         {
-            var status = await _choiceRead.GetAsync(id, page);
+            var status = await _choiceService.GetAsync(id, page);
 
             if (status.Any())
             {
@@ -65,7 +55,7 @@ namespace AHP.WebAPI.Controllers
         public async Task<IHttpActionResult> Put(ChoiceControllerModel choice)
         {
             var _choice = _mapper.Map<ChoiceControllerModel, IChoiceModel>(choice);
-            var status = await _choiceUpdate.UpdateAsync(_choice);
+            var status = await _choiceService.UpdateAsync(_choice);
 
             if (status != null)
             {
@@ -79,7 +69,7 @@ namespace AHP.WebAPI.Controllers
         public async Task<IHttpActionResult> Delete(ChoiceControllerModel choice)
         {
             var _choice = _mapper.Map<ChoiceControllerModel, IChoiceModel>(choice);
-            var status = await _choiceDelete.DeleteAsync(_choice);
+            var status = await _choiceService.DeleteAsync(_choice);
 
             if (status)
             {
