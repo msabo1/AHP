@@ -37,7 +37,7 @@ namespace AHP.WebAPI.Controllers
         public async Task<IHttpActionResult> Post(List<AltCompContModel> comparisons)
         {
             var comparisonList = _mapper.Map<List<AltCompContModel>, List<IAlternativeComparisonModel>>(comparisons);
-            var status = _alternativeComparisonService.AddAsync(comparisonList);
+            var status = await _alternativeComparisonService.AddAsync(comparisonList);
             return Ok(status);
 
         }
