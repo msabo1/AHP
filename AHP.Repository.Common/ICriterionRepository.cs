@@ -11,5 +11,6 @@ namespace AHP.Repository.Common
     {
         Task<List<ICriterionModel>> GetPageByChoiceIDAsync(Guid choiceID, int pageNumber, int pageSize = 5);
         Task<ICriterionModel> LoadCriteriaComparisonsPageAsync(ICriterionModel criterion, int PageNumber, int PageSize = 5);
+        Task<List<ICriterionModel>> GetByChoiceIDAsync(Guid choiceID);
     }
 }
