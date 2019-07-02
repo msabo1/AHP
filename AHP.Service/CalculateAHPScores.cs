@@ -57,7 +57,7 @@ namespace AHP.Service
 
         public async void CalculateAlternativeWeights(Guid choiceId, double[] choiceWeights)
         {
-            var alternatives = await _alternativeRepository.GetAlternativesByChoiceIDAsync(choiceId, 1);
+            var alternatives = await _alternativeRepository.GetByChoiceIDAsync(choiceId);
             alternatives.Sort((x, y) => x.DateCreated.CompareTo(y.DateCreated));
             var criteria = await _criterionRepository.GetPageByChoiceIDAsync(choiceId, 1);
             List<double[]> comparisons = new List<double[]>();
