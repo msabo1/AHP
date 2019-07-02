@@ -20,6 +20,15 @@ namespace AHP.WebAPI.MapperProfiles
 
         CreateMap<ChoiceControllerModel, IChoiceModel>();
         CreateMap<IChoiceModel, ChoiceControllerModel>();
+
+        CreateMap<CriterionControllerModel, ICriterionModel>();
+        CreateMap<ICriterionModel, CriterionControllerModel >();
+
+        CreateMap<CriteriaComparisonControllerModel,ICriteriaComparisonModel>();
+        CreateMap<ICriteriaComparisonModel, CriteriaComparisonControllerModel>();
+
+        CreateMap<AlternativeComparisonControllerModel, IAlternativeComparisonModel>();
+        CreateMap<IAlternativeComparisonModel, AlternativeComparisonControllerModel>();
         }
     }
 }

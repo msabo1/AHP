@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AHP.Service.Common
+namespace AHP.Service.Common.CriterionCRUDInterfaces
 {
-    public interface IMatrixFiller
+    public interface ICriterionUpdateService
     {
-        double[] FillMatrix(int dimension, double[] values);
     }
 }
