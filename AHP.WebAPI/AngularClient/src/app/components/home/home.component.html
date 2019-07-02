@@ -1,0 +1,122 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="input-group mb-3 mt-5">
+        <input type="text" class="form-control" placeholder="What is the name of your choice?" id="ChoiceNameInput" autofocus>
+        <div class="input-group-append">
+          <button type="button" class="btn btn-primary" id="SetChoiceName">   Set Name   </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row text-center">
+    <div class="col" id="ShowChoiceName">
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="input-group mb-3 mt-5">
+        <input type="text" class="form-control" placeholder="What is the name of your criterion?" id="CriterionNameInput">
+        <div class="input-group-append">
+          <button type="button" class="btn btn-primary" id="SetCriterionName">Add Criterion</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row ml-auto mr-auto mt-5 text-center">
+    <table class="table" id="CriteriaTable">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Criterion No.</th>
+          <th scope="col">Criterion Name</th>
+        </tr>
+      </thead>
+      <tbody id="CriteriaTableRows"></tbody>
+    </table>
+  </div>
+
+  <div class="row text-center mt-3">
+    <div class="col">
+      <button type="button" class="btn btn-primary" id="RemoveLastCriterion">Remove Last Criterion</button>
+    </div>
+  </div>
+
+  <div class="container" id="CriteriaContainer">
+  </div>
+
+  <div class="row text-center mt-5">
+    <div class="col">
+      <button type="button" class="btn btn-primary" id="CalculateCriteriaScores">Calculate Criteria Scores // Next Step</button>
+    </div>
+  </div>
+
+  <!--Alternatives-->
+  <div class="row" id="AlternativeRow">
+    <div class="col">
+      <div class="input-group mb-3 mt-5">
+        <input type="text" class="form-control" placeholder="What is the name of your alternative?" id="AlternativeNameInput">
+        <div class="input-group-append">
+          <button type="button" class="btn btn-primary" id="SetAlternativeName">Add Alternative</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row ml-auto mr-auto mt-5 text-center">
+    <table class="table" id="AlternativeTable">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Alternative No.</th>
+          <th scope="col">Alternative Name</th>
+        </tr>
+      </thead>
+      <tbody id="AlternativeTableRows"></tbody>
+    </table>
+  </div>
+
+  <div class="row text-center mt-5">
+    <div class="col">
+      <button type="button" class="btn btn-primary" id="RemoveLastAlternative">Remove Last Alternative</button>
+    </div>
+  </div>
+
+  <div class="row mt-5 mb-2">
+    <div class="col">
+      <h4 id="AlternativeComparisonHelp">   Click on a criterion to compare your alternatives by it: </h4>
+    </div>
+  </div>
+
+  <div class="row justify-content-center" id="CriteriaButtons">
+
+  </div>
+
+  <div class="container" id="AlternativeContainer">
+
+  </div>
+
+  <div class="row text-center mt-5">
+    <div class="col">
+      <button type="button" class="btn btn-primary" id="ConfirmAlternativeScores">Confirm Alternative Scores // Next Step</button>
+    </div>
+  </div>
+
+  <div class="row text-center mt-5">
+    <div class="col">
+    </div>
+  </div>
+
+</div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
