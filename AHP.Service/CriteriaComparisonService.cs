@@ -34,5 +34,17 @@ namespace AHP.Service
         {
             return await _criteriaComparisonRepository.GetByCriterionIDAsync(criteriaId, page);
         }
+
+        public async Task<List<ICriteriaComparisonModel>> UpdateAsync(List<ICriteriaComparisonModel> comparisons)
+        {
+            foreach (var comparison in comparisons)
+            {
+                comparison.DateUpdated = DateTime.Now;
+                await _criteriaComparisonRepository.UpdateAsync(comparison);
+            }
+
+            await _criteriaComparisonRepository.SaveAsync();
+            return comparisons;
+        }
     }
 }
