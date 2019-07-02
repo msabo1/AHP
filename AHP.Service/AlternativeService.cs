@@ -44,7 +44,7 @@ namespace AHP.Service
         }
         public async Task<List<IAlternativeModel>> GetAsync(Guid id, int page = 1)
         {
-            var alternatives = await _altRepo.GetAlternativesByChoiceIDAsync(id, page);
+            var alternatives = await _altRepo.GetPageByChoiceIDAsync(id, page);
 
             return alternatives;
         }

@@ -9,6 +9,7 @@ namespace AHP.Repository.Common
 {
     public interface IAlternativeRepository : IRepository<IAlternativeModel>
     {
-        Task<List<IAlternativeModel>> GetAlternativesByChoiceIDAsync(Guid choiceID, int PageNumber, int PageSize = 5 );
+        Task<List<IAlternativeModel>> GetPageByChoiceIDAsync(Guid choiceID, int PageNumber, int PageSize = 5 );
+        Task<List<IAlternativeModel>> GetByChoiceIDAsync(Guid choiceID);
     }
 }
