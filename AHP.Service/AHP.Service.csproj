@@ -55,10 +55,7 @@
     <Compile Include="CalculateAHPScores.cs" />
     <Compile Include="ChoiceService.cs" />
     <Compile Include="CriteriaComparisonService.cs" />
-    <Compile Include="CriterionCRUD\CriterionAddService.cs" />
-    <Compile Include="CriterionCRUD\CriterionDeleteService.cs" />
-    <Compile Include="CriterionCRUD\CriterionGetService.cs" />
-    <Compile Include="CriterionCRUD\CriterionUpdateService.cs" />
+    <Compile Include="CriterionService.cs" />
     <Compile Include="ServiceModule.cs" />
     <Compile Include="AHP\VectorFiller.cs" />
     <Compile Include="UserService.cs" />

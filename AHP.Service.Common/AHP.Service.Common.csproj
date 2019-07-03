@@ -44,14 +44,11 @@
     <Compile Include="AHP\IFinalScoreCalculator.cs" />
     <Compile Include="AHP\IMatrixFiller.cs" />
     <Compile Include="AHP\IVectorFiller.cs" />
-    <Compile Include="CriterionCRUDInterfaces\ICriterionAddService.cs" />
-    <Compile Include="CriterionCRUDInterfaces\ICriterionDeleteService.cs" />
-    <Compile Include="CriterionCRUDInterfaces\ICriterionGetService.cs" />
-    <Compile Include="CriterionCRUDInterfaces\ICriterionUpdateService.cs" />
     <Compile Include="ICriteriaComparisonService.cs" />
     <Compile Include="IAlternativeComparisonService.cs" />
     <Compile Include="IAlternativeService.cs" />
     <Compile Include="IChoiceService.cs" />
+    <Compile Include="ICriterionService.cs" />
     <Compile Include="IUserService.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -25,9 +25,10 @@ namespace AHP.WebAPI.Controllers
         {
             _mapper = mapper;
             _userService = userService;
-        }    
-       
-        public async Task<IHttpActionResult> Post(UserControllerModel user)
+        }
+        [HttpPost]
+        [Route("api/user/register")]
+        public async Task<IHttpActionResult> PostRegister(UserControllerModel user)
         {
             if (user.Equals(null))
             {
@@ -45,10 +46,12 @@ namespace AHP.WebAPI.Controllers
                 return NotFound();
             }
                 
-        }    
-        public async Task<IHttpActionResult> Get(UserControllerModel user)
+        }
+        [HttpPost]
+        [Route("user/login")]
+        public async Task<IHttpActionResult> PostLogin(UserControllerModel user)
         {
-            if (user.Equals(null))
+            if (user.Equals(null))  
             {
                 return BadRequest();
             }

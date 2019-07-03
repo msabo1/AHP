@@ -32,6 +32,7 @@ namespace AHP.Service
             }
             return choice;
         }
+
         public async Task<bool> DeleteAsync(IChoiceModel choice)
         {
             bool b = true;
