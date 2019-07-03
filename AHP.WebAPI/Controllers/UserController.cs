@@ -48,7 +48,7 @@ namespace AHP.WebAPI.Controllers
                 
         }
         [HttpPost]
-        [Route("user/login")]
+        [Route("api/user/login")]
         public async Task<IHttpActionResult> PostLogin(UserControllerModel user)
         {
             if (user.Equals(null))  

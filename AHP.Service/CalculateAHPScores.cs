@@ -40,12 +40,12 @@ namespace AHP.Service
             criteria.Sort((x, y) => x.DateCreated.CompareTo(y.DateCreated));
             List<double> comparisons = new List<double>();
             int dimension = 0;
-            for(int i = 0; i < criteria.Count(); i++)
-            { 
-                for(int j = 0; j < i; j++)
+            for (int i = 0; i < criteria.Count(); i++)
+            {
+                var perCriteriaComparisons = await _criteriaComparisonRepo.GetByFirstCriterionIDAsync(criteria[i].CriteriaID);
+                for (int j = 0; j < i; j++)
                 {
-                    Guid[] array = { criteria[i].CriteriaID, criteria[j].CriteriaID };
-                    var comparison = await _criteriaComparisonRepo.GetByIDAsync(array);
+                    var comparison = perCriteriaComparisons.Find(a => a.CriteriaID2 == criteria[j].CriteriaID);
                     comparisons.Add(comparison.CriteriaRatio);
                 }
                 dimension = i;
@@ -61,23 +61,25 @@ namespace AHP.Service
             alternatives.Sort((x, y) => x.DateCreated.CompareTo(y.DateCreated));
             var criteria = await _criterionRepository.GetPageByChoiceIDAsync(choiceId, 1);
             List<double[]> comparisons = new List<double[]>();
-            for (int z = 0; z < criteria.Count(); z++)
-            {
-                List<double> polje = new List<double>();
+     
+                
 
                 for (int i = 0; i < alternatives.Count(); i++)
                 {
+               var altComparisons = await _alternativeComparisonRepo.GetByFirstAlternativeIDAsync(alternatives[i].AlternativeID);
+
                     for (int j = 0; j < i; j++)
                     {
-                        Guid[] array = { criteria[i].CriteriaID, alternatives[i].AlternativeID, alternatives[j].AlternativeID };
-                        var comparison = await _alternativeComparisonRepo.GetByIDAsync(array);
-                        polje.Add(comparison.AlternativeRatio);
+                        for (int z = 0; z < criteria.Count(); z++)
+                        {
+                      //  altComparisons.Find(a => ( a.AlternativeID2 == alternatives[j].AlternativeID, a.CriteriaID == criteria[z].CriteriaID));
+                            //polje.Add(comparison.AlternativeRatio);
+                        }
                     }
 
                 }
-                var weights = _matrixFiller.FillMatrix(alternatives.Count(), polje.ToArray());
-                comparisons.Add(weights);
-            }
+    
+            
             double[,] alternativeComparisonMatrix = new double[criteria.Count(), alternatives.Count()];
             for (int i = 0; i < comparisons.Count(); i++)
             {
