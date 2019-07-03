@@ -13,5 +13,6 @@ namespace AHP.Repository.Common
         Task<List<IAlternativeComparisonModel>> GetByCriteriaAlternativesIDAsync(Guid criteriaID, Guid alternativeID, int PageNumber, int PageSize = 5);
         Task<bool> DeleteByAlternativeIDAsync(Guid alternativeID);
         Task<bool> DeleteByCriteriaIDAsync(Guid criteriaID);
+        Task<List<IAlternativeComparisonModel>> GetByFirstAlternativeIDAsync(Guid alternativeID);
     }
 }
