@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using AHP.Service.Common;
 using AHP.Model.Common;
 
-namespace AHP.Service.UserCRUD
+namespace AHP.Service
 {
-    class UserService : IUserService
+    public class UserService : IUserService
     {
 
         IUnitOfWorkFactory _unitOfWorkFactory;
