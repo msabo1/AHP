@@ -30,7 +30,7 @@ namespace AHP.WebAPI.Controllers
         [Route("api/user/register")]
         public async Task<IHttpActionResult> PostRegister(UserControllerModel user)
         {
-            if (user.Equals(null))
+            if (user==null)
             {
                 return BadRequest();
             }
@@ -51,7 +51,7 @@ namespace AHP.WebAPI.Controllers
         [Route("api/user/login")]
         public async Task<IHttpActionResult> PostLogin(UserControllerModel user)
         {
-            if (user.Equals(null))  
+            if (user==null)  
             {
                 return BadRequest();
             }
@@ -66,7 +66,7 @@ namespace AHP.WebAPI.Controllers
         }
         public async Task<IHttpActionResult> Put(UserControllerModel user)
         {
-            if (user.Equals(null))
+            if (user==null)
             {
                 return BadRequest();
             }
@@ -79,7 +79,7 @@ namespace AHP.WebAPI.Controllers
         }
         public async Task<IHttpActionResult> Delete(UserControllerModel user)
         {
-            if (user.Equals(null))
+            if (user==null)
             {
                 return BadRequest();
             }

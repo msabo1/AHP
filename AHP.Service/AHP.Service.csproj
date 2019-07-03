@@ -47,9 +47,9 @@
     <Reference Include="System.Transactions" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AHP\Consistency.cs" />
-    <Compile Include="AHP\FinalScoreCalculator.cs" />
-    <Compile Include="AHP\MatrixFiller.cs" />
+    <Compile Include="AHP\ConsistencyService.cs" />
+    <Compile Include="AHP\FinalScoreCalculatorService.cs" />
+    <Compile Include="AHP\MatrixFillerService.cs" />
     <Compile Include="AlternativeComparisonService.cs" />
     <Compile Include="AlternativeService.cs" />
     <Compile Include="CalculateAHPScores.cs" />
@@ -57,7 +57,7 @@
     <Compile Include="CriteriaComparisonService.cs" />
     <Compile Include="CriterionService.cs" />
     <Compile Include="ServiceModule.cs" />
-    <Compile Include="AHP\VectorFiller.cs" />
+    <Compile Include="AHP\VectorFillerService.cs" />
     <Compile Include="UserService.cs" />
   </ItemGroup>
   <ItemGroup>

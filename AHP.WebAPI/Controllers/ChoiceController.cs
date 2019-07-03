@@ -13,14 +13,17 @@ namespace AHP.WebAPI.Controllers
 {
     public class ChoiceController : ApiController
     {
+        ICalculateAHPScores _AHPcalculate;
         IChoiceService _choiceService;
         IMapper _mapper;
 
         public ChoiceController(
-            IMapper mapper, 
+            IMapper mapper,
+            ICalculateAHPScores AHPcalculate,
             IChoiceService choiceService)
         {
             _mapper = mapper;
+            _AHPcalculate = AHPcalculate;
             _choiceService = choiceService;
         }
 
@@ -43,7 +46,9 @@ namespace AHP.WebAPI.Controllers
                 return NotFound();
             }
         }
-        public async Task<IHttpActionResult> Get(ChoiceRequest request)
+        [HttpGet]
+        [Route("api/choice/get")]
+        public async Task<IHttpActionResult> GetChoice(ChoiceRequest request)
         {
             if (request == null)
             {
@@ -59,6 +64,15 @@ namespace AHP.WebAPI.Controllers
             {
                 return NotFound();
             }
+        }
+        [HttpGet]
+        [Route("api/choice/calculate")]
+        public async Task<IHttpActionResult> GetCalculate(ChoiceControllerModel choice)
+        {
+            
+             var status = await _AHPcalculate.CalculateCriteriaWeights(choice.ChoiceID);
+
+            return Ok(status);
         }
         public async Task<IHttpActionResult> Put(ChoiceControllerModel choice)
         {
