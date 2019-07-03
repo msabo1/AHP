@@ -1,13 +1,4 @@
 ﻿
-//using AHP.Model.Common;
-//using AutoMapper;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Net;
-//using System.Net.Http;
-//using System.Threading.Tasks;
-//using System.Web.Http;
 
 using AHP.Model.Common;
 using AHP.Service.Common;
@@ -35,16 +26,16 @@ namespace AHP.WebAPI.Controllers
 
 
 
-        public async Task<IHttpActionResult> Post(List<AltCompContModel> comparisons)
+        public async Task<IHttpActionResult> Post(List<AlternativeComparisonControllerModel> comparisons)
         {
-            foreach(AltCompContModel comparison in comparisons)
+            foreach(AlternativeComparisonControllerModel comparison in comparisons)
             {
                 if(comparison == null)
                 {
                     return BadRequest();
                 }
             }
-            var comparisonList = _mapper.Map<List<AltCompContModel>, List<IAlternativeComparisonModel>>(comparisons);
+            var comparisonList = _mapper.Map<List<AlternativeComparisonControllerModel>, List<IAlternativeComparisonModel>>(comparisons);
             var status = await _alternativeComparisonService.AddAsync(comparisonList);
             return Ok(status);
 
@@ -65,28 +56,29 @@ namespace AHP.WebAPI.Controllers
         }
 
 
-        public async Task<IHttpActionResult> Put(List<AltCompContModel> alternativeComps)
+        public async Task<IHttpActionResult> Put(List<AlternativeComparisonControllerModel> alternativeComps)
         {
-            var comparisonList = _mapper.Map<List<AltCompContModel>, List<IAlternativeComparisonModel>>(alternativeComps);
+            var comparisonList = _mapper.Map<List<AlternativeComparisonControllerModel>, List<IAlternativeComparisonModel>>(alternativeComps);
             var status = await _alternativeComparisonService.UpdateAsync(comparisonList);
             return Ok();
         }
 
 
-        public class AltCompRequest
-        {
-            public Guid criteriaId;
-            public Guid alternativeId;
-            public int page;
-        }
-
-        public class AltCompContModel
-        {
-
-            public System.Guid CriteriaID { get; set; }
-            public System.Guid AlternativeID1 { get; set; }
-            public System.Guid AlternativeID2 { get; set; }
-            public double AlternativeRatio { get; set; }
-        }
+    
     }
-}
+    public class AltCompRequest
+    {
+        public Guid criteriaId;
+        public Guid alternativeId;
+        public int page;
+    }
+
+    public class AlternativeComparisonControllerModel
+    {
+
+        public System.Guid CriteriaID { get; set; }
+        public System.Guid AlternativeID1 { get; set; }
+        public System.Guid AlternativeID2 { get; set; }
+        public double AlternativeRatio { get; set; }
+    }
+}	

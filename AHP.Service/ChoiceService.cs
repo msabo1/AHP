@@ -1,5 +1,6 @@
 ﻿using AHP.Model.Common;
 using AHP.Repository.Common;
+using AHP.Service.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AHP.Service
 {
-    class ChoiceService
+    class ChoiceService : IChoiceService
     {
         IUnitOfWorkFactory _unitOfWorkFactory;
         IChoiceRepository _choiceRepository;

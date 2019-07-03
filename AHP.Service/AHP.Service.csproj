@@ -8,10 +8,11 @@
     <OutputType>Library</OutputType>
     <RootNamespace>AHP.Service</RootNamespace>
     <AssemblyName>AHP.Service</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -54,6 +55,10 @@
     <Compile Include="CalculateAHPScores.cs" />
     <Compile Include="ChoiceService.cs" />
     <Compile Include="CriteriaComparisonService.cs" />
+    <Compile Include="CriterionCRUD\CriterionAddService.cs" />
+    <Compile Include="CriterionCRUD\CriterionDeleteService.cs" />
+    <Compile Include="CriterionCRUD\CriterionGetService.cs" />
+    <Compile Include="CriterionCRUD\CriterionUpdateService.cs" />
     <Compile Include="ServiceModule.cs" />
     <Compile Include="AHP\VectorFiller.cs" />
     <Compile Include="UserService.cs" />
