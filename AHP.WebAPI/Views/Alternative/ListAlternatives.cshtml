@@ -4,7 +4,7 @@
     ViewBag.Title = "ListAlternatives";
 }
 
-<h2>ListAlternatives</h2>
+<h2>Alternatives</h2>
 
 <p>
     @Html.ActionLink("Create New", "CreateAlternative")
@@ -31,10 +31,12 @@
     <td>
         @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
         @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        @Html.ActionLink("Delete", "DeleteAlternative", new { alternativeid= item.AlternativeID })
     </td>
 </tr>
 }
-
-
 </table>
+<div>
+    @Html.ActionLink("Prev", "ListAlternativesPage", "Alternative", new { page = ((int)Session["Page"] - 1) }, null) |
+    @Html.ActionLink("Next", "ListAlternativesPage", "Alternative", new { page = ((int)Session["Page"]  + 1) }, null)
+</div>

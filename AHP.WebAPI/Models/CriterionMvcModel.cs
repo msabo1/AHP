@@ -6,13 +6,13 @@ using System.Web;
 
 namespace AHP.WebAPI.Models
 {
-    public class AlternativeMvcModel
+    public class CriterionMvcModel
     {
-        public Guid AlternativeID { get; set; }
+        public Guid CriteriaID { get; set; }
         public Guid ChoiceID { get; set; }
         [Display(Name = "Name")]
-        public string AlternativeName { get; set; }
-        public Nullable<double> Score { get; set; }
+        public string CriteriaName { get; set; }
+        public Nullable<double> CriteriaScore { get; set; }
         [Display(Name = "Updated")]
         public DateTime DateUpdated { get; set; }
     }

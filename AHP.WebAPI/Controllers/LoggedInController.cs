@@ -26,13 +26,19 @@ namespace AHP.WebAPI.Controllers
         }
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("ListChoices", "LoggedIn");
         }
 
-        public async Task<ActionResult> ListChoices()
+        public async Task<ActionResult> ListChoices(int page = 1)
         {
+            if (page < 1)
+            {
+                page = 1;
+            }
+            Session["Page"] = page;
+
             Guid userID = (Guid) this.Session["UserID"];
-            var choices = await _choiceService.GetAsync(userID, 1);
+            var choices = await _choiceService.GetAsync(userID, page);
             var _choices = new List<ChoiceMvcModel>();
             foreach(IChoiceModel choice in choices)
             {
@@ -56,7 +62,7 @@ namespace AHP.WebAPI.Controllers
                 IChoiceModel _choice = new ChoiceModel { ChoiceName = model.Name, UserID = (Guid)Session["UserID"] };
                 var status = await _choiceService.CreateAsync(_choice);
                 Guid _userid = status.UserID;
-                return RedirectToAction("ListChoices", "LoggedIn", new { userid = _userid });
+                return RedirectToAction("ListChoices", "LoggedIn", new { page = Session["page"]});
             }
             return View();
         }
@@ -65,7 +71,7 @@ namespace AHP.WebAPI.Controllers
         {
             var choice = await _choiceService.GetByIdAsync(choiceID);
             bool b = await _choiceService.DeleteAsync(choice);
-            return RedirectToAction("ListChoices", "LoggedIn", new { userid = choice.UserID });
+            return RedirectToAction("ListChoices", "LoggedIn", new { page = Session["page"] });
         }
     }
 

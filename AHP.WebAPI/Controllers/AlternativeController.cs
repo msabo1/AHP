@@ -25,16 +25,40 @@ namespace AHP.WebAPI.Controllers
             _alternativeService = alternativeService;
         }
 
+        public ActionResult Index()
+        {
+            return RedirectToAction("ListAlternatives", "Alternative", new {ChoiceID = (Guid)Session["ChoiceID"] });
+        }
+
         public async Task<ActionResult> ListAlternatives(Guid choiceID)
         {
-            ViewBag.Title = "Alterntatives";
             Session["ChoiceID"] = choiceID;
-
-            var alternatives = await _alternativeService.GetAsync(choiceID, 1);
+            Session["Page"] = 1;
+            
+            var alternatives = await _alternativeService.GetAsync((Guid)Session["ChoiceID"], 1);
             var _alternatives = new List<AlternativeMvcModel>();
             foreach (IAlternativeModel alternative in alternatives)
             {
-                _alternatives.Add(new AlternativeMvcModel { ChoiceID = alternative.ChoiceID, AlternativeName = alternative.AlternativeName, DateUpdated = (DateTime)alternative.DateUpdated});
+                _alternatives.Add(new AlternativeMvcModel { AlternativeID = alternative.AlternativeID, ChoiceID = alternative.ChoiceID, AlternativeName = alternative.AlternativeName, DateUpdated = (DateTime)alternative.DateUpdated});
+            }
+
+            return View(_alternatives);
+        }
+
+        public async Task<ActionResult> ListAlternativesPage(int page)
+        {
+            ViewBag.Title = "Alterntatives";
+            if (page < 1)
+            {
+                page = 1;
+            }
+            Session["Page"] = page;
+
+            var alternatives = await _alternativeService.GetAsync((Guid)Session["ChoiceID"], page);
+            var _alternatives = new List<AlternativeMvcModel>();
+            foreach (IAlternativeModel alternative in alternatives)
+            {
+                _alternatives.Add(new AlternativeMvcModel { AlternativeID = alternative.AlternativeID, ChoiceID = alternative.ChoiceID, AlternativeName = alternative.AlternativeName, DateUpdated = (DateTime)alternative.DateUpdated });
             }
 
             return View(_alternatives);
@@ -55,9 +79,16 @@ namespace AHP.WebAPI.Controllers
                 IAlternativeModel _alternative = new AlternativeModel { ChoiceID = (Guid)Session["ChoiceID"], AlternativeName = model.AlternativeName};
                 var status = await _alternativeService.AddAsync(_alternative);
                 Guid _choiceid = status.ChoiceID;
-                return RedirectToAction("ListAlternatives", "Alternative", new { choiceID = _choiceid });
+                return RedirectToAction("ListAlternativesPage", "Alternative", new { page = Session["Page"] });
             }
             return View();
+        }
+
+        public async Task<ActionResult> DeleteAlternative(Guid alternativeID)
+        {
+            var alternative = await _alternativeService.GetByIdAsync(alternativeID);
+            bool b = await _alternativeService.DeleteAsync(alternative);
+            return RedirectToAction("ListAlternativesPage", "Alternative", new { page = Session["Page"] });
         }
 
     }

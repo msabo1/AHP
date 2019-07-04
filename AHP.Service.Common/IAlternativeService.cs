@@ -13,6 +13,7 @@ namespace AHP.Service.Common
         Task<bool> DeleteAsync(IAlternativeModel alternative);
         Task<List<IAlternativeModel>> GetAsync(Guid id, int page = 1);
         Task<IAlternativeModel> UpdateAsync(IAlternativeModel alternative);
+        Task<IAlternativeModel> GetByIdAsync(Guid id);
 
     }
 }

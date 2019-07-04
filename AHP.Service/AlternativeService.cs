@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AHP.Service
 {
-    public class AlternativeService : IAlternativeService
+    class AlternativeService : IAlternativeService
     {
         IAlternativeRepository _altRepo;
         IUnitOfWorkFactory _unitOfWorkFactory;
@@ -61,6 +61,13 @@ namespace AHP.Service
                 return updatedAlternative;
            
 
+        }
+
+        public async Task<IAlternativeModel> GetByIdAsync(Guid id)
+        {
+            var alternative = await _altRepo.GetByIDAsync(id);
+
+            return alternative;
         }
     }
 }
