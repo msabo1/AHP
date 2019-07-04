@@ -41,3 +41,7 @@
     @Html.ActionLink("Prev", "ListCriteriaPage", "Criterion", new { page = ((int)Session["Page"] - 1) }, null) |
     @Html.ActionLink("Next", "ListCriteriaPage", "Criterion", new { page = ((int)Session["Page"] + 1) }, null)
 </div>
+<div>
+    @Html.ActionLink("Choices", "ListChoices", "LoggedIn", new { page = 1 }, null)
+</div>
+

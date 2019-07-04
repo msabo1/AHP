@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<AHP.WebAPI.Models.AlternativeMvcModel>
 
-@{
-    ViewBag.Title = "ListAlternatives";
-}
+    @{
+        ViewBag.Title = "ListAlternatives";
+    }
 
-<h2>Alternatives</h2>
+    <h2>Alternatives</h2>
 
-<p>
-    @Html.ActionLink("Create New", "CreateAlternative")
-</p>
+    <p>
+        @Html.ActionLink("Create New", "CreateAlternative")
+    </p>
 
     <table class="table">
         <tr>
@@ -33,7 +33,7 @@
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                     @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "DeleteAlternative", new { alternativeid= item.AlternativeID })
+                    @Html.ActionLink("Delete", "DeleteAlternative", new { alternativeid = item.AlternativeID })
                 </td>
             </tr>
         }
@@ -41,4 +41,7 @@
     <div>
         @Html.ActionLink("Prev", "ListAlternativesPage", "Alternative", new { page = ((int)Session["Page"] - 1) }, null) |
         @Html.ActionLink("Next", "ListAlternativesPage", "Alternative", new { page = ((int)Session["Page"] + 1) }, null)
+    </div>
+    <div>
+        @Html.ActionLink("Choices", "ListChoices", "LoggedIn", new { page = 1 }, null)
     </div>

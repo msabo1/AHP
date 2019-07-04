@@ -40,3 +40,6 @@
     @Html.ActionLink("Prev", "ListAlternativesPage", "Alternative", new { page = ((int)Session["Page"] - 1) }, null) |
     @Html.ActionLink("Next", "ListAlternativesPage", "Alternative", new { page = ((int)Session["Page"]  + 1) }, null)
 </div>
+<div>
+    @Html.ActionLink("Choices", "ListChoices", "LoggedIn", new { page = 1 }, null)
+</div>
