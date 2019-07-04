@@ -173,15 +173,11 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Controllers\AlternativeComparisonController.cs" />
     <Compile Include="Controllers\AlternativeController.cs" />
-    <Compile Include="Controllers\AlternativeControllerOld.cs" />
-    <Compile Include="Controllers\CriteriaComparisonController.cs" />
     <Compile Include="Controllers\CriterionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoggedInController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -249,10 +245,12 @@
     <Content Include="Views\Alternative\ListAlternatives.cshtml" />
     <Content Include="Views\Alternative\CreateAlternative.cshtml" />
     <Content Include="Views\Alternative\ListAlternativesPage.cshtml" />
+    <Content Include="Views\Criterion\ListCriteria.cshtml" />
+    <Content Include="Views\Criterion\ListCriteriaPage.cshtml" />
+    <Content Include="Views\Criterion\CreateCriterion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Criterion\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -31,7 +31,7 @@
     </td>
     <td>
         @Html.ActionLink("Alternatives", "ListAlternatives", "Alternative", new {     choiceID = @Session["ChoiceID"] = item.ChoiceID }, null) |
-        @Html.ActionLink("Criteria", "Criteria", new { choiceID = item.ChoiceID }, null) |
+        @Html.ActionLink("Criteria", "ListCriteria", "Criterion", new { choiceID = @Session["ChoiceID"] = item.ChoiceID }, null) |
         @Html.ActionLink("Delete", "DeleteChoice", new { choiceID = item.ChoiceID })
     </td>
 </tr>

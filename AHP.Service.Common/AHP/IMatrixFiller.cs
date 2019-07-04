@@ -8,6 +8,6 @@ namespace AHP.Service.Common
 {
     public interface IMatrixFiller
     {
-        double[,] FillMatrix(int dimension, double[] values);
+        double[] FillMatrix(int dimension, double[] values);
     }
 }

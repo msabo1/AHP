@@ -66,7 +66,7 @@ namespace AHP.WebAPI.Controllers
 
         public ActionResult CreateAlternative()
         {
-            ViewBag.Title = "Create a Choice";
+            ViewBag.Title = "Create an Alternative";
             return View();
         }
 
@@ -78,7 +78,6 @@ namespace AHP.WebAPI.Controllers
             {
                 IAlternativeModel _alternative = new AlternativeModel { ChoiceID = (Guid)Session["ChoiceID"], AlternativeName = model.AlternativeName};
                 var status = await _alternativeService.AddAsync(_alternative);
-                Guid _choiceid = status.ChoiceID;
                 return RedirectToAction("ListAlternativesPage", "Alternative", new { page = Session["Page"] });
             }
             return View();

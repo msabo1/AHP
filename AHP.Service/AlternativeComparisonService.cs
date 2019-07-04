@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AHP.Service
 {
-    class AlternativeComparisonService
+    class AlternativeComparisonService : IAlternativeComparisonService
     {
         IAlternativeComparisonRepository _altCompRepo;
         IUnitOfWorkFactory _unitOfWorkFactory;
@@ -42,14 +42,14 @@ namespace AHP.Service
 
             return alternatives;
         }
-        public async Task<bool> UpdateAsync(List<IAlternativeComparisonModel> comparisons)
+        public async Task<List<IAlternativeComparisonModel>> UpdateAsync(List<IAlternativeComparisonModel> comparisons)
         {
             foreach(IAlternativeComparisonModel comparison in comparisons)
             {
                 await _altCompRepo.UpdateAsync(comparison);
             }
             await _altCompRepo.SaveAsync();
-            return true;
+            return comparisons ;
         }
     }
 }

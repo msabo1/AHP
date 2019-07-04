@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace AHP.Service
 {
     public class CriteriaComparisonService : ICriteriaComparisonService
+
     {
         ICriteriaComparisonRepository _criteriaComparisonRepository;
         IUnitOfWorkFactory _unitOfWorkFactory;
@@ -33,7 +34,7 @@ namespace AHP.Service
 
         public async Task<List<ICriteriaComparisonModel>> GetAsync(Guid criteriaId, int page = 1)
         {
-            return await _criteriaComparisonRepository.GetByCriterionIDAsync(criteriaId, page);
+            return await _criteriaComparisonRepository.GetPageByCriterionIDAsync(criteriaId, page);
         }
 
         public async Task<List<ICriteriaComparisonModel>> UpdateAsync(List<ICriteriaComparisonModel> comparisons)

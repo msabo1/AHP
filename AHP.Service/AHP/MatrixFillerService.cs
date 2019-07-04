@@ -9,7 +9,12 @@ namespace AHP.Service
 {
     public class MatrixFiller : IMatrixFiller
     {
-        public double[,] FillMatrix(int dimension, double[] values)
+        IVectorFiller _vectorFiller;
+        public MatrixFiller(IVectorFiller vectorFiller)
+        {
+            _vectorFiller = vectorFiller;
+        }
+        public double[] FillMatrix(int dimension, double[] values)
         {
             double[,] M = new double[dimension, dimension];
 
@@ -22,7 +27,7 @@ namespace AHP.Service
                 }
                 M[i, i] = 1;
             }
-            return M;
+            return _vectorFiller.NthRoots(dimension, M);
         }
     }
 }

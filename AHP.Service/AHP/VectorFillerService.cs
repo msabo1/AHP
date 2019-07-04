@@ -21,7 +21,7 @@ namespace AHP.Service
                 }
                 Nth[i] = Math.Pow(temp, 1.0 / dimension);
             }
-            return Nth;
+            return Weights(dimension, Nth);
         }
 
         public double[] Weights(int dimension, double[] vector)

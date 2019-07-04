@@ -8,10 +8,11 @@
     <OutputType>Library</OutputType>
     <RootNamespace>AHP.Service</RootNamespace>
     <AssemblyName>AHP.Service</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -67,16 +68,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AHP\Consistency.cs" />
-    <Compile Include="AHP\FinalScoreCalculator.cs" />
-    <Compile Include="AHP\MatrixFiller.cs" />
+    <Compile Include="AHP\ConsistencyService.cs" />
+    <Compile Include="AHP\FinalScoreCalculatorService.cs" />
+    <Compile Include="AHP\MatrixFillerService.cs" />
     <Compile Include="AlternativeComparisonService.cs" />
     <Compile Include="AlternativeService.cs" />
     <Compile Include="CalculateAHPScores.cs" />
     <Compile Include="ChoiceService.cs" />
     <Compile Include="CriteriaComparisonService.cs" />
+    <Compile Include="CriterionService.cs" />
     <Compile Include="ServiceModule.cs" />
-    <Compile Include="AHP\VectorFiller.cs" />
+    <Compile Include="AHP\VectorFillerService.cs" />
     <Compile Include="UserService.cs" />
   </ItemGroup>
   <ItemGroup>

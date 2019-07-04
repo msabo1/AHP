@@ -23,7 +23,7 @@ namespace AHP.Service
             builder.RegisterAssemblyTypes(assembly)
             .Where(t => t.Name.EndsWith("Service"))
             .AsImplementedInterfaces();
-
+            builder.RegisterType<CalculateAHPScores>().As<ICalculateAHPScores>();
 
         }
     }

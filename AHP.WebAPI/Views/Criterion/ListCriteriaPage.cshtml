@@ -1,0 +1,43 @@
+﻿@model IEnumerable<AHP.WebAPI.Models.CriterionMvcModel>
+
+@{
+    ViewBag.Title = "ListCriteria";
+}
+
+<h2>Criteria</h2>
+
+<p>
+    @Html.ActionLink("Create New", "CreateCriterion")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CriteriaName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateUpdated)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CriteriaName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateUpdated)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "DeleteCriterion", new { criterionid = item.CriteriaID })
+            </td>
+        </tr>
+    }
+</table>
+<div>
+    @Html.ActionLink("Prev", "ListCriteriaPage", "Criterion", new { page = ((int)Session["Page"] - 1) }, null) |
+    @Html.ActionLink("Next", "ListCriteriaPage", "Criterion", new { page = ((int)Session["Page"] + 1) }, null)
+</div>

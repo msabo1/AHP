@@ -1,11 +1,11 @@
-﻿using AHP.Repository.Common;
+using AHP.Repository.Common;
+﻿using AHP.Model.Common;
+using AHP.Service.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AHP.Service.Common;
-using AHP.Model.Common;
 
 namespace AHP.Service
 {
@@ -37,6 +37,7 @@ namespace AHP.Service
             var choice = await _choiceRepository.GetByIDAsync(choiceID);
             return choice;
         }
+
         public async Task<bool> DeleteAsync(IChoiceModel choice)
         {
             bool b = true;
