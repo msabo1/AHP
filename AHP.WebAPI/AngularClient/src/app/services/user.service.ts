@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { of } from 'rxjs';
 
 import { User } from '../classes/user';
+import { ChoiceRequest } from '../classes/choice-request';
+import { Choice } from '../classes/choice';
 
 
 @Injectable({
@@ -15,15 +17,27 @@ import { User } from '../classes/user';
 export class UserService {
 
   private userUrl = '/api/user';
+  private choiceUrl = '/api/choice';
   public user: BehaviorSubject<User> = new BehaviorSubject<User>(null);
+  public choiceRequest: BehaviorSubject<ChoiceRequest> = new BehaviorSubject<ChoiceRequest>(null);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) {
+  }
 
   register(user: User): Observable<User> {
-    return this.http.post<User>(this.userUrl, user);
+    return this.http.post<User>(this.userUrl+'/register', user);
   }
 
   login(user: User): Observable<User> {
-    return this.http.get<User>(this.userUrl, user); ///////   POPRAVIT
+    return this.http.post<User>(this.userUrl + '/login', user)
+      .pipe(
+        tap(() => {
+          this.router.navigate(['choices']);
+        }
+       )
+     );
+  }
+  getChoices(choiceRequest: ChoiceRequest): Observable<ChoiceRequest> {
+    return this.http.post<ChoiceRequest>(this.choiceUrl + '/get/', choiceRequest);
   }
 }

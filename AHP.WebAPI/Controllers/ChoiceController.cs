@@ -13,20 +13,27 @@ namespace AHP.WebAPI.Controllers
 {
     public class ChoiceController : ApiController
     {
+        ICalculateAHPScores _AHPcalculate;
         IChoiceService _choiceService;
         IMapper _mapper;
 
         public ChoiceController(
-            IMapper mapper, 
+            IMapper mapper,
+            ICalculateAHPScores AHPcalculate,
             IChoiceService choiceService)
         {
             _mapper = mapper;
+            _AHPcalculate = AHPcalculate;
             _choiceService = choiceService;
         }
 
 
         public async Task<IHttpActionResult> Post(ChoiceControllerModel choice)
         {
+            if (choice == null)
+            {
+                return BadRequest();
+            }
             var _choice = _mapper.Map<ChoiceControllerModel, IChoiceModel>(choice);
             var status = await _choiceService.CreateAsync(_choice);
 
@@ -39,9 +46,15 @@ namespace AHP.WebAPI.Controllers
                 return NotFound();
             }
         }
-        public async Task<IHttpActionResult> Get(Guid id, int page)
+        [HttpPost]
+        [Route("api/choice/get")]
+        public async Task<IHttpActionResult> GetChoice(ChoiceRequest request)
         {
-            var status = await _choiceService.GetAsync(id, page);
+            if (request == null)
+            {
+                return BadRequest();
+            }
+            var status = await _choiceService.GetAsync(request.userId, request.page);
 
             if (status.Any())
             {
@@ -52,8 +65,21 @@ namespace AHP.WebAPI.Controllers
                 return NotFound();
             }
         }
+        [HttpGet]
+        [Route("api/choice/calculate")]
+        public async Task<IHttpActionResult> GetCalculate(ChoiceControllerModel choice)
+        {
+            
+             var status = await _AHPcalculate.CalculateCriteriaWeights(choice.ChoiceID);
+
+            return Ok(status);
+        }
         public async Task<IHttpActionResult> Put(ChoiceControllerModel choice)
         {
+            if (choice == null)
+            {
+                return BadRequest();
+            }
             var _choice = _mapper.Map<ChoiceControllerModel, IChoiceModel>(choice);
             var status = await _choiceService.UpdateAsync(_choice);
 
@@ -68,6 +94,10 @@ namespace AHP.WebAPI.Controllers
         }
         public async Task<IHttpActionResult> Delete(ChoiceControllerModel choice)
         {
+            if (choice == null)
+            {
+                return BadRequest();
+            }
             var _choice = _mapper.Map<ChoiceControllerModel, IChoiceModel>(choice);
             var status = await _choiceService.DeleteAsync(_choice);
 
@@ -83,7 +113,11 @@ namespace AHP.WebAPI.Controllers
 
 
     }
-
+    public class ChoiceRequest
+    {
+        public Guid userId;
+        public int page;
+    }
     public class ChoiceControllerModel
     {
         public System.Guid ChoiceID { get; set; }

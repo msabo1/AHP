@@ -61,6 +61,25 @@ namespace AHP.WebAPI.Controllers
                 return BadRequest();
             }
         }
+
+        public async Task<IHttpActionResult> Put(List<CriteriaComparisonControllerModel> criteriaComparisons)
+        {
+            if (criteriaComparisons == null)
+            {
+                return BadRequest();
+            }
+            foreach (var comparison in criteriaComparisons)
+            {
+                if (comparison == null)
+                {
+                    return BadRequest();
+                }
+            }
+
+            var _criteriaComparisons = _mapper.Map<List<CriteriaComparisonControllerModel>, List<ICriteriaComparisonModel>>(criteriaComparisons);
+            var status = await _criteriaComparisonService.UpdateAsync(_criteriaComparisons);
+            return Ok(status);
+        }
     }
 
     public class CriteriaComparisonControllerModel

@@ -59,6 +59,12 @@ namespace AHP.Repository
             return _mapper.Map<List<Criterion>, List<ICriterionModel>>(criteria);
         }
 
+        public async Task<List<ICriterionModel>> GetByChoiceIDAsync(Guid choiceID)
+        {
+            var criteria = await _context.Criteria.Where(c => c.ChoiceID == choiceID).ToListAsync();
+            return _mapper.Map<List<Criterion>, List<ICriterionModel>>(criteria);
+        }
+
         public async Task<ICriterionModel> LoadCriteriaComparisonsPageAsync(ICriterionModel criterion, int PageNumber, int PageSize = 5)
         {
             var _criterion = await _context.Criteria.FindAsync(criterion.CriteriaID);

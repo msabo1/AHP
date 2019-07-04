@@ -68,6 +68,12 @@ namespace AHP.Repository
             return _mapper.Map<List<AlternativeComparison>, List<IAlternativeComparisonModel>>(acs);
         }
 
+        public async Task<List<IAlternativeComparisonModel>> GetByCriteriaIDAsync(Guid criteriaID)
+        {
+            var acs = await _context.AlternativeComparisons.Where(ac => ac.CriteriaID == criteriaID).ToListAsync();
+            return _mapper.Map<List<AlternativeComparison>, List<IAlternativeComparisonModel>>(acs);
+        }
+
         public List<IAlternativeComparisonModel> AddRange(List<IAlternativeComparisonModel> acs)
         {
             var _acs = _mapper.Map<List<IAlternativeComparisonModel>, List<AlternativeComparison>>(acs);
