@@ -9,7 +9,7 @@
       <div class="card">
         <div class="card-body">
           {{ choice['ChoiceName'] }}
-          <a [routerLink]="['/choice', choice['ChoiceID']]" class="btn btn-primary mr-2">Edit</a>
+          <a [routerLink]="['/choice', choice['ChoiceID']]" class="btn btn-primary mr-2" (click)="onClick(choice)">Edit</a>
           <a href="#" class="btn btn-danger">Delete</a>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { ChoiceRequest } from '../../classes/choice-request';
+import { Choice } from '../../classes/choice';
 
 
 @Component({
@@ -18,8 +19,12 @@ export class ChoicesComponent implements OnInit {
   ngOnInit() {
     this.userService.getChoices(this.choiceRequest).subscribe(data => {
       this.choices = data;
-      console.log(this.choices);
     });
   }
 
+  onClick(choice: Choice) {
+    localStorage.setItem('choice', JSON.stringify(choice));
+    //window.localStorage['choice'] = choice;
+
+  }
 }
