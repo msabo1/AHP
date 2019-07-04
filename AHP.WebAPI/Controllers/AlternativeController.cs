@@ -1,17 +1,18 @@
-﻿using AHP.Model.Common;
+﻿using AHP.Model;
+using AHP.Model.Common;
 using AHP.Service.Common;
+using AHP.WebAPI.Models;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web.Http;
+using System.Web;
+using System.Web.Mvc;
 
 namespace AHP.WebAPI.Controllers
 {
-    public class AlternativeController : ApiController
+    public class AlternativeController : Controller
     {
         IAlternativeService _alternativeService;
         IMapper _mapper;
@@ -24,89 +25,40 @@ namespace AHP.WebAPI.Controllers
             _alternativeService = alternativeService;
         }
 
-        public async Task<IHttpActionResult> Post(AlternativeControllerModel alternative)
+        public async Task<ActionResult> ListAlternatives(Guid choiceID)
         {
-            if (alternative==null)
+            ViewBag.Title = "Alterntatives";
+            Session["ChoiceID"] = choiceID;
+
+            var alternatives = await _alternativeService.GetAsync(choiceID, 1);
+            var _alternatives = new List<AlternativeMvcModel>();
+            foreach (IAlternativeModel alternative in alternatives)
             {
-                return BadRequest();
+                _alternatives.Add(new AlternativeMvcModel { ChoiceID = alternative.ChoiceID, AlternativeName = alternative.AlternativeName, DateUpdated = (DateTime)alternative.DateUpdated});
             }
 
-            var _alternative = _mapper.Map<AlternativeControllerModel, IAlternativeModel>(alternative);
-            var status = await _alternativeService.AddAsync(_alternative);
-            return Ok(_mapper.Map<IAlternativeModel, AlternativeControllerModel>(status));
+            return View(_alternatives);
         }
 
-        public async Task<IHttpActionResult> Get(GetPage request)
+        public ActionResult Create()
         {
-            if(request == null)
-            {
-                return BadRequest();
-            }
-            int page = request.page;
-            Guid choiceId = request.Id;
-            if (choiceId.Equals(null) || page < 1)
-            {
-                return BadRequest();
-            }
-
-            var status = await _alternativeService.GetAsync(choiceId, page);
-            if (status.Any())
-            {
-                return Ok(_mapper.Map<List<IAlternativeModel>, List<AlternativeControllerModel>>(status));
-            }
-            else
-            {
-                return BadRequest();
-            }
+            ViewBag.Title = "Create a Choice";
+            return View();
         }
 
-
-        public async Task<IHttpActionResult> Put(AlternativeControllerModel alternative)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(AlternativeMvcModel model)
         {
-            if (alternative==null)
+            if (ModelState.IsValid)
             {
-                return BadRequest();
+                IAlternativeModel _alternative = new AlternativeModel { AlternativeName = model.AlternativeName, ChoiceID = (Guid)Session["ChoiceID"] };
+                var status = await _alternativeService.AddAsync(_alternative);
+                Guid _choiceid = status.ChoiceID;
+                return RedirectToAction("ListAlternatives", "LoggedIn", new { choiceID = _choiceid });
             }
-
-            var _alternative = _mapper.Map<AlternativeControllerModel, IAlternativeModel>(alternative);
-            var status = await _alternativeService.UpdateAsync(_alternative);
-            return Ok(status);
+            return View();
         }
 
-
-        public async Task<IHttpActionResult> Delete(AlternativeControllerModel alternative)
-        {
-            if (alternative == null)
-            {
-                return BadRequest();
-            }
-
-            var _alternative = _mapper.Map<AlternativeControllerModel, IAlternativeModel>(alternative);
-            var status = await _alternativeService.DeleteAsync(_alternative);
-            if (status)
-            {
-                return Ok(status);
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
-
-
-    }
-    public class GetPage{
-        public Guid Id;
-        public int page;
-        }
-    public class AlternativeControllerModel
-    {
-        public ICollection<IAlternativeComparisonModel> AlternativeComparisons1 { get; set; }
-        public ICollection<IAlternativeComparisonModel> AlternativeComparisons2 { get; set; }
-        public System.Guid AlternativeID { get; set; }
-        public string AlternativeName { get; set; }
-        public Nullable<double> AlternativeScore { get; set; }
-        public System.Guid ChoiceID { get; set; }
     }
 }
-

@@ -13,5 +13,6 @@ namespace AHP.Service.Common
         Task<IChoiceModel> UpdateAsync(IChoiceModel choice);
         Task<List<IChoiceModel>> GetAsync(Guid userId, int page);
         Task<bool> DeleteAsync(IChoiceModel choice);
+        Task<IChoiceModel> GetByIdAsync(Guid choiceID);
     }
 }

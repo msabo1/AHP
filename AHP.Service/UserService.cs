@@ -9,7 +9,7 @@ using AHP.Model.Common;
 
 namespace AHP.Service
 {
-    public class UserService : IUserService
+    class UserService : IUserService
     {
 
         IUnitOfWorkFactory _unitOfWorkFactory;

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AHP.Service
 {
-    class CalculateAHPScores
+    public class CalculateAHPScores
     {
         //public async Task<double> Calculate(IAlternativeModel)
         //{

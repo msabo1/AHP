@@ -48,6 +48,9 @@
     <Reference Include="Autofac, Version=4.9.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.9.2\lib\net45\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="Autofac.Integration.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.Mvc5.4.0.2\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Autofac.Integration.WebApi, Version=4.2.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.WebApi2.4.2.1\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
     </Reference>
@@ -172,16 +175,18 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AlternativeComparisonController.cs" />
     <Compile Include="Controllers\AlternativeController.cs" />
-    <Compile Include="Controllers\ChoiceController.cs" />
+    <Compile Include="Controllers\AlternativeControllerOld.cs" />
     <Compile Include="Controllers\CriteriaComparisonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoggedInController.cs" />
+    <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="MapperProfiles\ControllerMapperProfile.cs" />
+    <Compile Include="Models\AlternativeMvcModel.cs" />
     <Compile Include="Models\ChoiceMvcModel.cs" />
     <Compile Include="Models\UserMvcModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -237,7 +242,11 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\LoggedIn\ListChoices.cshtml" />
-    <Content Include="Views\Home\SignUp.cshtml" />
+    <Content Include="Views\SignUp\SignUp.cshtml" />
+    <Content Include="Views\SignUp\SignIn.cshtml" />
+    <Content Include="Views\LoggedIn\CreateChoice.cshtml" />
+    <Content Include="Views\Alternative\ListAlternatives.cshtml" />
+    <Content Include="Views\Alternative\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

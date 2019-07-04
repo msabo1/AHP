@@ -4,7 +4,7 @@
     ViewBag.Title = "Sign Up";
 }
 
-<h2>Sign Up</h2>
+<h2>Sign up</h2>
 
 
 @using (Html.BeginForm()) 
@@ -12,10 +12,9 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Sign up for AHP account</h4>
+        <h4>Create a new account</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
         <div class="form-group">
             @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -49,7 +48,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to Home", "Index")
+    @Html.ActionLink("Back to sign in", "SignIn")
 </div>
 
 @section Scripts {

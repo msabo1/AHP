@@ -1,14 +1,15 @@
-﻿using AHP.Model.Common;
-using AHP.Repository.Common;
+﻿using AHP.Repository.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AHP.Service.Common;
+using AHP.Model.Common;
 
 namespace AHP.Service
 {
-    class ChoiceService
+    class ChoiceService : IChoiceService
     {
         IUnitOfWorkFactory _unitOfWorkFactory;
         IChoiceRepository _choiceRepository;
@@ -31,10 +32,14 @@ namespace AHP.Service
             }
             return choice;
         }
+        public async Task<IChoiceModel> GetByIdAsync(Guid choiceID)
+        {
+            var choice = await _choiceRepository.GetByIDAsync(choiceID);
+            return choice;
+        }
         public async Task<bool> DeleteAsync(IChoiceModel choice)
         {
             bool b = true;
-            
                 b = await _choiceRepository.DeleteAsync(choice);
                 await _choiceRepository.SaveAsync();
              

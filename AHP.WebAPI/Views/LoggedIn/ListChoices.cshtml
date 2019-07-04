@@ -4,10 +4,10 @@
     ViewBag.Title = "ListChoices";
 }
 
-<h2>ListChoices</h2>
-
+    <h2>Choices</h2>
+<p>Session : @Session["UserID"]</p>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "CreateChoice")
 </p>
 <table class="table">
     <tr>
@@ -29,11 +29,12 @@
             @Html.DisplayFor(modelItem => item.DateUpdated)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @Html.ActionLink("Alternatives","ListAlternatives", "Alternative",  new { choiceID = item.ChoiceID }, null) |
+            @Html.ActionLink("Criteria", "Criteria", new { choiceID = item.ChoiceID }, null) |
+            @Html.ActionLink("Delete", "DeleteChoice", new { choiceID = item.ChoiceID })
         </td>
     </tr>
 }
+
 
 </table>

@@ -1,6 +1,8 @@
 ﻿using AHP.Model;
+using AHP.WebAPI.Controllers;
 using AHP.WebAPI.MapperProfiles;
 using Autofac;
+using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using AutoMapper;
 using System;
@@ -10,6 +12,9 @@ using System.Linq;
 using System.Reflection;
 using System.Web.Compilation;
 using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.Mvc;
+
 namespace AHP.WebAPI
 {
     public static class WebApiConfig
@@ -46,10 +51,12 @@ namespace AHP.WebAPI
 
             builder.RegisterAssemblyModules(assemblies.ToArray());
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+            builder.RegisterControllers(typeof(SignUpController).Assembly);
+            builder.RegisterControllers(typeof(LoggedInController).Assembly);
 
 
             var container = builder.Build();
-            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
     }
 }

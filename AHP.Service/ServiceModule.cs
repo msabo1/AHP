@@ -18,10 +18,6 @@ namespace AHP.Service
             builder.RegisterType<FinalScoreCalculator>().As<IFinalScoreCalculator>();
             builder.RegisterType<VectorFiller>().As<IVectorFiller>();
 
-            //builder.RegisterType<UserLoginService>().As<IUserLoginService>();
-            //builder.RegisterType<UserRegisterService>().As<IUserRegisterService>();
-            //builder.RegisterType<UserDeleteService>().As<IUserDeleteService>();
-            //builder.RegisterType<UserUpdateService>().As<IUserUpdateService>();
             var assembly = Assembly.GetExecutingAssembly();
 
             builder.RegisterAssemblyTypes(assembly)
