@@ -8,11 +8,11 @@ namespace AHP.WebAPI.Models
 {
     public class AlternativeMvcModel
     {
-        public Guid ChoiceID;
+        public Guid ChoiceID { get; set; }
         [Display(Name = "Name")]
-        public string AlternativeName;
-        public Nullable<double> Score;
+        public string AlternativeName { get; set; }
+        public Nullable<double> Score { get; set; }
         [Display(Name = "Updated")]
-        public DateTime DateUpdated;
+        public DateTime DateUpdated { get; set; }
     }
 }

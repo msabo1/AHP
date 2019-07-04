@@ -40,7 +40,7 @@ namespace AHP.WebAPI.Controllers
             return View(_alternatives);
         }
 
-        public ActionResult Create()
+        public ActionResult CreateAlternative()
         {
             ViewBag.Title = "Create a Choice";
             return View();
@@ -48,14 +48,14 @@ namespace AHP.WebAPI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(AlternativeMvcModel model)
+        public async Task<ActionResult> CreateAlternative(AlternativeMvcModel model)
         {
             if (ModelState.IsValid)
             {
-                IAlternativeModel _alternative = new AlternativeModel { AlternativeName = model.AlternativeName, ChoiceID = (Guid)Session["ChoiceID"] };
+                IAlternativeModel _alternative = new AlternativeModel { ChoiceID = (Guid)Session["ChoiceID"], AlternativeName = model.AlternativeName};
                 var status = await _alternativeService.AddAsync(_alternative);
                 Guid _choiceid = status.ChoiceID;
-                return RedirectToAction("ListAlternatives", "LoggedIn", new { choiceID = _choiceid });
+                return RedirectToAction("ListAlternatives", "Alternative", new { choiceID = _choiceid });
             }
             return View();
         }

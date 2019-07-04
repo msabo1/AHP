@@ -246,7 +246,7 @@
     <Content Include="Views\SignUp\SignIn.cshtml" />
     <Content Include="Views\LoggedIn\CreateChoice.cshtml" />
     <Content Include="Views\Alternative\ListAlternatives.cshtml" />
-    <Content Include="Views\Alternative\Create.cshtml" />
+    <Content Include="Views\Alternative\CreateAlternative.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
