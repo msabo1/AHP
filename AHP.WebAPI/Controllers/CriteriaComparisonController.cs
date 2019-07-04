@@ -44,8 +44,8 @@ namespace AHP.WebAPI.Controllers
 
         public async Task<IHttpActionResult> Get(CritCompGetModel request)
         {
-            int page = request.page;
-            Guid criteriaId = request.Id;
+            int page = request.Page;
+            Guid criteriaId = request.CriteriaID;
             if (criteriaId == null || page < 1)
             {
                 return BadRequest();
@@ -91,7 +91,7 @@ namespace AHP.WebAPI.Controllers
 
     public class CritCompGetModel
     {
-        public Guid Id;
-        public int page;
+        public Guid CriteriaID;
+        public int Page;
     }
 }

@@ -53,14 +53,13 @@ namespace AHP.Service
         }
         public async Task<bool> UpdateAsync(ICriterionModel criteria)
         {
-            using (var uof = _unitFactory.Create())
-            {
+           
                 var updated = await _critRepo.UpdateAsync(criteria);
                 await _critRepo.SaveAsync();
-                uof.Commit();
+              
                 return true;
 
-            }
+            
      
         }
     }

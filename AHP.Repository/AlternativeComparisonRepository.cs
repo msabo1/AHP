@@ -49,7 +49,7 @@ namespace AHP.Repository
 
         public async Task<IAlternativeComparisonModel> UpdateAsync(IAlternativeComparisonModel ac)
         {
-            var _ac = await _context.AlternativeComparisons.FindAsync(ac.AlternativeID1, ac.AlternativeID2);
+            var _ac = await _context.AlternativeComparisons.FindAsync(ac.CriteriaID,ac.AlternativeID1, ac.AlternativeID2);
             _context.Entry(_ac).CurrentValues.SetValues(_mapper.Map<IAlternativeComparisonModel, AlternativeComparison>(ac));
             return ac;
         }

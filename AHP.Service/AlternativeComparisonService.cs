@@ -12,31 +12,33 @@ namespace AHP.Service
     class AlternativeComparisonService : IAlternativeComparisonService
     {
         IAlternativeComparisonRepository _altCompRepo;
-        IUnitOfWorkFactory _unitOfWorkFactory;
+        IUnitOfWorkFactory _unitFactory;
         public AlternativeComparisonService(
             IAlternativeComparisonRepository altCompRepo,
             IUnitOfWorkFactory unitOfWorkFactory
             )
         {
             _altCompRepo = altCompRepo;
-            _unitOfWorkFactory = unitOfWorkFactory;
+            _unitFactory = unitOfWorkFactory;
         }
 
         public async Task<List<IAlternativeComparisonModel>> AddAsync(List<IAlternativeComparisonModel> comparisons)
         {
-                foreach(IAlternativeComparisonModel comparison in comparisons)
-            {
-                comparison.DateCreated = DateTime.Now;
-                comparison.DateUpdated = DateTime.Now;
-            }
+          
+                foreach (IAlternativeComparisonModel comparison in comparisons)
+                {
+                    comparison.DateCreated = DateTime.Now;
+                    comparison.DateUpdated = DateTime.Now;
+                }
                 comparisons = _altCompRepo.AddRange(comparisons);
                 await _altCompRepo.SaveAsync();
-                
+               
             
+
             return comparisons;
 
         }
-        public async Task<List<IAlternativeComparisonModel>> GetAsync(Guid alternativeId,Guid criteriaId, int page = 1)
+        public async Task<List<IAlternativeComparisonModel>> GetAsync(Guid alternativeId, Guid criteriaId, int page = 1)
         {
             var alternatives = await _altCompRepo.GetByCriteriaAlternativesIDAsync(criteriaId, alternativeId, page);
 
@@ -44,12 +46,19 @@ namespace AHP.Service
         }
         public async Task<List<IAlternativeComparisonModel>> UpdateAsync(List<IAlternativeComparisonModel> comparisons)
         {
-            foreach(IAlternativeComparisonModel comparison in comparisons)
+            using (var uof = _unitFactory.Create())
             {
-                await _altCompRepo.UpdateAsync(comparison);
+
+                foreach (IAlternativeComparisonModel comparison in comparisons)
+                {
+                    var baseComparison = await _altCompRepo.GetByIDAsync(new Guid[] { comparison.CriteriaID, comparison.AlternativeID1, comparison.AlternativeID2 });
+                    baseComparison.DateUpdated = DateTime.Now;
+                    baseComparison.AlternativeRatio = comparison.AlternativeRatio;
+                    await _altCompRepo.UpdateAsync(baseComparison);
+                }
+                await _altCompRepo.SaveAsync();
+                return comparisons;
             }
-            await _altCompRepo.SaveAsync();
-            return comparisons ;
         }
     }
 }

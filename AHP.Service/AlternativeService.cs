@@ -29,8 +29,8 @@ namespace AHP.Service
             alternative.DateUpdated = DateTime.Now;
 
           
-                alternative = _altRepo.Add(alternative);
-                await _altRepo.SaveAsync();
+            alternative = _altRepo.Add(alternative);
+            await _altRepo.SaveAsync();
                
             return alternative;
         }

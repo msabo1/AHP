@@ -38,14 +38,20 @@ namespace AHP.Service
 
         public async Task<List<ICriteriaComparisonModel>> UpdateAsync(List<ICriteriaComparisonModel> comparisons)
         {
-            foreach (var comparison in comparisons)
+            using (var uof = _unitOfWorkFactory.Create())
             {
-                comparison.DateUpdated = DateTime.Now;
-                await _criteriaComparisonRepository.UpdateAsync(comparison);
-            }
+                foreach (var comparison in comparisons)
+                {
+                    var baseComparison = await _criteriaComparisonRepository.GetByIDAsync(comparison.CriteriaID1, comparison.CriteriaID2);
+                    baseComparison.DateUpdated = DateTime.Now;
+                    baseComparison.CriteriaRatio = comparison.CriteriaRatio;
+                    await _criteriaComparisonRepository.UpdateAsync(baseComparison);
+                }
 
-            await _criteriaComparisonRepository.SaveAsync();
-            return comparisons;
+                await _criteriaComparisonRepository.SaveAsync();
+                uof.Commit();
+                return comparisons;
+            }
         }
     }
 }

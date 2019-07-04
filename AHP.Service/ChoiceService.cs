@@ -24,12 +24,11 @@ namespace AHP.Service
             choice.ChoiceID = Guid.NewGuid();
             choice.DateCreated = DateTime.Now;
             choice.DateUpdated = DateTime.Now;
-            using (var uow = _unitOfWorkFactory.Create())
-            {
+            
                 _choiceRepository.Add(choice);
                 await _choiceRepository.SaveAsync();
-                uow.Commit();
-            }
+                
+            
             return choice;
         }
 

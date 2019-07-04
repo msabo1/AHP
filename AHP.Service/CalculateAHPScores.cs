@@ -40,9 +40,12 @@ namespace AHP.Service
             criteria.Sort((x, y) => x.DateCreated.CompareTo(y.DateCreated));
             List<List<double>> comparisons = new List<List<double>>();
             List<ICriteriaComparisonModel> sviComparisoni = new List<ICriteriaComparisonModel>();
+            Guid[] CriteriaID = new Guid[criteria.Count];
             for (int i = 0; i < criteria.Count; i++)
             {
-                sviComparisoni.AddRange(await _criteriaComparisonRepo.GetByFirstCriterionIDAsync(criteria[i].CriteriaID));
+                var criteriaComparisons = await _criteriaComparisonRepo.GetByFirstCriterionIDAsync(criteria[i].CriteriaID);
+                sviComparisoni.AddRange(criteriaComparisons);
+                CriteriaID[criteriaComparisons.Count] = criteria[i].CriteriaID;
             }
                 
                 for (int i = 0; i < criteria.Count; i++)
@@ -50,7 +53,7 @@ namespace AHP.Service
                     List<double> comparisoni= new List<double>();
                     for (int j = 0; j < criteria.Count; j++)
                     {
-                       var comparison = sviComparisoni.Find(a => a.CriteriaID2 == criteria[j].CriteriaID && a.CriteriaID1 == criteria[i].CriteriaID);
+                       var comparison = sviComparisoni.Find(a => a.CriteriaID2 == CriteriaID[j] && a.CriteriaID1 == CriteriaID[i]);
                        if (comparison != null)
                        {
                            comparisoni.Add(comparison.CriteriaRatio);
@@ -66,8 +69,10 @@ namespace AHP.Service
             {
                 krajnjaLista.AddRange(lista);
             }
+           
             var weights = _matrixFiller.FillMatrix(dimension, krajnjaLista.ToArray());
-            await CalculateAlternativeWeights(choiceId, weights, criteria);
+            
+            await CalculateAlternativeWeights(choiceId, weights.Reverse().ToArray(), criteria);
             return true;
         }
 
@@ -116,35 +121,29 @@ namespace AHP.Service
             }
             var result = sviWeightovi.OrderBy(x => x.Count);
 
-
-
-
-
-
-
-
-
-
-
             //sprema alternativ weighto - ve u matricu po kriterijima
             double[,] alternativeWeightMatrix = new double[criteria.Count(), alternatives.Count()];
             for (int i = 0; i < sviWeightovi.Count; i++)
             {
-                for (int j = 0; j < sviWeightovi[i].ToArray().Length; j++)
+                var duljina = sviWeightovi[i].ToArray().Length;
+                for (int j = 0; j < duljina; j++)
                 {
-                    alternativeWeightMatrix[j, i] = sviWeightovi[j][i];
+                    alternativeWeightMatrix[j,i] = sviWeightovi[i][j];
                 }
             }
             FinalScoreCalculator calculator = new FinalScoreCalculator();
             var alternativeScores = calculator.CalculateFinalScore(alternativeWeightMatrix, choiceWeights);
             //sprema dobivene scoreove
+
             using (var uof = _unitOfWorkFactory.Create())
             {
                 for (int i = 0; i < alternatives.Count; i++)
                 {
                     alternatives[i].AlternativeScore = alternativeScores[i];
                     await _alternativeRepository.UpdateAsync(alternatives[i]);
+                   
                 }
+                uof.Commit();
             }
             return true;
 

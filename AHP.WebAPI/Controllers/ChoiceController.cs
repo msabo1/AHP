@@ -47,14 +47,14 @@ namespace AHP.WebAPI.Controllers
             }
         }
         [HttpGet]
-        [Route("api/choice/get")]
+        
         public async Task<IHttpActionResult> GetChoice(ChoiceRequest request)
         {
             if (request == null)
             {
                 return BadRequest();
             }
-            var status = await _choiceService.GetAsync(request.userId, request.page);
+            var status = await _choiceService.GetAsync(request.UserID, request.Page);
 
             if (status.Any())
             {
@@ -115,8 +115,8 @@ namespace AHP.WebAPI.Controllers
     }
     public class ChoiceRequest
     {
-        public Guid userId;
-        public int page;
+        public Guid UserID;
+        public int Page;
     }
     public class ChoiceControllerModel
     {
