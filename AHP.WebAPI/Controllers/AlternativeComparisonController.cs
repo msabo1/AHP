@@ -40,17 +40,14 @@ namespace AHP.WebAPI.Controllers
             return Ok(status);
 
         }
-
-        public async Task<IHttpActionResult> Get(AltCompRequest request)
+        [Route("api/alternativecomparison/{criteriaID}/{alternativeID}/{page}")]
+        public async Task<IHttpActionResult> Get(Guid criteriaID, Guid alternativeID, int page)
         {
-            if(request == null)
+            if(criteriaID == null || alternativeID == null || page < 1)
             {
                 return BadRequest();
             }
-            var page = request.page;
-            var alternativeId = request.alternativeID;
-            var criteriaId = request.criteriaID;
-            var status = await _alternativeComparisonService.GetAsync(alternativeId, criteriaId, page);
+            var status = await _alternativeComparisonService.GetAsync(alternativeID, criteriaID, page);
 
             return Ok(status);
         }
