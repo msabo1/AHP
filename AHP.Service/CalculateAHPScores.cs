@@ -69,7 +69,6 @@ namespace AHP.Service
             {
                 krajnjaLista.AddRange(lista);
             }
-           
             var weights = _matrixFiller.FillMatrix(dimension, krajnjaLista.ToArray());
             
             await CalculateAlternativeWeights(choiceId, weights.Reverse().ToArray(), criteria);

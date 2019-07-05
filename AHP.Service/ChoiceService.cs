@@ -59,5 +59,11 @@ namespace AHP.Service
             return updated;
         }
 
+        public async Task<IChoiceModel> GetByIdAsync(Guid choiceID)
+        {
+            var _choice = await _choiceRepository.GetByIDAsync(choiceID);
+            return _choice;
+        }
+
     }
 }

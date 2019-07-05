@@ -24,6 +24,7 @@ namespace AHP.Service
             {
                 comparison.DateCreated = DateTime.Now;
                 comparison.DateUpdated = DateTime.Now;
+                comparison.CriteriaRatio = 0;
             }
             
             comparisons = _criteriaComparisonRepository.AddRange(comparisons);

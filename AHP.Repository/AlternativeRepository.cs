@@ -1,4 +1,5 @@
 ﻿using AHP.DAL;
+using AHP.Model;
 using AHP.Model.Common;
 using AHP.Repository.Common;
 using AutoMapper;
@@ -23,6 +24,21 @@ namespace AHP.Repository
         public IAlternativeModel Add(IAlternativeModel alternative)
         {
 
+            Guid altID = alternative.AlternativeID;
+            var allCriteria = _context.Criteria.Where(c => c.ChoiceID == alternative.ChoiceID).ToList();
+            var prevAlternatives = _context.Alternatives.Where(c => c.ChoiceID == alternative.ChoiceID).OrderByDescending(x => x.DateCreated).ToArray();
+            List<IAlternativeComparisonModel> acs = new List<IAlternativeComparisonModel>();
+            int n = prevAlternatives.Length;
+            foreach (var item in allCriteria)
+            {
+                Guid critID = item.CriteriaID;
+                for (int i = 0; i < n; i++)
+                {
+                    IAlternativeComparisonModel a = new AlternativeComparisonModel { CriteriaID = critID, AlternativeID1 = altID, AlternativeID2 = prevAlternatives[i].AlternativeID, DateCreated = DateTime.Now, DateUpdated = DateTime.Now, AlternativeRatio = 0 };
+                    acs.Add(a);
+                }
+            }
+            _context.AlternativeComparisons.AddRange(_mapper.Map<List<IAlternativeComparisonModel>, List<AlternativeComparison>>(acs));
             _context.Alternatives.Add(_mapper.Map<IAlternativeModel, Alternative>(alternative));
             return alternative;
         }
@@ -50,7 +66,24 @@ namespace AHP.Repository
 
         public async Task<List<IAlternativeModel>> GetPageByChoiceIDAsync(Guid choiceID, int PageNumber, int PageSize = 5)
         {
-            var alternatives = await _context.Alternatives.Where(c => c.ChoiceID == choiceID).OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
+            List<Alternative> alternatives = new List<Alternative>();
+            var altCheck = _context.Alternatives.Where(c => c.ChoiceID == choiceID).FirstOrDefault();
+            if (altCheck != null)
+            {
+                if (_context.Alternatives.Where(c => c.ChoiceID == choiceID).FirstOrDefault().AlternativeScore != null)
+                {
+                    alternatives = await _context.Alternatives.Where(c => c.ChoiceID == choiceID).OrderBy(x => x.AlternativeScore).Skip((PageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
+
+                }
+                else
+                {
+                    alternatives = await _context.Alternatives.Where(c => c.ChoiceID == choiceID).OrderByDescending(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
+                }
+            }
+            else
+            {
+                alternatives = await _context.Alternatives.Where(c => c.ChoiceID == choiceID).OrderByDescending(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
+            }
             return _mapper.Map<List<Alternative>, List<IAlternativeModel>>(alternatives);
         }
 

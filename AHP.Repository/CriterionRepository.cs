@@ -1,4 +1,5 @@
 ﻿using AHP.DAL;
+using AHP.Model;
 using AHP.Model.Common;
 using AHP.Repository.Common;
 using AutoMapper;
@@ -20,8 +21,30 @@ namespace AHP.Repository
             _context = context;
             _mapper = mapper;
         }
+
         public ICriterionModel Add(ICriterionModel criterion)
         {
+            Guid critID = criterion.CriteriaID;
+            var prevCriteria = _context.Criteria.Where(c => c.ChoiceID == criterion.ChoiceID).ToList();
+            List<ICriteriaComparisonModel> ccs = new List<ICriteriaComparisonModel>();
+            foreach (var item in prevCriteria)
+            {
+                ICriteriaComparisonModel c = new CriteriaComparisonModel { CriteriaID1 = critID, CriteriaID2 = item.CriteriaID, DateCreated = DateTime.Now, DateUpdated = DateTime.Now, CriteriaRatio = 0 };
+                ccs.Add(c);
+            }
+            _context.CriteriaComparisons.AddRange(_mapper.Map<List<ICriteriaComparisonModel>, List<CriteriaComparison>>(ccs));
+            var prevAlternatives = _context.Alternatives.Where(c => c.ChoiceID == criterion.ChoiceID).OrderByDescending(x => x.DateCreated).ToArray();
+            List<IAlternativeComparisonModel> acs = new List<IAlternativeComparisonModel>();
+            int n = prevAlternatives.Length;
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = i + 1; j < n; j++)
+                {
+                    IAlternativeComparisonModel a = new AlternativeComparisonModel { CriteriaID = critID, AlternativeID1 = prevAlternatives[i].AlternativeID, AlternativeID2 = prevAlternatives[j].AlternativeID, DateCreated = DateTime.Now, DateUpdated = DateTime.Now, AlternativeRatio = 0 };
+                    acs.Add(a);
+                }
+            }
+            _context.AlternativeComparisons.AddRange(_mapper.Map<List<IAlternativeComparisonModel>, List<AlternativeComparison>>(acs));
             _context.Criteria.Add(_mapper.Map<ICriterionModel, Criterion>(criterion));
             return criterion;
         }
@@ -55,7 +78,7 @@ namespace AHP.Repository
 
         public async Task<List<ICriterionModel>> GetPageByChoiceIDAsync(Guid choiceID, int pageNumber, int pageSize = 5)
         {
-            var criteria = await _context.Criteria.Where(c => c.ChoiceID == choiceID).OrderBy(x => x.DateCreated).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+            var criteria = await _context.Criteria.Where(c => c.ChoiceID == choiceID).OrderByDescending(x => x.DateCreated).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
             return _mapper.Map<List<Criterion>, List<ICriterionModel>>(criteria);
         }
 

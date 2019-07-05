@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using AutoMapper;
+﻿using AHP.Model;
 using AHP.Model.Common;
 using AHP.Service.Common;
+using AHP.WebAPI.Models;
+using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-
+using System.Web;
+using System.Web.Mvc;
 
 namespace AHP.WebAPI.Controllers
 {
-    public class CriterionController : ApiController
+    public class CriterionController : Controller
     {
         ICriterionService _criterionService;
         IMapper _mapper;
@@ -24,47 +24,59 @@ namespace AHP.WebAPI.Controllers
             _mapper = mapper;
             _criterionService = criterionService;
         }
-        
-        public async Task<IHttpActionResult> Post(List<CriterionControllerModel> criteria)
+
+        public ActionResult Index()
         {
-            var _criteria = _mapper.Map<List<CriterionControllerModel>, List<ICriterionModel>>(criteria);
-            var status = await _criterionService.AddAsync(_criteria);
-            
-            return Ok(_mapper.Map< List < ICriterionModel > ,List<CriterionControllerModel>>(status));
+            return RedirectToAction("ListCriteria", "Criterion", new { page = Session["Page"] });
         }
 
-        public async Task<IHttpActionResult> Delete(CriterionControllerModel criterion)
+        public async Task<ActionResult> ListCriteria(int page)
         {
-            var _criterion = _mapper.Map<CriterionControllerModel, ICriterionModel>(criterion);
-            var status = await _criterionService.DeleteAsync(_criterion);
-            return Ok();
+            ViewBag.Title = "Criteria";
+            if (page < 1) { page = 1; }
+            Session["Page"] = page;
+
+            var criteria = await _criterionService.GetAsync((Guid)Session["ChoiceID"], page);
+            var _criteria = new List<CriterionMvcModel>();
+            foreach (ICriterionModel criterion in criteria)
+            {
+                _criteria.Add(new CriterionMvcModel { CriteriaID = criterion.CriteriaID, ChoiceID = criterion.ChoiceID, CriteriaName = criterion.CriteriaName, DateUpdated = (DateTime)criterion.DateUpdated });
+            }
+            if (!_criteria.Any() && page > 1)
+            {
+                Session["Page"] = page - 1;
+                return RedirectToAction("ListCriteria", "Criterion", new { page = Session["Page"] });
+            }
+
+            return View(_criteria);
         }
 
-       
-        public async Task<IHttpActionResult> Get(GetPage choice)
+        public ActionResult CreateCriterion()
         {
-      
-            var status = await _criterionService.GetAsync(choice.Id, choice.page);
-            return Ok(_mapper.Map<List<ICriterionModel>, List<CriterionControllerModel>>(status));
+            ViewBag.Title = "Create a Criterion";
+            return View();
         }
 
-
-        public async Task<IHttpActionResult> Put(CriterionControllerModel criterion)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateCriterion(CriterionMvcModel model)
         {
-            var _criterion = _mapper.Map<CriterionControllerModel, ICriterionModel>(criterion);
-            var status = await _criterionService.UpdateAsync(_criterion);
-
-            return Ok();
+            if (ModelState.IsValid)
+            {
+                ICriterionModel _criterion = new CriterionModel { ChoiceID = (Guid)Session["ChoiceID"], CriteriaName = model.CriteriaName };
+                var status = await _criterionService.AddAsync(_criterion);
+                Session["Message"] = "There are unfilled comparisons";
+                return RedirectToAction("ListCriteria", "Criterion", new { page = Session["Page"] });
+            }
+            return View();
         }
 
-
-    }
-    public class CriterionControllerModel
-    {
-        public System.Guid CriteriaID { get; set; }
-        public string CriteriaName { get; set; }
-        public Nullable<double> CriteriaScore { get; set; }
-        public System.Guid ChoiceID { get; set; }
-
+        public async Task<ActionResult> DeleteCriterion(Guid criterionID)
+        {
+            var criterion = await _criterionService.GetByIdAsync(criterionID);
+            bool b = await _criterionService.DeleteAsync(criterion);
+            return RedirectToAction("ListCriteria", "Criterion", new { page = Session["Page"] });
+        }
     }
 }
+

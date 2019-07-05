@@ -29,6 +29,7 @@ namespace AHP.Service
                 {
                     comparison.DateCreated = DateTime.Now;
                     comparison.DateUpdated = DateTime.Now;
+                    comparison.AlternativeRatio = 0;
                 }
                 comparisons = _altCompRepo.AddRange(comparisons);
                 await _altCompRepo.SaveAsync();
@@ -44,6 +45,14 @@ namespace AHP.Service
 
             return alternatives;
         }
+
+        public async Task<List<IAlternativeComparisonModel>> GetByAlternativeIdAsync(Guid alternativeId, int page = 1)
+        {
+            var alternatives = await _altCompRepo.GetByAlternativesIDAsync(alternativeId, page);
+
+            return alternatives;
+        }
+
         public async Task<List<IAlternativeComparisonModel>> UpdateAsync(List<IAlternativeComparisonModel> comparisons)
         {
             using (var uof = _unitFactory.Create())

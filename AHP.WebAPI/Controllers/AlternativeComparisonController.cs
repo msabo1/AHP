@@ -1,20 +1,20 @@
-﻿
-
-using AHP.Model.Common;
+﻿using AHP.Model.Common;
 using AHP.Service.Common;
+using AHP.WebAPI.Models;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Http;
+using System.Web;
+using System.Web.Mvc;
 
 namespace AHP.WebAPI.Controllers
 {
-    public class AlternativeComparisonController : ApiController
+    public class AlternativeComparisonController : Controller
     {
         IAlternativeComparisonService _alternativeComparisonService;
         IMapper _mapper;
-
         public AlternativeComparisonController(
             IMapper mapper,
             IAlternativeComparisonService alternativeComparisonService
@@ -24,61 +24,85 @@ namespace AHP.WebAPI.Controllers
             _alternativeComparisonService = alternativeComparisonService;
         }
 
-
-
-        public async Task<IHttpActionResult> Post(List<AlternativeComparisonControllerModel> comparisons)
+        public ActionResult Index()
         {
-            foreach(AlternativeComparisonControllerModel comparison in comparisons)
+            return RedirectToAction("ListAlternativeComparisons", "AlternativeComparison", new { page = Session["page"] });
+        }
+
+        public async Task<ActionResult> ListAlternativeComparisons(int page)
+        {
+            ViewBag.Title = "Alternative comparisons";
+            if (page < 1) { page = 1; }
+            Session["Page"] = page;
+
+            var caltcomps = await _alternativeComparisonService.GetByAlternativeIdAsync((Guid)Session["AlternativeID"], page);
+            var _caltcomps = new List<AlternativeComparisonMvcModel>();
+            Guid altID = (Guid)Session["AlternativeID"];
+            IDictionary<Guid, string> CritNames = (IDictionary<Guid, string>)Session["CriteriaNames"];
+            IDictionary<Guid, string> AltNames = (IDictionary<Guid, string>)Session["AlternativesNames"];
+
+            foreach (IAlternativeComparisonModel altcomp in caltcomps)
             {
-                if(comparison == null)
+                Guid altID1 = altcomp.AlternativeID1;
+                Guid altID2 = altcomp.AlternativeID2;
+                Guid critID = altcomp.CriteriaID;
+
+                if (altID1 == altID)
                 {
-                    return BadRequest();
+                    _caltcomps.Add(new AlternativeComparisonMvcModel { CriteriaID = altcomp.CriteriaID, CriteriaName = CritNames[critID],
+                                                                       AlternativeID1 = altID1, AlternativeName1 = AltNames[altID1],
+                                                                       AlternativeID2 = altID2, AlternativeName2 = AltNames[altID2],
+                                                                       Flipped = false, AlternativeRatio = altcomp.AlternativeRatio});
+                }
+                else
+                {
+                    _caltcomps.Add(new AlternativeComparisonMvcModel
+                    {
+                        CriteriaID = altcomp.CriteriaID,
+                        CriteriaName = CritNames[critID],
+                        AlternativeID1 = altID2,
+                        AlternativeName1 = AltNames[altID2],
+                        AlternativeID2 = altID1,
+                        AlternativeName2 = AltNames[altID1],
+                        Flipped = true,
+                        AlternativeRatio = 1 / altcomp.AlternativeRatio
+                    });
                 }
             }
-            var comparisonList = _mapper.Map<List<AlternativeComparisonControllerModel>, List<IAlternativeComparisonModel>>(comparisons);
-            var status = await _alternativeComparisonService.AddAsync(comparisonList);
-            return Ok(status);
-
-        }
-
-        public async Task<IHttpActionResult> Get(AltCompRequest request)
-        {
-            if(request == null)
+            if (!_caltcomps.Any() && page > 1)
             {
-                return BadRequest();
+                Session["Page"] = page - 1;
+                return RedirectToAction("ListAlternativeComparisons", "AlternativeComparison", new { page = Session["Page"] });
             }
-            var page = request.page;
-            var alternativeId = request.alternativeID;
-            var criteriaId = request.criteriaID;
-            var status = await _alternativeComparisonService.GetAsync(alternativeId, criteriaId, page);
 
-            return Ok(status);
+            return View(_caltcomps);
         }
 
+        //public ActionResult CreateCriterion()
+        //{
+        //    ViewBag.Title = "Create a Criterion";
+        //    return View();
+        //}
 
-        public async Task<IHttpActionResult> Put(List<AlternativeComparisonControllerModel> alternativeComps)
-        {
-            var comparisonList = _mapper.Map<List<AlternativeComparisonControllerModel>, List<IAlternativeComparisonModel>>(alternativeComps);
-            var status = await _alternativeComparisonService.UpdateAsync(comparisonList);
-            return Ok();
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> CreateCriterion(CriterionMvcModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        ICriterionModel _criterion = new CriterionModel { ChoiceID = (Guid)Session["ChoiceID"], CriteriaName = model.CriteriaName };
+        //        var status = await _criterionService.AddAsync(_criterion);
+        //        Session["Message"] = "There are unfilled comparisons";
+        //        return RedirectToAction("ListCriteria", "Criterion", new { page = Session["Page"] });
+        //    }
+        //    return View();
+        //}
 
-
-    
+        //public async Task<ActionResult> DeleteCriterion(Guid criterionID)
+        //{
+        //    var criterion = await _criterionService.GetByIdAsync(criterionID);
+        //    bool b = await _criterionService.DeleteAsync(criterion);
+        //    return RedirectToAction("ListCriteria", "Criterion", new { page = Session["Page"] });
+        //}
     }
-    public class AltCompRequest
-    {
-        public Guid criteriaID;
-        public Guid alternativeID;
-        public int page;
-    }
-
-    public class AlternativeComparisonControllerModel
-    {
-
-        public System.Guid CriteriaID { get; set; }
-        public System.Guid AlternativeID1 { get; set; }
-        public System.Guid AlternativeID2 { get; set; }
-        public double AlternativeRatio { get; set; }
-    }
-}	
+}

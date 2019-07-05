@@ -27,6 +27,7 @@ namespace AHP.Service
             alternative.AlternativeID = Guid.NewGuid();
             alternative.DateCreated = DateTime.Now;
             alternative.DateUpdated = DateTime.Now;
+            alternative.AlternativeScore = null;
 
           
             alternative = _altRepo.Add(alternative);
@@ -59,8 +60,12 @@ namespace AHP.Service
                 await _altRepo.SaveAsync();
                
                 return updatedAlternative;
-           
+        }
 
+        public async Task<IAlternativeModel> GetByIdAsync(Guid alternativeID)
+        {
+            var _alternative = await _altRepo.GetByIDAsync(alternativeID);
+            return _alternative;
         }
     }
 }

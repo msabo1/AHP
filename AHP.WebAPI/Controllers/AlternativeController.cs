@@ -1,112 +1,124 @@
-﻿using AHP.Model.Common;
+﻿using AHP.Model;
+using AHP.Model.Common;
 using AHP.Service.Common;
+using AHP.WebAPI.Models;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web.Http;
+using System.Web;
+using System.Web.Mvc;
 
 namespace AHP.WebAPI.Controllers
 {
-    public class AlternativeController : ApiController
+    public class AlternativeController : Controller
     {
         IAlternativeService _alternativeService;
+        ICriterionService _criterionService;
         IMapper _mapper;
         public AlternativeController(
             IMapper mapper,
-            IAlternativeService alternativeService
+            IAlternativeService alternativeService,
+            ICriterionService criterionService
           )
         {
             _mapper = mapper;
             _alternativeService = alternativeService;
+            _criterionService = criterionService;
         }
 
-        public async Task<IHttpActionResult> Post(AlternativeControllerModel alternative)
+        public ActionResult Index()
         {
-            if (alternative==null)
-            {
-                return BadRequest();
-            }
-
-            var _alternative = _mapper.Map<AlternativeControllerModel, IAlternativeModel>(alternative);
-            var status = await _alternativeService.AddAsync(_alternative);
-            return Ok(_mapper.Map<IAlternativeModel, AlternativeControllerModel>(status));
+            return RedirectToAction("ListAlternatives", "Alternative", new { page = Session["Page"] });
         }
 
-        public async Task<IHttpActionResult> Get(GetPage request)
+        public async Task<ActionResult> ListAlternatives(int page)
         {
-            if(request == null)
+            ViewBag.Title = "Alterntatives";
+            if (page < 1)
             {
-                return BadRequest();
+                page = 1;
             }
-            int page = request.page;
-            Guid choiceId = request.Id;
-            if (choiceId.Equals(null) || page < 1)
+            Session["Page"] = page;
+
+            var alternatives = await _alternativeService.GetAsync((Guid)Session["ChoiceID"], page);
+            var _alternatives = new List<AlternativeMvcModel>();
+            foreach (IAlternativeModel alternative in alternatives)
             {
-                return BadRequest();
+                _alternatives.Add(new AlternativeMvcModel { AlternativeID = alternative.AlternativeID, ChoiceID = alternative.ChoiceID, AlternativeName = alternative.AlternativeName, DateUpdated = (DateTime)alternative.DateUpdated });
+            }
+            if (!_alternatives.Any() && page > 1)
+            {
+                Session["Page"] = page - 1;
+                return RedirectToAction("ListAlternatives", "Alternative", new { page = Session["Page"] });
             }
 
-            var status = await _alternativeService.GetAsync(choiceId, page);
-            if (status.Any())
-            {
-                return Ok(_mapper.Map<List<IAlternativeModel>, List<AlternativeControllerModel>>(status));
-            }
-            else
-            {
-                return BadRequest();
-            }
+            return View(_alternatives);
         }
 
-
-        public async Task<IHttpActionResult> Put(AlternativeControllerModel alternative)
+        public ActionResult CreateAlternative()
         {
-            if (alternative==null)
-            {
-                return BadRequest();
-            }
-
-            var _alternative = _mapper.Map<AlternativeControllerModel, IAlternativeModel>(alternative);
-            var status = await _alternativeService.UpdateAsync(_alternative);
-            return Ok(status);
+            ViewBag.Title = "Create an Alternative";
+            return View();
         }
 
-
-        public async Task<IHttpActionResult> Delete(AlternativeControllerModel alternative)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateAlternative(AlternativeMvcModel model)
         {
-            if (alternative == null)
+            if (ModelState.IsValid)
             {
-                return BadRequest();
+                IAlternativeModel _alternative = new AlternativeModel { ChoiceID = (Guid)Session["ChoiceID"], AlternativeName = model.AlternativeName };
+                var status = await _alternativeService.AddAsync(_alternative);
+                Session["Message"] = "There are unfilled comparisons";
+                return RedirectToAction("ListAlternatives", "Alternative", new { page = Session["Page"] });
             }
-
-            var _alternative = _mapper.Map<AlternativeControllerModel, IAlternativeModel>(alternative);
-            var status = await _alternativeService.DeleteAsync(_alternative);
-            if (status)
-            {
-                return Ok(status);
-            }
-            else
-            {
-                return BadRequest();
-            }
+            return View();
         }
 
-
-    }
-    public class GetPage{
-        public Guid Id;
-        public int page;
+        public async Task<ActionResult> DeleteAlternative(Guid alternativeID)
+        {
+            var alternative = await _alternativeService.GetByIdAsync(alternativeID);
+            bool b = await _alternativeService.DeleteAsync(alternative);
+            return RedirectToAction("ListAlternatives", "Alternative", new { page = Session["Page"] });
         }
-    public class AlternativeControllerModel
-    {
-        public ICollection<IAlternativeComparisonModel> AlternativeComparisons1 { get; set; }
-        public ICollection<IAlternativeComparisonModel> AlternativeComparisons2 { get; set; }
-        public System.Guid AlternativeID { get; set; }
-        public string AlternativeName { get; set; }
-        public Nullable<double> AlternativeScore { get; set; }
-        public System.Guid ChoiceID { get; set; }
+
+        public async Task<ActionResult> EditAlternative(Guid alternativeid)
+        {
+            var alternatives = new List<IAlternativeModel>();
+            int page = 1;
+            IDictionary<Guid, string> Names = new Dictionary<Guid, string>(10);
+            do
+            {
+                alternatives = await _alternativeService.GetAsync((Guid)Session["ChoiceID"], page);
+                page += 1;
+                foreach (var alt in alternatives)
+                {
+                    Names.Add(alt.AlternativeID, alt.AlternativeName);
+                }
+            } while (alternatives.Count != 0);
+            Session["AlternativesNames"] = Names;
+            var criteria = new List<ICriterionModel>();
+            page = 1;
+            IDictionary<Guid, string> CritNames = new Dictionary<Guid, string>(10);
+            do
+            {
+                criteria = await _criterionService.GetAsync((Guid)Session["ChoiceID"], page);
+                page++;
+                foreach (var crit in criteria)
+                {
+                    CritNames.Add(crit.CriteriaID, crit.CriteriaName);
+                }
+            } while (alternatives.Count != 0);
+            Session["CriteriaNames"] = CritNames;
+            ViewBag.Title = "Edit an Alternative";
+            var alternative = await _alternativeService.GetByIdAsync(alternativeid);
+            Session["AlternativeName"] = alternative.AlternativeName;
+            Session["AlternativeID"] = alternativeid;
+            Session["Page"] = 1;
+            return RedirectToAction("ListAlternativeComparisons", "AlternativeComparison", new { page = Session["page"] });
+        }
+
     }
 }
-

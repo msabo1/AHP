@@ -55,7 +55,7 @@ namespace AHP.Repository
             return true;
         }
 
-        public async Task<List<ICriteriaComparisonModel>> GetPageByCriterionIDAsync(Guid criteriaID,  int PageNumber, int PageSize = 5)
+        public async Task<List<ICriteriaComparisonModel>> GetPageByCriterionIDAsync(Guid criteriaID,  int PageNumber, int PageSize = 10)
         {
             var ccs = await _context.CriteriaComparisons.Where(cc => cc.CriteriaID1 == criteriaID || cc.CriteriaID2 == criteriaID).OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
             return _mapper.Map<List<CriteriaComparison>, List<ICriteriaComparisonModel>>(ccs);
@@ -77,6 +77,18 @@ namespace AHP.Repository
         public async Task<int> SaveAsync()
         {
             return await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<ICriteriaComparisonModel>> GetUnfilledAsync(Guid choiceID, int PageSize = 10)
+        {
+            var criteriaFromChoice = await _context.Criteria.Where(c => c.ChoiceID == choiceID).ToListAsync();
+            List<Guid> criteriaIDs = new List<Guid>();
+            foreach (var item in criteriaFromChoice)
+            {
+                criteriaIDs.Add(item.CriteriaID);
+            }
+            var ccs = await _context.CriteriaComparisons.Where(cc => criteriaIDs.Contains(cc.CriteriaID1) && cc.CriteriaRatio != 0).OrderBy(x => x.DateCreated).Take(PageSize).ToListAsync();
+            return _mapper.Map<List<CriteriaComparison>, List<ICriteriaComparisonModel>>(ccs);
         }
     }
 }
