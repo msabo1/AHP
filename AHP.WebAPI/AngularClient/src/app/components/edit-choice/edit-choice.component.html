@@ -35,7 +35,14 @@
           <th scope="col">Criterion Name</th>
         </tr>
       </thead>
-      <tbody id="CriteriaTableRows"></tbody>
+      <tbody id="CriteriaTableRows">
+        <tr *ngFor="let criterion of criteria; let i = index">
+          <th scope="row">{{i+1}}</th>
+          <td>
+            <button type="button" class="btn btn-primary btn-block w-50 mr-2 float-right">{{criterion['CriteriaName']}}</button>
+          </td>
+        </tr>
+      </tbody>
     </table>
   </div>
 
@@ -46,6 +53,13 @@
   </div>
 
   <div class="container" id="CriteriaContainer">
+    <div class="row text-center" *ngFor="let comparison of criteriaComparisons">
+      <div class="col mt-4">
+        <span class="mr-5 mb-1" style="color: dodgerblue; font-weight: bold">{{findCriterionName(comparison['CriteriaID1'])}}</span>
+        <input type="range" class="custom-range mt-3" min="-9" max="9" step="1" style="width: 50%" value="{{setSliderValue(comparison['CriteriaRatio'])}}">
+        <span class="ml-5" style="color: dodgerblue; font-weight: bold">{{findCriterionName(comparison['CriteriaID2'])}}</span>
+      </div>
+    </div>
   </div>
 
   <div class="row text-center mt-5">
@@ -74,7 +88,14 @@
           <th scope="col">Alternative Name</th>
         </tr>
       </thead>
-      <tbody id="AlternativeTableRows"></tbody>
+      <tbody id="AlternativeTableRows">
+        <tr *ngFor="let alternative of alternatives; let i = index">
+          <th scope="row">{{i+1}}</th>
+          <td>
+            {{alternative['AlternativeName']}}
+          </td>
+        </tr>
+      </tbody>
     </table>
   </div>
 
@@ -91,7 +112,9 @@
   </div>
 
   <div class="row justify-content-center" id="CriteriaButtons">
-
+    <div class="fit" *ngFor="let criterion of criteria">
+      <button type="button" class="btn btn-primary mr-2">{{criterion['CriteriaName']}}</button>
+    </div>
   </div>
 
   <div class="container" id="AlternativeContainer">

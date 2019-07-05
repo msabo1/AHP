@@ -24,7 +24,6 @@ export class LoginComponent implements OnInit {
     let value: any = this.LoginForm.value;
     this.userService.login(value).subscribe(data => {
       window.localStorage['UserID'] = data["UserID"];
-      //console.log(window.localStorage['UserID']);
     });
   }
 }

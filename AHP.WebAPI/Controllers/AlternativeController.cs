@@ -36,28 +36,13 @@ namespace AHP.WebAPI.Controllers
             return Ok(_mapper.Map<IAlternativeModel, AlternativeControllerModel>(status));
         }
 
-        public async Task<IHttpActionResult> Get(GetPage request)
+        [HttpGet]
+        [Route("api/alternative/get/{ID}/{page}")]
+        public async Task<IHttpActionResult> Get(Guid ID, int page)
         {
-            if(request == null)
-            {
-                return BadRequest();
-            }
-            int page = request.page;
-            Guid choiceId = request.Id;
-            if (choiceId.Equals(null) || page < 1)
-            {
-                return BadRequest();
-            }
-
-            var status = await _alternativeService.GetAsync(choiceId, page);
-            if (status.Any())
-            {
-                return Ok(_mapper.Map<List<IAlternativeModel>, List<AlternativeControllerModel>>(status));
-            }
-            else
-            {
-                return BadRequest();
-            }
+            var status = await _alternativeService.GetAsync(ID, page);
+            return Ok(_mapper.Map<List<IAlternativeModel>, List<AlternativeControllerModel>>(status));
+  
         }
 
 

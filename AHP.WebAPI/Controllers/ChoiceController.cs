@@ -46,15 +46,15 @@ namespace AHP.WebAPI.Controllers
                 return NotFound();
             }
         }
-        [HttpPost]
-        [Route("api/choice/get")]
-        public async Task<IHttpActionResult> GetChoice(ChoiceRequest request)
+        [HttpGet]
+        [Route("api/choice/get/{ID}/{page}")]
+        public async Task<IHttpActionResult> GetChoice(Guid ID, int page)
         {
-            if (request == null)
+            if (ID == null || page==0)
             {
                 return BadRequest();
             }
-            var status = await _choiceService.GetAsync(request.userId, request.page);
+            var status = await _choiceService.GetAsync(ID, page);
 
             if (status.Any())
             {

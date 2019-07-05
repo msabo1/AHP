@@ -42,24 +42,19 @@ namespace AHP.WebAPI.Controllers
             return Ok(_mapper.Map<List<ICriteriaComparisonModel>, List<CriteriaComparisonControllerModel>>(status));
         }
 
-        public async Task<IHttpActionResult> Get(CritCompGetModel request)
+        [HttpGet]
+        [Route("api/criteriaComparison/get/{ID}/{page}")]
+        public async Task<IHttpActionResult> Get(Guid ID, int page)
         {
-            int page = request.page;
-            Guid criteriaId = request.Id;
-            if (criteriaId == null || page < 1)
+            if (ID == null || page < 1)
             {
                 return BadRequest();
             }
 
-            var status = await _criteriaComparisonService.GetAsync(criteriaId, page);
-            if (status.Any())
-            {
-                return Ok(_mapper.Map<List<ICriteriaComparisonModel>, List<CriteriaComparisonControllerModel>>(status));
-            }
-            else
-            {
-                return BadRequest();
-            }
+            var status = await _criteriaComparisonService.GetAsync(ID, page);
+            
+            return Ok(_mapper.Map<List<ICriteriaComparisonModel>, List<CriteriaComparisonControllerModel>>(status));
+            
         }
 
         public async Task<IHttpActionResult> Put(List<CriteriaComparisonControllerModel> criteriaComparisons)

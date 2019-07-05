@@ -24,7 +24,5 @@ export class ChoicesComponent implements OnInit {
 
   onClick(choice: Choice) {
     localStorage.setItem('choice', JSON.stringify(choice));
-    //window.localStorage['choice'] = choice;
-
   }
 }

@@ -40,11 +40,12 @@ namespace AHP.WebAPI.Controllers
             return Ok();
         }
 
-       
-        public async Task<IHttpActionResult> Get(GetPage choice)
+        [HttpGet]
+        [Route("api/criterion/get/{ID}/{page}")]
+        public async Task<IHttpActionResult> Get(Guid ID, int page)
         {
       
-            var status = await _criterionService.GetAsync(choice.Id, choice.page);
+            var status = await _criterionService.GetAsync(ID, page);
             return Ok(_mapper.Map<List<ICriterionModel>, List<CriterionControllerModel>>(status));
         }
 

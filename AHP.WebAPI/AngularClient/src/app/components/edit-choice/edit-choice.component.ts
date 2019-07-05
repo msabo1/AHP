@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
-import { Choice } from '../../classes/choice';
+import { UserService } from 'src/app/services/user.service';
+import { ChoiceRequest } from '../../classes/choice-request';
 
 @Component({
   selector: 'app-edit-choice',
@@ -9,17 +10,49 @@ import { Choice } from '../../classes/choice';
 })
 export class EditChoiceComponent implements OnInit {
 
-  constructor() {}
-  choiceS = JSON.parse(localStorage.getItem('choice'));
+  constructor(private userService: UserService) {}
+  choice = window.localStorage['choice'];
+  choiceName = JSON.parse(this.choice)['ChoiceName'];
+  choiceID = JSON.parse(this.choice)['ChoiceID'];
+
+  public criteriaRequest = new ChoiceRequest(this.choiceID, 1);
+
+  criteria: any;
+  alternatives: any;
+  criteriaComparisons: any;
 
   ngOnInit() {
-    console.log(this.choiceS);
-    var add = "<h1>" + this.choiceS['ChoiceName'] + "</h1>";
+    var add = "<h1>" + this.choiceName + "</h1>";
     $("#ShowChoiceName").text("");
     $("#ShowChoiceName").append(add);
-    //
-    //for (let i = 0, i < this.choiceS['Criteria'].length; i++) {
-     // var addCriterion = "<tr><th scope = 'row'>" + i + "</th><td>" + this.choiceS['Criteria'] + "</td></tr>";
-    //}
+    
+    this.userService.getCriteria(this.criteriaRequest).subscribe(data => {
+      this.criteria = data;
+
+      window.localStorage['criteria'] = JSON.stringify(this.criteria);
+
+      for (let i = 0; i < Object.keys(this.criteria).length; i++) {
+        let criteriaComparisonRequest = new ChoiceRequest(JSON.parse(window.localStorage['criteria'])[i]['CriteriaID'], 1);
+        this.userService.getCriteriaComparison(criteriaComparisonRequest).subscribe(data => {
+          this.criteriaComparisons = data;
+          console.log(this.criteriaComparisons);
+        });
+      }
+
+        this.userService.getAlternatives(this.criteriaRequest).subscribe(data => {
+          this.alternatives = data;
+        });
+    });
+  }
+
+  findCriterionName(id: String) {
+    for (let criterion of this.criteria) {
+      if (criterion['CriteriaID'] == id) return criterion['CriteriaName'];
+    }
+  }
+
+  setSliderValue(value: number) {
+    if (value < 1) return (-1 / value);
+    else return value;
   }
 }

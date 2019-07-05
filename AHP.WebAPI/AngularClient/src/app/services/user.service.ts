@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { tap, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
@@ -18,6 +18,10 @@ export class UserService {
 
   private userUrl = '/api/user';
   private choiceUrl = '/api/choice';
+  private criterionUrl = '/api/criterion';
+  private alternativeUrl = '/api/alternative';
+  private criteriaComparisonUrl = '/api/criteriaComparison';
+
   public user: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   public choiceRequest: BehaviorSubject<ChoiceRequest> = new BehaviorSubject<ChoiceRequest>(null);
 
@@ -37,7 +41,20 @@ export class UserService {
        )
      );
   }
+
   getChoices(choiceRequest: ChoiceRequest): Observable<ChoiceRequest> {
-    return this.http.post<ChoiceRequest>(this.choiceUrl + '/get/', choiceRequest);
+    return this.http.get<ChoiceRequest>(this.choiceUrl + '/get/' + choiceRequest['userId'] + "/1");
+  }
+
+  getCriteria(criteriaRequest: ChoiceRequest): Observable<ChoiceRequest> {
+    return this.http.get<ChoiceRequest>(this.criterionUrl + '/get/' + criteriaRequest['userId'] + "/1");
+  }
+
+  getAlternatives(alternativeRequest: ChoiceRequest): Observable<ChoiceRequest> {
+    return this.http.get<ChoiceRequest>(this.alternativeUrl + '/get/' + alternativeRequest['userId'] + "/1");
+  }
+
+  getCriteriaComparison(criteriaComparisonRequest: ChoiceRequest): Observable<ChoiceRequest> {
+    return this.http.get<ChoiceRequest>(this.criteriaComparisonUrl + '/get/' + criteriaComparisonRequest['userId'] + "/1");
   }
 }
