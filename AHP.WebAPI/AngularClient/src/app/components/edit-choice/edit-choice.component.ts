@@ -30,12 +30,18 @@ export class EditChoiceComponent implements OnInit {
       this.criteria = data;
 
       window.localStorage['criteria'] = JSON.stringify(this.criteria);
+      console.log(this.criteria);
 
+      let requestList: ChoiceRequest[] = [];
+      //let criteriaComparisonList: any[] = [];
+      
       for (let i = 0; i < Object.keys(this.criteria).length; i++) {
         let criteriaComparisonRequest = new ChoiceRequest(JSON.parse(window.localStorage['criteria'])[i]['CriteriaID'], 1);
+        requestList.push(criteriaComparisonRequest);
         this.userService.getCriteriaComparison(criteriaComparisonRequest).subscribe(data => {
+          //criteriaComparisonList[i]=data;
+          //console.log(criteriaComparisonList[i]);
           this.criteriaComparisons = data;
-          console.log(this.criteriaComparisons);
         });
       }
 
@@ -54,5 +60,10 @@ export class EditChoiceComponent implements OnInit {
   setSliderValue(value: number) {
     if (value < 1) return (-1 / value);
     else return value;
+  }
+
+  toggleCriteriaComparisons(i: number) {
+    if ($("#sliderContainer" + i).is(":visible")) $("#sliderContainer" + i).hide();
+    else $("#sliderContainer" + i).show();
   }
 }

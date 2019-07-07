@@ -17,8 +17,12 @@ export class ChoicesComponent implements OnInit {
   choices: any;
 
   ngOnInit() {
+    $("#chooseChoicesText").hide()
+
     this.userService.getChoices(this.choiceRequest).subscribe(data => {
       this.choices = data;
+      $("#noChoicesText").hide()
+      $("#chooseChoicesText").show()
     });
   }
 

@@ -29,7 +29,13 @@ export class UserService {
   }
 
   register(user: User): Observable<User> {
-    return this.http.post<User>(this.userUrl+'/register', user);
+    return this.http.post<User>(this.userUrl + '/register', user)
+      .pipe(
+        tap(() => {
+          this.router.navigate(['login']);
+        }
+        )
+      );
   }
 
   login(user: User): Observable<User> {
@@ -40,6 +46,25 @@ export class UserService {
         }
        )
      );
+  }
+
+  isLoggedIn() {
+    if (localStorage['loggedIn']=='true') {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  logout() {
+    localStorage.setItem('loggedIn', 'false');
+    localStorage.removeItem('userName');
+    this.router.navigate(['login']);
+  }
+
+  createChoice(choice: Choice): Observable<Choice> {
+    return this.http.post<Choice>(this.choiceUrl + '/postChoice', choice);
   }
 
   getChoices(choiceRequest: ChoiceRequest): Observable<ChoiceRequest> {
@@ -53,7 +78,7 @@ export class UserService {
   getAlternatives(alternativeRequest: ChoiceRequest): Observable<ChoiceRequest> {
     return this.http.get<ChoiceRequest>(this.alternativeUrl + '/get/' + alternativeRequest['userId'] + "/1");
   }
-
+  
   getCriteriaComparison(criteriaComparisonRequest: ChoiceRequest): Observable<ChoiceRequest> {
     return this.http.get<ChoiceRequest>(this.criteriaComparisonUrl + '/get/' + criteriaComparisonRequest['userId'] + "/1");
   }

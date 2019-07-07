@@ -1,16 +1,26 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
   <a class="navbar-brand" href="#">AHP Calculator</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto"></ul>
+    <ul class="navbar-nav ml-auto mr-auto">
+      <li class="nav-item" *ngIf="userService.isLoggedIn()">
+        <a class="nav-link" style="color: white; font-weight:600">Logged in as:  {{getUserName()}}</a>
+      </li>
+    </ul>
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
+      <li class="nav-item toggle" *ngIf="userService.isLoggedIn()">
+        <a class="nav-link" href="#" style="color: white" routerLink="/choices" routerLinkActive="active">Your Choices</a>
+      </li>
+      <li class="nav-item" *ngIf="userService.isLoggedIn()">
+        <a class="nav-link" href="#" style="color: white" (click)="userService.logout()">Log Out</a>
+      </li>
+      <li class="nav-item" *ngIf="!(userService.isLoggedIn())">
         <a class="nav-link" href="#" style="color: white" routerLink="/login" routerLinkActive="active">Log In</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="!(userService.isLoggedIn())">
         <a class="nav-link" href="#" style="color: white" routerLink="/register" routerLinkActive="active">Register</a>
       </li>
     </ul>

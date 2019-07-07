@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <div class="input-group mb-3 mt-5">
+      <div class="input-group mb-3 mt-4">
         <input type="text" class="form-control" placeholder="What is the name of your choice?" id="ChoiceNameInput" autofocus>
         <div class="input-group-append">
           <button type="button" class="btn btn-primary" id="SetChoiceName">   Set Name   </button>
@@ -27,51 +27,54 @@
     </div>
   </div>
 
-  <div class="row ml-auto mr-auto mt-5 text-center">
+  <div class="row ml-auto mr-auto mt-1 text-center">
     <table class="table" id="CriteriaTable">
       <thead class="thead-dark">
         <tr>
           <th scope="col">Criterion No.</th>
           <th scope="col">Criterion Name</th>
+          <th scope="col">Your Preferences</th>
         </tr>
       </thead>
       <tbody id="CriteriaTableRows">
         <tr *ngFor="let criterion of criteria; let i = index">
           <th scope="row">{{i+1}}</th>
           <td>
-            <button type="button" class="btn btn-primary btn-block w-50 mr-2 float-right">{{criterion['CriteriaName']}}</button>
+            {{criterion['CriteriaName']}}
+          </td>
+          <td>
+            <button type="button" class="btn btn-primary" id="CriteriaEditButton{{i+1}}" (click)="toggleCriteriaComparisons(i+1)">Edit</button> <!--treba mi val = brojac?-->
           </td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <div class="row text-center mt-3">
+  <div class="row text-center mt-1">
     <div class="col">
-      <button type="button" class="btn btn-primary" id="RemoveLastCriterion">Remove Last Criterion</button>
+      <button type="button" class="btn btn-danger float-left" id="RemoveLastCriterion">Remove Last Criterion</button>
+    </div>
+    <div class="col">
+      <button type="button" class="btn btn-primary float-right" id="CalculateCriteriaScores">Calculate Criteria Scores // Next Step</button>
     </div>
   </div>
 
   <div class="container" id="CriteriaContainer">
-    <div class="row text-center" *ngFor="let comparison of criteriaComparisons">
-      <div class="col mt-4">
-        <span class="mr-5 mb-1" style="color: dodgerblue; font-weight: bold">{{findCriterionName(comparison['CriteriaID1'])}}</span>
-        <input type="range" class="custom-range mt-3" min="-9" max="9" step="1" style="width: 50%" value="{{setSliderValue(comparison['CriteriaRatio'])}}">
-        <span class="ml-5" style="color: dodgerblue; font-weight: bold">{{findCriterionName(comparison['CriteriaID2'])}}</span>
+    <div class="sliderContainer" id="sliderContainer{{i+1}}" *ngFor="let criterion of criteria; let i = index" style="display:none">
+      <div class="row text-center" *ngFor="let comparison of criteriaComparisons">
+        <div class="col mt-4">
+          <span class="mr-5 mb-1" style="color: dodgerblue; font-weight: bold">{{findCriterionName(comparison['CriteriaID1'])}}</span>
+          <input type="range" class="custom-range mt-3" min="-9" max="9" step="1" style="width: 50%" value="{{setSliderValue(comparison['CriteriaRatio'])}}">
+          <span class="ml-5" style="color: dodgerblue; font-weight: bold">{{findCriterionName(comparison['CriteriaID2'])}}</span>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="row text-center mt-5">
-    <div class="col">
-      <button type="button" class="btn btn-primary" id="CalculateCriteriaScores">Calculate Criteria Scores // Next Step</button>
-    </div>
-  </div>
-
   <!--Alternatives-->
-  <div class="row" id="AlternativeRow">
+  <div class="row mt-5" id="AlternativeRow">
     <div class="col">
-      <div class="input-group mb-3 mt-5">
+      <div class="input-group mt-5">
         <input type="text" class="form-control" placeholder="What is the name of your alternative?" id="AlternativeNameInput">
         <div class="input-group-append">
           <button type="button" class="btn btn-primary" id="SetAlternativeName">Add Alternative</button>
@@ -80,7 +83,7 @@
     </div>
   </div>
 
-  <div class="row ml-auto mr-auto mt-5 text-center">
+  <div class="row ml-auto mr-auto mt-4 text-center">
     <table class="table" id="AlternativeTable">
       <thead class="thead-dark">
         <tr>
@@ -99,15 +102,15 @@
     </table>
   </div>
 
-  <div class="row text-center mt-5">
+  <div class="row text-center mt-1">
     <div class="col">
-      <button type="button" class="btn btn-primary" id="RemoveLastAlternative">Remove Last Alternative</button>
+      <button type="button" class="btn btn-danger float-left" id="RemoveLastAlternative">Remove Last Alternative</button>
     </div>
   </div>
 
   <div class="row mt-5 mb-2">
     <div class="col">
-      <h4 id="AlternativeComparisonHelp">   Click on a criterion to compare your alternatives by it: </h4>
+      <h4 id="AlternativeComparisonHelp">Click on a criterion to compare your alternatives by it: </h4>
     </div>
   </div>
 

@@ -27,7 +27,8 @@ namespace AHP.WebAPI.Controllers
             _choiceService = choiceService;
         }
 
-
+        [HttpPost]
+        [Route("api/choice/postChoice")]
         public async Task<IHttpActionResult> Post(ChoiceControllerModel choice)
         {
             if (choice == null)

@@ -39,7 +39,9 @@ export class HomeComponent implements OnInit {
 
     $("#SetChoiceName").click(function () {
       var name = $("#ChoiceNameInput").val();
-      console.log("Send choiceName: "+name+" to server.");  ///////////////
+
+      window.localStorage['choiceName'] = name;
+      //console.log(window.localStorage['choiceName']);
 
       var add = "<h1>" + name + "</h1>";
       $("#ShowChoiceName").text("");
@@ -49,10 +51,8 @@ export class HomeComponent implements OnInit {
     $("#SetCriterionName").click(function () {
       var name = $("#CriterionNameInput").val();
 
-      console.log("Send criterionName: " + name + " to server."); /////////////
-
       criteriaCounter = criteriaCounter + 1;
-      var addCriterion = "<tr><th scope = 'row'>" + criteriaCounter + "</th><td>" + name + "</td></tr>";
+      var addCriterion = "<tr><th scope = 'row'>" + criteriaCounter + "</th><td>" + name + "</td><td><button type='button' class='btn btn-primary' val='"+criteriaCounter+"' id='CriteriaEditButton" + criteriaCounter + "'>Edit</button></td></tr>";
       $("#CriteriaTableRows").append(addCriterion);
 
       $("#RemoveLastCriterion").show();
@@ -61,16 +61,34 @@ export class HomeComponent implements OnInit {
       if (criteriaCounter > 1) $("#CalculateCriteriaScores").show();
 
       criteriaList.push(name.toString());
-
+      /*
       for (var criterion = 0; criterion < criteriaList.length - 1; criterion++) {
         var addComparison = "<div class='row text-center'><div class='col mt-4'><span class='mr-5 mb-1' style='color: dodgerblue; font-weight: bold'>" + name + "</span><input type='range' class='custom-range mt-3' min ='-9' max ='9' step ='1' style='width: 50%'><span class='ml-5' style='color: dodgerblue; font-weight: bold'>" + criteriaList[criterion] + "</span></div></div>";
         $("#CriteriaContainer").append(addComparison);
         $("#CriteriaContainer").find('input').addClass("criteriaSliderID");
       }
+      */
+      var sliderContainer = "<div class='container sliderContainer' id='sliderContainer" + criteriaCounter + "'></div>"
+      $("#CriteriaContainer").append(sliderContainer);
+      $("#sliderContainer" + criteriaCounter).hide();
 
-      var addCriterionRow = "<div class='row mt-5'><div class='col'><h4>Compare the alternatives by criterion: " + criteriaList[criteriaCounter - 1] + "</h4></div></div>";
+      $(".sliderContainer").each(function (i) {
+        $(this).html("");
+        for (var criterion = 0; criterion < criteriaList.length; criterion++) {
+            if (criteriaList[criterion] != criteriaList[i]) {
+            var slider = "<div class='row text-center'><div class='col mt-4'><span class='mr-5 mb-1' style='color: dodgerblue; font-weight: bold'>" + criteriaList[i] + "</span><input type='range' class='custom-range mt-3' min ='-9' max ='9' step ='1' style='width: 50%'><span class='ml-5' style='color: dodgerblue; font-weight: bold'>" + criteriaList[criterion] + "</span></div></div>";
+              $(this).append(slider);
+            }
+           }
+      })
+      
+      $("#CriteriaEditButton" + criteriaCounter).on('click', function () {
+        if ($("#sliderContainer" + $(this).attr('val')).is(":visible")) $("#sliderContainer" + $(this).attr('val')).hide();
+        else $("#sliderContainer" + $(this).attr('val')).show();
+      });
+
+      var addCriterionRow = "<div class='row mt-5'><div class='col'><h5>Compare the alternatives by criterion: " + criteriaList[criteriaCounter - 1] + "</h4></div></div>";
       $("#AlternativeContainer").append(addCriterionRow);
-
 
       var criterionRowID = "CriterionRowID" + (criteriaCounter - 1).toString();
       $("#AlternativeContainer").children().last().attr("id", criterionRowID);
@@ -233,5 +251,9 @@ export class HomeComponent implements OnInit {
       let FinalScore = Calc.CalculateFinalScore(AlternativeComparisonMatrix, CriteriaWeight);
       console.log(FinalScore);
     });
+  }
+
+  showSliders() {
+    console.log("nesto");
   }
 }
