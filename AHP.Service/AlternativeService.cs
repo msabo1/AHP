@@ -35,24 +35,23 @@ namespace AHP.Service
             alternative.DateCreated = DateTime.Now;
             alternative.DateUpdated = DateTime.Now;
             
-
             var allCriteria = await _critRepo.GetByChoiceIDAsync(alternative.ChoiceID);
             var allAlternatives = await _altRepo.GetByChoiceIDAsync(alternative.ChoiceID);
             List<IAlternativeComparisonModel> acs = new List<IAlternativeComparisonModel>();
             
             foreach (var criterion in allCriteria)
             {
-                IAlternativeComparisonModel altComp = new AlternativeComparisonModel();
                 foreach (var alternative1 in allAlternatives)
                 {
+                    IAlternativeComparisonModel altComp = new AlternativeComparisonModel();
                     altComp.AlternativeID1 = alternative.AlternativeID;
                     altComp.AlternativeID2 = alternative1.AlternativeID;
                     altComp.CriteriaID = criterion.CriteriaID;
                     altComp.DateCreated = DateTime.Now;
                     altComp.DateUpdated = DateTime.Now;
-                    altComp.AlternativeRatio = 1;           
+                    altComp.AlternativeRatio = 1;
+                    acs.Add(altComp);
                 }
-                acs.Add(altComp);
             }
             using (var uof = _unitOfWorkFactory.Create())
             {
