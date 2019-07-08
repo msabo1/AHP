@@ -8,8 +8,9 @@
     <div class="col">
       <div class="card">
         <div class="card-body">
-          {{ comparison.CiteriaID2 }}
-          <form class="mr-2"(ngSubmit)="Edit(criterion)" [formGroup]="EditForm">
+          {{ comparison.CriteriaName2 }}
+          
+          <form class="mr-2" (ngSubmit)="Edit(criterion)" [formGroup]="EditForm">
             <input type="text" formControlName="ratio" value="{{ comparison.CriteriaRatio }}" />
             <input type="submit" name="save" value="Save" class="btn-xs btn-success">
           </form>
