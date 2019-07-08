@@ -41,13 +41,13 @@ namespace AHP.WebAPI.Controllers
 
         }
         [Route("api/alternativecomparison/{criteriaID}/{page}")]
-        public async Task<IHttpActionResult> Get(Guid criteriaID, Guid alternativeID, int page)
+        public async Task<IHttpActionResult> Get(Guid criteriaID, int page)
         {
-            if(criteriaID == null || alternativeID == null || page < 1)
+            if(criteriaID == null|| page < 1)
             {
                 return BadRequest();
             }
-            var status = await _alternativeComparisonService.GetAsync(alternativeID, criteriaID, page);
+            var status = await _alternativeComparisonService.GetAsync(criteriaID, page);
 
             return Ok(status);
         }

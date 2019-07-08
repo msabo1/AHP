@@ -71,9 +71,9 @@ namespace AHP.Service
             }
             using (var uof = _unitFactory.Create())
             {
+                criterion = _critRepo.Add(criterion);
                 _critCompRepo.AddRange(ccs);
                 _altCompRepo.AddRange(acs);
-                criterion = _critRepo.Add(criterion);
                 await _critRepo.SaveAsync();
                 await _critCompRepo.SaveAsync();
                 await _altCompRepo.SaveAsync();
