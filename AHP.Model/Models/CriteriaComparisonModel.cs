@@ -14,5 +14,7 @@ namespace AHP.Model
         public double CriteriaRatio { get; set; }
         public System.DateTime DateCreated { get; set; }
         public Nullable<System.DateTime> DateUpdated { get; set; }
+        public string CriteriaName1 { get; set; }
+        public string CriteriaName2 { get; set; }
     }
 }

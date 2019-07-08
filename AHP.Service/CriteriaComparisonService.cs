@@ -12,9 +12,12 @@ namespace AHP.Service
     class CriteriaComparisonService: ICriteriaComparisonService
     {
         ICriteriaComparisonRepository _criteriaComparisonRepository;
+        ICriterionRepository _criterionRepository;
         IUnitOfWorkFactory _unitOfWorkFactory;
-        public CriteriaComparisonService(ICriteriaComparisonRepository criteriaComparisonRepository, IUnitOfWorkFactory unitOfWorkFactory)
+        public CriteriaComparisonService(ICriteriaComparisonRepository criteriaComparisonRepository, IUnitOfWorkFactory unitOfWorkFactory, ICriterionRepository criterionRepository)
         {
+            _criterionRepository = criterionRepository;
+
             _criteriaComparisonRepository = criteriaComparisonRepository;
             _unitOfWorkFactory = unitOfWorkFactory;
         }
@@ -33,8 +36,13 @@ namespace AHP.Service
 
         public async Task<List<ICriteriaComparisonModel>> GetByCriteriaAsync(Guid choiceId, int page)
         {
-
-            return await _criteriaComparisonRepository.GetPageByCriterionIDAsync(choiceId, page);
+            var comparisons = await _criteriaComparisonRepository.GetPageByCriterionIDAsync(choiceId, page);
+            foreach (var comparison in comparisons)
+            {
+                comparison.CriteriaName1 = (await _criterionRepository.GetByIDAsync(comparison.CriteriaID1)).CriteriaName;
+                comparison.CriteriaName2 = (await _criterionRepository.GetByIDAsync(comparison.CriteriaID2)).CriteriaName;
+            }
+            return comparisons;
         }
 
 

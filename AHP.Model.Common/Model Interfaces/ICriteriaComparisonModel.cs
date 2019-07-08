@@ -9,5 +9,7 @@ namespace AHP.Model.Common
         double CriteriaRatio { get; set; }
         DateTime DateCreated { get; set; }
         DateTime? DateUpdated { get; set; }
+        string CriteriaName1 { get; set; }
+        string CriteriaName2 { get; set; }
     }
 }

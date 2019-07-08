@@ -12,13 +12,16 @@ namespace AHP.Service
     class AlternativeComparisonService : IAlternativeComparisonService
     {
         IAlternativeComparisonRepository _altCompRepo;
+        IAlternativeRepository _alternativeRepo;
         IUnitOfWorkFactory _unitFactory;
         public AlternativeComparisonService(
             IAlternativeComparisonRepository altCompRepo,
+            IAlternativeRepository alternativeRepo,
             IUnitOfWorkFactory unitOfWorkFactory
             )
         {
             _altCompRepo = altCompRepo;
+            _alternativeRepo = alternativeRepo;
             _unitFactory = unitOfWorkFactory;
         }
 
@@ -41,6 +44,11 @@ namespace AHP.Service
         public async Task<List<IAlternativeComparisonModel>> GetAsync(Guid alternativeId, Guid criteriaId, int page = 1)
         {
             var alternatives = await _altCompRepo.GetByCriteriaAlternativesIDAsync(criteriaId, alternativeId, page);
+            foreach(var comparison in alternatives)
+            {
+                comparison.AlternativeName1 = (await _alternativeRepo.GetByIDAsync(comparison.AlternativeID1)).AlternativeName;
+                comparison.AlternativeName2 = (await _alternativeRepo.GetByIDAsync(comparison.AlternativeID2)).AlternativeName;
+            }
 
             return alternatives;
         }
