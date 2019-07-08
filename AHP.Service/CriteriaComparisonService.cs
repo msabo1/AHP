@@ -31,10 +31,12 @@ namespace AHP.Service
             return comparisons;
         }
 
-        public async Task<List<ICriteriaComparisonModel>> GetAsync(Guid criteriaId, int page = 1)
+        public async Task<List<ICriteriaComparisonModel>> GetByCriteriaAsync(Guid choiceId, int page)
         {
-            return await _criteriaComparisonRepository.GetPageByCriterionIDAsync(criteriaId, page);
+
+            return await _criteriaComparisonRepository.GetPageByCriterionIDAsync(choiceId, page);
         }
+
 
         public async Task<List<ICriteriaComparisonModel>> UpdateAsync(List<ICriteriaComparisonModel> comparisons)
         {

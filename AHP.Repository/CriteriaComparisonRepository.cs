@@ -66,6 +66,8 @@ namespace AHP.Repository
             var ccs = await _context.CriteriaComparisons.Where(cc => cc.CriteriaID1 == criteriaID).OrderBy(x => x.DateCreated).ToListAsync();
             return _mapper.Map<List<CriteriaComparison>, List<ICriteriaComparisonModel>>(ccs);
         }
+       
+
 
         public List<ICriteriaComparisonModel> AddRange(List<ICriteriaComparisonModel> ccs)
         {

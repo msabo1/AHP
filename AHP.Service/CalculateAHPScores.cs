@@ -34,7 +34,7 @@ namespace AHP.Service
             _matrixFiller = matrixFiller;
         }
 
-        public async Task<bool> CalculateCriteriaWeights(Guid choiceId)
+        public async Task<List<IAlternativeModel>> CalculateCriteriaWeights(Guid choiceId)
         {
             var criteria = await _criterionRepository.GetPageByChoiceIDAsync(choiceId, 1);
             criteria.Sort((x, y) => x.DateCreated.CompareTo(y.DateCreated));
@@ -72,12 +72,12 @@ namespace AHP.Service
            
             var weights = _matrixFiller.FillMatrix(dimension, krajnjaLista.ToArray());
             
-            await CalculateAlternativeWeights(choiceId, weights.Reverse().ToArray(), criteria);
-            return true;
+            return await CalculateAlternativeWeights(choiceId, weights.Reverse().ToArray(), criteria);
+            
         }
 
 
-        public async Task<bool> CalculateAlternativeWeights(Guid choiceId, double[] choiceWeights, List<ICriterionModel> criteria)
+        public async Task<List<IAlternativeModel>> CalculateAlternativeWeights(Guid choiceId, double[] choiceWeights, List<ICriterionModel> criteria)
         {
             var alternatives = await _alternativeRepository.GetByChoiceIDAsync(choiceId);
             List<List<double>> sviWeightovi = new List<List<double>>();
@@ -145,7 +145,7 @@ namespace AHP.Service
                 }
                 uof.Commit();
             }
-            return true;
+            return alternatives;
 
         }
 
