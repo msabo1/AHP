@@ -38,9 +38,9 @@ namespace AHP.Service
             return comparisons;
 
         }
-        public async Task<List<IAlternativeComparisonModel>> GetAsync(Guid alternativeId, Guid criteriaId, int page = 1)
+        public async Task<List<IAlternativeComparisonModel>> GetAsync(Guid criteriaId, int page = 1)
         {
-            var alternatives = await _altCompRepo.GetByCriteriaAlternativesIDAsync(criteriaId, alternativeId, page);
+            var alternatives = await _altCompRepo.GetByCriteriaIDAsync(criteriaId);
 
             return alternatives;
         }
