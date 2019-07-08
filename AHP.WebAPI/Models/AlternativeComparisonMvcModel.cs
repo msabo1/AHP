@@ -8,6 +8,7 @@ namespace AHP.WebAPI.Models
 {
     public class AlternativeComparisonMvcModel
     {
+        public string TempID { get; set; }
         [Display(Name = "Criterion")]
         public string CriteriaName { get; set; }
         public Guid CriteriaID { get; set; }

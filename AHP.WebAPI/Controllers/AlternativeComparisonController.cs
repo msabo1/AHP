@@ -1,4 +1,5 @@
-﻿using AHP.Model.Common;
+﻿using AHP.Model;
+using AHP.Model.Common;
 using AHP.Service.Common;
 using AHP.WebAPI.Models;
 using AutoMapper;
@@ -49,15 +50,65 @@ namespace AHP.WebAPI.Controllers
 
                 if (altID1 == altID)
                 {
-                    _caltcomps.Add(new AlternativeComparisonMvcModel { CriteriaID = altcomp.CriteriaID, CriteriaName = CritNames[critID],
-                                                                       AlternativeID1 = altID1, AlternativeName1 = AltNames[altID1],
-                                                                       AlternativeID2 = altID2, AlternativeName2 = AltNames[altID2],
-                                                                       Flipped = false, AlternativeRatio = altcomp.AlternativeRatio});
+                    //OVO S NUOOM je samo za test
+                    double newaltratio;
+                    if (altcomp.AlternativeRatio != 0)
+                    {
+                        newaltratio = altcomp.AlternativeRatio;
+                        //Pretvara u oblik koji je prihvatljiv sliderima
+                        if (newaltratio < 1)
+                        {
+                            newaltratio = -(Math.Round(1 / altcomp.AlternativeRatio) - 1);
+                        }
+                        else
+                        {
+                            newaltratio -= 1;
+                        }
+                    }
+                    else
+                    {
+                        newaltratio = 0;
+                    }
+                    AlternativeComparisonMvcModel ac = new AlternativeComparisonMvcModel
+                    {
+                        TempID = CritNames[critID] + AltNames[altID1],
+                        CriteriaID = altcomp.CriteriaID,
+                        CriteriaName = CritNames[critID],
+                        AlternativeID1 = altID1,
+                        AlternativeName1 = AltNames[altID1],
+                        AlternativeID2 = altID2,
+                        AlternativeName2 = AltNames[altID2],
+                        Flipped = false,
+                        AlternativeRatio = newaltratio
+                    };
+
+                    _caltcomps.Add(ac);
                 }
                 else
                 {
-                    _caltcomps.Add(new AlternativeComparisonMvcModel
+                    double newaltratio;
+                    if (altcomp.AlternativeRatio != 0)
                     {
+                        newaltratio = 1 / altcomp.AlternativeRatio;
+                        //OVO SA NULOM POSLJE OBRISAT
+                        //Pretvara u oblik koji je prihvatljiv sliderima
+                        if (newaltratio < 1)
+                        {
+                            newaltratio = -(Math.Round(1 / altcomp.AlternativeRatio) - 1);
+                        }
+                        else
+                        {
+                            newaltratio -= 1;
+                        }
+                    }
+                    else
+                    {
+                        newaltratio = 0;
+                    }
+
+                    AlternativeComparisonMvcModel ac = new AlternativeComparisonMvcModel
+                    {
+                        TempID = CritNames[critID] + AltNames[altID1],
                         CriteriaID = altcomp.CriteriaID,
                         CriteriaName = CritNames[critID],
                         AlternativeID1 = altID2,
@@ -65,8 +116,10 @@ namespace AHP.WebAPI.Controllers
                         AlternativeID2 = altID1,
                         AlternativeName2 = AltNames[altID1],
                         Flipped = true,
-                        AlternativeRatio = 1 / altcomp.AlternativeRatio
-                    });
+                        AlternativeRatio = newaltratio
+                    };
+
+                    _caltcomps.Add(ac);
                 }
             }
             if (!_caltcomps.Any() && page > 1)
@@ -76,6 +129,51 @@ namespace AHP.WebAPI.Controllers
             }
 
             return View(_caltcomps);
+        }
+
+        [HttpPost]
+        public ActionResult ListAlternativeComparisons(List<AlternativeComparisonMvcModel> comps)
+        {
+            double newratio;
+            foreach(var item in comps)
+            {
+                if ((bool)item.Flipped) {
+                    if (item.AlternativeRatio == 0)
+                    {
+                        newratio = 1;
+                    }
+                    else if (item.AlternativeRatio < 0)
+                    {
+                        newratio = -(item.AlternativeRatio - 1);
+                    }
+                    else
+                    {
+                        newratio = item.AlternativeRatio + 1;
+                        newratio = 1 / newratio;
+                    }
+                    IAlternativeComparisonModel _ac = new AlternativeComparisonModel { AlternativeID1 = item.AlternativeID2, AlternativeID2 = item.AlternativeID1, CriteriaID = item.CriteriaID, AlternativeRatio = item.AlternativeRatio};
+                }
+                else
+                {
+                    if (item.AlternativeRatio == 0)
+                    {
+                        newratio = 1;
+                    }
+                    else if (item.AlternativeRatio < 0)
+                    {
+                        newratio = -(item.AlternativeRatio - 1);
+                        newratio = 1 / newratio;
+                    }
+                    else
+                    {
+                        newratio = item.AlternativeRatio + 1;
+                    }
+                    IAlternativeComparisonModel _ac = new AlternativeComparisonModel { AlternativeID1 = item.AlternativeID2, AlternativeID2 = item.AlternativeID1, CriteriaID = item.CriteriaID, AlternativeRatio = item.AlternativeRatio };
+                }
+
+            }
+            
+            return View();
         }
 
         //public ActionResult CreateCriterion()

@@ -87,7 +87,7 @@ namespace AHP.Repository
             {
                 criteriaIDs.Add(item.CriteriaID);
             }
-            var ccs = await _context.CriteriaComparisons.Where(cc => criteriaIDs.Contains(cc.CriteriaID1) && cc.CriteriaRatio != 0).OrderBy(x => x.DateCreated).Take(PageSize).ToListAsync();
+            var ccs = await _context.CriteriaComparisons.Where(cc => criteriaIDs.Contains(cc.CriteriaID1) && cc.CriteriaRatio == 0).OrderBy(x => x.DateCreated).Take(PageSize).ToListAsync();
             return _mapper.Map<List<CriteriaComparison>, List<ICriteriaComparisonModel>>(ccs);
         }
     }

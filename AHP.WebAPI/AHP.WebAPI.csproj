@@ -188,6 +188,7 @@
     <Compile Include="Models\AlternativeComparisonMvcModel.cs" />
     <Compile Include="Models\AlternativeMvcModel.cs" />
     <Compile Include="Models\ChoiceMvcModel.cs" />
+    <Compile Include="Models\CompositeMvcModel.cs" />
     <Compile Include="Models\CriteriaComparisonMvcModel.cs" />
     <Compile Include="Models\CriterionMvcModel.cs" />
     <Compile Include="Models\UserMvcModel.cs" />

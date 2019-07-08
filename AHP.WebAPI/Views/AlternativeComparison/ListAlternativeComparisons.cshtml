@@ -1,77 +1,108 @@
-﻿@model IEnumerable<AHP.WebAPI.Models.AlternativeComparisonMvcModel>
-
+﻿@model List<AHP.WebAPI.Models.AlternativeComparisonMvcModel>
 @{
     ViewBag.Title = "ListAlternativeComparisons";
 }
 
-<h2>ListAlternativeComparisons</h2>
+<h2>Comparisons for  </h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
+@using (@Html.BeginForm("ListAlternativeComparisons", "AlternativeComparison", FormMethod.Post))
+{
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.CriteriaName)
+            Criteria name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AlternativeName1)
+            First alternative
+        </th>
+
+        <th width="400px">
+            Ratio
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AlternativeRatio)
+            Second alternative
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AlternativeName2)
-        </th>
+        <th></th>
+
     </tr>
 
-@foreach (var item in Model)
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <tr>
+            @Html.Hidden("comps.Index", (@i + 10))
+            @Html.Hidden("comps[" + (@i + 10) + "].CriteriaID", Model[i].CriteriaID)
+            <td>
+                @Model[i].CriteriaName
+            </td>
+            @Html.Hidden("comps[" + (@i + 10) + "].AlternativeID1", Model[i].AlternativeID1)
+            <td>
+                @Model[i].AlternativeName1
+            </td>
+            <td>
+
+                @Html.TextBox("comps[" + (@i + 10) + "].AlternativeRatio",
+                Model[i].AlternativeRatio, new { @class = "form-control", type = "range", step = "1", min = "-8", max = "8", value = Model[i].AlternativeRatio })
+
+            </td>
+
+            @Html.Hidden("comps[" + (@i + 10) + "].AlternativeID2", Model[i].AlternativeID2, new { @readonly = "readonly" })
+
+            <td>
+                @Model[i].AlternativeName2
+            </td>
+            <td>
+                @Html.Hidden("comps[" + (@i + 10) + "].Flipped", Model[i].Flipped)
+            </td>
+        </tr>
+    }
+</table>
+
+    <div class="form-group">
+        <div class="col-md col-md-10">
+            <input type="submit" value="Submit" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Prev", "ListAlternativeComparisons", "AlternativeComparison", new { page = ((int)Session["Page"] - 1) }, null) | @Session["Page"] |
+    @Html.ActionLink("Next", "ListAlternativeComparisons", "AlternativeComparison", new { page = ((int)Session["Page"] + 1) }, null)
+</div>
+<div>
+    @Html.ActionLink("Alternatives", "ListAlternatives", "Alternative", new { page = 1 }, null)
+</div>
+
+@*@foreach (var item in Model)
 {
     <tr>
+        @Html.HiddenFor(modelItem => item.CriteriaID)
         <td>
             @Html.DisplayFor(modelItem => item.CriteriaName)
         </td>
+        @Html.HiddenFor(modelItem => item.AlternativeID1)
         <td>
             @Html.DisplayFor(modelItem => item.AlternativeName1)
         </td>
         <td>
-            <div class="form-group">
-                <div class="coll-5">
-                    <label for="exampleFormControlSelect2">Example multiple select</label>
-                    <select multiple class="form-control" id="exampleFormControlSelect2">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                </div>
-            </div>
+            @Html.EditorFor(modelItem => item.AlternativeRatio, new { htmlAttributes = new { @class = "form-control", type = "range", step = "1", min = "-8", max = "8", value = item.AlternativeRatio } })
         </td>
+
+        @Html.HiddenFor(modelItem => item.AlternativeID2)
+
         <td>
             @Html.DisplayFor(modelItem => item.AlternativeName2)
         </td>
+        <td>@Html.HiddenFor(modelItem => item.Flipped)</td>
     </tr>
-    }
-</table>
+}
+    </table>
 
-<div>
-    @Html.ActionLink("Prev", "ListAlternativeComparisons", "AlternativeComparison", new { page = ((int)Session["Page"] - 1) }, null) |
-    @Html.ActionLink("Next", "ListAlternativeComparisons", "AlternativeComparison", new { page = ((int)Session["Page"] + 1) }, null)
+<div class="form-group">
+    <div class="col-md col-md-10">
+        <input type="submit" value="Submit" class="btn btn-default" onclick="myFunction()" />
+    </div>
 </div>
-<div>
-    @Html.ActionLink("Choices", "ListChoices", "LoggedIn", new { page = 1 }, null)
-</div>
+}*@
 
-@*<div class="form-group">
-    <div class = "coll-5">  //dodano naknadno
-    <label for="exampleFormControlSelect2">Example multiple select</label>
-    <select multiple class="form-control" id="exampleFormControlSelect2">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-    </select>
-    </div>   
-</div>*@
+
