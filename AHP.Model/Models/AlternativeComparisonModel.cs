@@ -15,5 +15,7 @@ namespace AHP.Model
         public double AlternativeRatio { get; set; }
         public System.DateTime DateCreated { get; set; }
         public Nullable<System.DateTime> DateUpdated { get; set; }
+        public string AlternativeName1 { get; set; }
+        public string AlternativeName2 { get; set; }
     }
 }

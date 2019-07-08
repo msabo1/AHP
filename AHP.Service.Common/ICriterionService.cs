@@ -9,7 +9,8 @@ namespace AHP.Service.Common
     {
         Task<ICriterionModel> AddAsync(ICriterionModel criterion);
         Task<bool> DeleteAsync(ICriterionModel criteria);
-        Task<List<ICriterionModel>> GetAsync(Guid id, int page = 1);
+        Task<List<ICriterionModel>> GetPageAsync(Guid id, int page = 1);
+        Task<List<ICriterionModel>> GetAllAsync(Guid id);
         Task<bool> UpdateAsync(ICriterionModel criteria);
     }
 }

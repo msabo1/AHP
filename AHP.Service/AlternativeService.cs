@@ -1,4 +1,5 @@
-﻿using AHP.Model.Common;
+﻿using AHP.Model;
+using AHP.Model.Common;
 using AHP.Repository.Common;
 using AHP.Service.Common;
 using System;
@@ -13,11 +14,17 @@ namespace AHP.Service
     {
         IAlternativeRepository _altRepo;
         IUnitOfWorkFactory _unitOfWorkFactory;
+        ICriterionService _critService;
+        IAlternativeComparisonService _altCompService;
         public AlternativeService(
             IAlternativeRepository altRepo,
-            IUnitOfWorkFactory unitOfWorkFactory
+            IUnitOfWorkFactory unitOfWorkFactory,
+            ICriterionService critService,
+            IAlternativeComparisonService altCompService
             )
         {
+            _altCompService = altCompService;
+             _critService = critService;
             _altRepo = altRepo;
             _unitOfWorkFactory = unitOfWorkFactory;
         }
@@ -27,10 +34,30 @@ namespace AHP.Service
             alternative.AlternativeID = Guid.NewGuid();
             alternative.DateCreated = DateTime.Now;
             alternative.DateUpdated = DateTime.Now;
+            
 
-          
-            alternative = _altRepo.Add(alternative);
-            await _altRepo.SaveAsync();
+            var allCriteria = await _critService.GetAllAsync(alternative.ChoiceID);
+            var allAlternatives = await _altRepo.GetByChoiceIDAsync(alternative.ChoiceID);
+            List<IAlternativeComparisonModel> acs = new List<IAlternativeComparisonModel>();
+            IAlternativeComparisonModel altComp = new AlternativeComparisonModel();
+            foreach (var criterion in allCriteria)
+            {
+               foreach(var alternative1 in allAlternatives)
+                {
+                        altComp.AlternativeID1 = alternative.AlternativeID;
+                        altComp.AlternativeID2 = alternative1.AlternativeID;
+                        altComp.CriteriaID = criterion.CriteriaID;
+                        altComp.AlternativeRatio = 1;           
+                }
+                acs.Add(altComp);
+            }
+            using (var uof = _unitOfWorkFactory.Create())
+            {
+                alternative = _altRepo.Add(alternative);
+                await _altCompService.AddAsync(acs);
+                await _altRepo.SaveAsync();
+                uof.Commit();
+            }
                
             return alternative;
         }
@@ -43,9 +70,15 @@ namespace AHP.Service
                 return deleted;
             
         }
-        public async Task<List<IAlternativeModel>> GetAsync(Guid id, int page = 1)
+        public async Task<List<IAlternativeModel>> GetPageAsync(Guid id, int page = 1)
         {
             var alternatives = await _altRepo.GetPageByChoiceIDAsync(id, page);
+
+            return alternatives;
+        }
+        public async Task<List<IAlternativeModel>> GetAllAsync(Guid id)
+        {
+            var alternatives = await _altRepo.GetByChoiceIDAsync(id);
 
             return alternatives;
         }
