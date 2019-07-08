@@ -54,6 +54,11 @@ namespace AHP.Repository
             return ac;
         }
 
+        public async Task<List<IAlternativeComparisonModel>> GetByAlternativesIDAsync(Guid alternativeID, int PageNumber, int PageSize = 10)
+        {
+            var acs = await _context.AlternativeComparisons.Where(ac => ac.AlternativeID1 == alternativeID || ac.AlternativeID2 == alternativeID).OrderByDescending(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
+            return _mapper.Map<List<AlternativeComparison>, List<IAlternativeComparisonModel>>(acs);
+        }
         public async Task<bool> DeleteAsync(IAlternativeComparisonModel ac)
         {
             var _ac = await _context.AlternativeComparisons.FindAsync(ac.AlternativeID1, ac.AlternativeID2);

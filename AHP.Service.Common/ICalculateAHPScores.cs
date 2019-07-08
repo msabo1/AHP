@@ -7,7 +7,7 @@ namespace AHP.Service.Common
 {
     public interface ICalculateAHPScores
     {
-        Task<bool> CalculateAlternativeWeights(Guid choiceId, double[] choiceWeights, List<ICriterionModel> criteria);
-        Task<bool> CalculateCriteriaWeights(Guid choiceId);
+        Task<List<IAlternativeModel>> CalculateAlternativeWeights(Guid choiceId, double[] choiceWeights, List<ICriterionModel> criteria);
+        Task<List<IAlternativeModel>> CalculateCriteriaWeights(Guid choiceId);
     }
 }
