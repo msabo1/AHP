@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row mb-5 mt-5">
+    <div class="col">
+      Izaberi alternativu:
+    </div>
+  </div>
+  <div class="row" *ngFor="let alternative of alternatives">
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          {{ alternative.AlternativeName }}
+          <form id="edit{{alternative.AlternativeID}}" class="mr-2" style="display: none" (ngSubmit)="Edit(alternative)" [formGroup]="EditForm">
+            <input type="text" formControlName="newName" value="{{ alternative.AlternativeName }}" />
+            <input (click)="MakeEditInvisible('edit' + alternative.AlternativeID)" type="submit" name="save" value="Save" class="btn-xs btn-success">
+          </form>
+          <button (click)="MakeEditVisible('edit' + alternative.AlternativeID)" class="btn btn-warning mr-2">Edit</button>
+          <button class="btn btn-danger" (click)="Delete(alternative)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <button class="btn-xs btn-warning mr-2" (click)="PreviousPage()">Previous page</button>
+    <button class="btn-xs btn-warning mr-2" (click)="NextPage()">Next page</button>
+  </div>
+  <a [routerLink]="['add']">Add</a>
+</div>
