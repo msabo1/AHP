@@ -17,22 +17,19 @@ namespace AHP.Service
         IAlternativeComparisonRepository _altCompRepo;
         ICriteriaComparisonRepository _critCompRepo;
         IUnitOfWorkFactory _unitFactory;
-        ICriterionRepository _critRepo;
         IAlternativeRepository _altRepo;
 
         public CriterionService(
-            ICriterionService critRepo,
-            IAlternativeService altRepo,
             ICriterionRepository critRepo,
-            IAlternativeComparisonService altCompRepo,
-            ICriteriaComparisonService critCompRepo,
+            IAlternativeRepository altRepo,
+            IAlternativeComparisonRepository altCompRepo,
+            ICriteriaComparisonRepository critCompRepo,
             IUnitOfWorkFactory unitFactory)
         {
-            _critRepo = critService;
-            _altRepo = altService;
             _critRepo = critRepo;
-            _altCompService = altCompService;
-            _critCompRepo = critCompService;
+            _altRepo = altRepo;
+            _altCompRepo = altCompRepo;
+            _critCompRepo = critCompRepo;
             _unitFactory = unitFactory;
         }
         public async Task<ICriterionModel> AddAsync(ICriterionModel criterion)
@@ -41,37 +38,44 @@ namespace AHP.Service
             criterion.CriteriaID = Guid.NewGuid();
             criterion.DateCreated = DateTime.Now;
             criterion.DateUpdated = DateTime.Now;
-            var allCriteria = await _critRepo.GetAllAsync(criterion.ChoiceID);
-            var allAlternatives = await _altRepo.GetAllAsync(criterion.ChoiceID);
+            var allCriteria = await _critRepo.GetByChoiceIDAsync(criterion.ChoiceID);
+            var allAlternatives = await _altRepo.GetByChoiceIDAsync(criterion.ChoiceID);
             List<IAlternativeComparisonModel> acs = new List<IAlternativeComparisonModel>();
             List<ICriteriaComparisonModel> ccs = new List<ICriteriaComparisonModel>();
-            IAlternativeComparisonModel altComp = new AlternativeComparisonModel();
-            ICriteriaComparisonModel critComp = new CriteriaComparisonModel();
+            
+          
             foreach (var criteria in allCriteria)
             {
+                ICriteriaComparisonModel critComp = new CriteriaComparisonModel();
                 critComp.CriteriaID1 = criterion.CriteriaID;
                 critComp.CriteriaID2 = criteria.CriteriaID;
                 critComp.CriteriaRatio = 1;
-
+                critComp.DateCreated = DateTime.Now;
+                critComp.DateUpdated = DateTime.Now;
                 ccs.Add(critComp);
             }
             for (int i = 0; i < allAlternatives.Count(); i++)
             {
                 for (int j = 0; j < i; j++)
                 {
+                    IAlternativeComparisonModel altComp = new AlternativeComparisonModel();
                     altComp.AlternativeID1 = allAlternatives[i].AlternativeID;
                     altComp.AlternativeID2 = allAlternatives[j].AlternativeID;
                     altComp.CriteriaID = criterion.CriteriaID;
+                    altComp.DateCreated = DateTime.Now;
+                    altComp.DateUpdated = DateTime.Now;
                     altComp.AlternativeRatio = 1;
+                    acs.Add(altComp);
                 }
-                acs.Add(altComp);
+             
             }
             using (var uof = _unitFactory.Create())
             {
-                await _critCompRepo.AddAsync(ccs);
-                await _altCompService.AddAsync(acs);
+                _critCompRepo.AddRange(ccs);
+                _altCompRepo.AddRange(acs);
                 criterion = _critRepo.Add(criterion);
                 await _critRepo.SaveAsync();
+                uof.Commit();
             }
             
             return criterion;

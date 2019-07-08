@@ -40,7 +40,7 @@ namespace AHP.WebAPI.Controllers
             return Ok(status);
 
         }
-        [Route("api/alternativecomparison/{criteriaID}/{alternativeID}/{page}")]
+        [Route("api/alternativecomparison/{criteriaID}/{page}")]
         public async Task<IHttpActionResult> Get(Guid criteriaID, Guid alternativeID, int page)
         {
             if(criteriaID == null || alternativeID == null || page < 1)
