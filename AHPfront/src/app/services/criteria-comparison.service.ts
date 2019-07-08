@@ -14,5 +14,9 @@ export class CriteriaComparisonService {
   GetCriterionComparisons(criterionID: string, page: number): Observable<CriteriaComparison[]> {
     return this.http.get<CriteriaComparison[]>(this.apiUrl + criterionID + '/' + page);
   }
+
+  Update(comparisons: CriteriaComparison[]): Observable<CriteriaComparison[]> {
+    return this.http.put<CriteriaComparison[]>(this.apiUrl, comparisons)
+  }
  
 }

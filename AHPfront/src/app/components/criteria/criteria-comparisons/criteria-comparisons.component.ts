@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CriteriaComparison } from '../../../Models/CriteriaComparison';
 import { CriteriaComparisonService } from '../../../services/criteria-comparison.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Criterion } from '../../../Models/Criterion';
+import { CriterionService } from '../../../services/criterion.service';
 
 
 @Component({
@@ -22,6 +24,24 @@ export class CriteriaComparisonsComponent implements OnInit {
     this.EditForm = new FormGroup({
       ratio: new FormControl(null, [Validators.required])
     });
+  }
+
+  DisplayName(comparison: CriteriaComparison):string {
+    return comparison.CriteriaID1 == localStorage['Criterion'] ? comparison.CriteriaName2 : comparison.CriteriaName1;
+  }
+
+  DisplayRatio(comparison: CriteriaComparison): number {
+    return comparison.CriteriaID1 == localStorage['Criterion'] ? comparison.CriteriaRatio : 1/comparison.CriteriaRatio;
+  }
+
+
+  Edit(comparison: CriteriaComparison) {
+    if (comparison.CriteriaRatio != this.EditForm.value['ratio'] && this.EditForm.value['ratio'] != null) {
+      comparison.CriteriaRatio = this.EditForm.value['ratio'];
+      let comparisons: CriteriaComparison[] = Array<CriteriaComparison>();
+      comparisons.push(comparison);
+      this.criteriaComparisonService.Update(comparisons).subscribe();
+    }
   }
 
 }

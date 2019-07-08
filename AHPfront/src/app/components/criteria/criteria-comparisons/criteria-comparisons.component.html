@@ -8,14 +8,12 @@
     <div class="col">
       <div class="card">
         <div class="card-body">
-          {{ comparison.CriteriaName2 }}
+          {{ DisplayName(comparison) }}
           
-          <form class="mr-2" (ngSubmit)="Edit(criterion)" [formGroup]="EditForm">
-            <input type="text" formControlName="ratio" value="{{ comparison.CriteriaRatio }}" />
+          <form class="mr-2" (ngSubmit)="Edit(comparison)" [formGroup]="EditForm">
+            <input type="text" formControlName="ratio" value="{{ DisplayRatio(comparison) }}" />
             <input type="submit" name="save" value="Save" class="btn-xs btn-success">
           </form>
-          <button class="btn btn-danger" (click)="Delete(criterion)">Delete</button>
-          <a [routerLink]="['comparisons']" class="btn btn-primary mr-2">Comparisons</a>
         </div>
       </div>
     </div>

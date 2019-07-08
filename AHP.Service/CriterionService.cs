@@ -75,6 +75,8 @@ namespace AHP.Service
                 _altCompRepo.AddRange(acs);
                 criterion = _critRepo.Add(criterion);
                 await _critRepo.SaveAsync();
+                await _critCompRepo.SaveAsync();
+                await _altCompRepo.SaveAsync();
                 uof.Commit();
             }
             

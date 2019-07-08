@@ -30,7 +30,8 @@ export class AddCriterionComponent implements OnInit {
     criterion.ChoiceID = this.route.snapshot.paramMap.get('id');
     this.criterionService.Add(criterion).subscribe(criterion => {
       if (criterion.CriteriaID != null) {
-        this.router.navigate(['criteria/' + this.route.snapshot.paramMap.get('id'), criterion.CriteriaID])
+        localStorage['Criterion'] = criterion.CriteriaID;
+        this.router.navigate(['criteria/' + this.route.snapshot.paramMap.get('id') + '/' + criterion.CriteriaID])
       }
     });
   }
