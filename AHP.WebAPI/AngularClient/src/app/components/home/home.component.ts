@@ -31,6 +31,8 @@ export class HomeComponent implements OnInit {
 
     $("#ConfirmAlternativeScores").hide();
 
+    var choiceName: string;
+
     var criteriaList: string[] = [];
     var criteriaComparisonValues: number[] = [];
 
@@ -39,9 +41,7 @@ export class HomeComponent implements OnInit {
 
     $("#SetChoiceName").click(function () {
       var name = $("#ChoiceNameInput").val();
-
-      window.localStorage['choiceName'] = name;
-      //console.log(window.localStorage['choiceName']);
+      choiceName = JSON.stringify(name);
 
       var add = "<h1>" + name + "</h1>";
       $("#ShowChoiceName").text("");
@@ -61,13 +61,7 @@ export class HomeComponent implements OnInit {
       if (criteriaCounter > 1) $("#CalculateCriteriaScores").show();
 
       criteriaList.push(name.toString());
-      /*
-      for (var criterion = 0; criterion < criteriaList.length - 1; criterion++) {
-        var addComparison = "<div class='row text-center'><div class='col mt-4'><span class='mr-5 mb-1' style='color: dodgerblue; font-weight: bold'>" + name + "</span><input type='range' class='custom-range mt-3' min ='-9' max ='9' step ='1' style='width: 50%'><span class='ml-5' style='color: dodgerblue; font-weight: bold'>" + criteriaList[criterion] + "</span></div></div>";
-        $("#CriteriaContainer").append(addComparison);
-        $("#CriteriaContainer").find('input').addClass("criteriaSliderID");
-      }
-      */
+
       var sliderContainer = "<div class='container sliderContainer' id='sliderContainer" + criteriaCounter + "'></div>"
       $("#CriteriaContainer").append(sliderContainer);
       $("#sliderContainer" + criteriaCounter).hide();

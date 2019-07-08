@@ -41,16 +41,15 @@ namespace AHP.WebAPI.Controllers
 
         }
 
-        public async Task<IHttpActionResult> Get(AltCompRequest request)
+        [HttpGet]
+        [Route("api/alternativeComparison/get/{criteriaID}/{page}")]
+        public async Task<IHttpActionResult> Get(Guid criteriaID, int page)
         {
-            if(request == null)
+            if(criteriaID == null | page == 0)
             {
                 return BadRequest();
             }
-            var page = request.page;
-            var alternativeId = request.alternativeId;
-            var criteriaId = request.criteriaId;
-            var status = await _alternativeComparisonService.GetAsync(alternativeId, criteriaId, page);
+            var status = await _alternativeComparisonService.GetAsync(criteriaID, page);
 
             return Ok(status);
         }

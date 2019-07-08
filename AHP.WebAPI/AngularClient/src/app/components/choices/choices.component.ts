@@ -3,7 +3,6 @@ import { UserService } from 'src/app/services/user.service';
 import { ChoiceRequest } from '../../classes/choice-request';
 import { Choice } from '../../classes/choice';
 
-
 @Component({
   selector: 'app-choices',
   templateUrl: './choices.component.html',

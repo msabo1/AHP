@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
 import { UserService } from 'src/app/services/user.service';
 import { ChoiceRequest } from '../../classes/choice-request';
+import { AlternativeRequest } from '../../classes/alternative-request';
 
 @Component({
   selector: 'app-edit-choice',
@@ -19,7 +20,8 @@ export class EditChoiceComponent implements OnInit {
 
   criteria: any;
   alternatives: any;
-  criteriaComparisons: any;
+  criteriaComparisons: any[] = [];
+  alternativeComparisons: any[] = [];
 
   ngOnInit() {
     var add = "<h1>" + this.choiceName + "</h1>";
@@ -30,24 +32,10 @@ export class EditChoiceComponent implements OnInit {
       this.criteria = data;
 
       window.localStorage['criteria'] = JSON.stringify(this.criteria);
-      console.log(this.criteria);
 
-      let requestList: ChoiceRequest[] = [];
-      //let criteriaComparisonList: any[] = [];
-      
-      for (let i = 0; i < Object.keys(this.criteria).length; i++) {
-        let criteriaComparisonRequest = new ChoiceRequest(JSON.parse(window.localStorage['criteria'])[i]['CriteriaID'], 1);
-        requestList.push(criteriaComparisonRequest);
-        this.userService.getCriteriaComparison(criteriaComparisonRequest).subscribe(data => {
-          //criteriaComparisonList[i]=data;
-          //console.log(criteriaComparisonList[i]);
-          this.criteriaComparisons = data;
-        });
-      }
-
-        this.userService.getAlternatives(this.criteriaRequest).subscribe(data => {
-          this.alternatives = data;
-        });
+      this.userService.getAlternatives(this.criteriaRequest).subscribe(data => {
+        this.alternatives = data;
+      });
     });
   }
 
@@ -57,13 +45,34 @@ export class EditChoiceComponent implements OnInit {
     }
   }
 
+  findAlternativeName(id: String) {
+    for (let alternative of this.alternatives) {
+      if (alternative['AlternativeID'] == id) return alternative['AlternativeName'];
+    }
+  }
+
   setSliderValue(value: number) {
     if (value < 1) return (-1 / value);
     else return value;
   }
 
   toggleCriteriaComparisons(i: number) {
-    if ($("#sliderContainer" + i).is(":visible")) $("#sliderContainer" + i).hide();
-    else $("#sliderContainer" + i).show();
+     if ($("#sliderContainer" + i).is(":visible")) $("#sliderContainer" + i).hide();
+     else $("#sliderContainer" + i).show();
+
+    let criteriaComparisonRequest = new ChoiceRequest(JSON.parse(window.localStorage['criteria'])[i - 1]['CriteriaID'], 1);
+    this.userService.getCriteriaComparison(criteriaComparisonRequest).subscribe(data => {
+      this.criteriaComparisons[i - 1] = data;
+    });
+  }
+
+  toggleAlternativeComparisons(i: number) {
+    if ($("#alternativeSliderContainer" + i).is(":visible")) $("#alternativeSliderContainer" + i).hide();
+    else $("#alternativeSliderContainer" + i).show();
+
+    let alternativeComparisonRequest = new AlternativeRequest(JSON.parse(window.localStorage['criteria'])[i - 1]['CriteriaID'], 1);
+    this.userService.getAlternativeComparison(alternativeComparisonRequest).subscribe(data => {
+      this.alternativeComparisons[i - 1] = data;
+    })
   }
 }

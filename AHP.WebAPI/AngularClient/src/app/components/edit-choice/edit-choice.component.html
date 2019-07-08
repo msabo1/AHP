@@ -43,7 +43,7 @@
             {{criterion['CriteriaName']}}
           </td>
           <td>
-            <button type="button" class="btn btn-primary" id="CriteriaEditButton{{i+1}}" (click)="toggleCriteriaComparisons(i+1)">Edit</button> <!--treba mi val = brojac?-->
+            <button type="button" class="btn btn-primary" id="CriteriaEditButton{{i+1}}" (click)="toggleCriteriaComparisons(i+1)">Edit</button>
           </td>
         </tr>
       </tbody>
@@ -61,7 +61,7 @@
 
   <div class="container" id="CriteriaContainer">
     <div class="sliderContainer" id="sliderContainer{{i+1}}" *ngFor="let criterion of criteria; let i = index" style="display:none">
-      <div class="row text-center" *ngFor="let comparison of criteriaComparisons">
+      <div class="row text-center" *ngFor="let comparison of criteriaComparisons[i]">
         <div class="col mt-4">
           <span class="mr-5 mb-1" style="color: dodgerblue; font-weight: bold">{{findCriterionName(comparison['CriteriaID1'])}}</span>
           <input type="range" class="custom-range mt-3" min="-9" max="9" step="1" style="width: 50%" value="{{setSliderValue(comparison['CriteriaRatio'])}}">
@@ -115,13 +115,21 @@
   </div>
 
   <div class="row justify-content-center" id="CriteriaButtons">
-    <div class="fit" *ngFor="let criterion of criteria">
-      <button type="button" class="btn btn-primary mr-2">{{criterion['CriteriaName']}}</button>
+    <div class="fit" *ngFor="let criterion of criteria; let i = index">
+      <button type="button" class="btn btn-primary mr-2" (click)="toggleAlternativeComparisons(i+1)">{{criterion['CriteriaName']}}</button>
     </div>
   </div>
 
   <div class="container" id="AlternativeContainer">
-
+    <div class="alternativeSliderContainer" id="alternativeSliderContainer{{i+1}}" *ngFor="let criterion of criteria; let i = index" style="display:none">
+      <div class="row text-center" *ngFor="let comparison of alternativeComparisons[i]">
+        <div class="col mt-4">
+          <span class="mr-5 mb-1" style="color: dodgerblue; font-weight: bold">{{findAlternativeName(comparison['AlternativeID1'])}}</span>
+          <input type="range" class="custom-range mt-3" min="-9" max="9" step="1" style="width: 50%" value="{{setSliderValue(comparison['AlternativeRatio'])}}">
+          <span class="ml-5" style="color: dodgerblue; font-weight: bold">{{findAlternativeName(comparison['AlternativeID2'])}}</span>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="row text-center mt-5">

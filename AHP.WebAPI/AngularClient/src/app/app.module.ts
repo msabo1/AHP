@@ -15,13 +15,13 @@ import { ChoicesComponent } from './components/choices/choices.component';
 import { EditChoiceComponent } from './components/edit-choice/edit-choice.component';
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'choices', component: ChoicesComponent },
   { path: 'choice/:id', component: EditChoiceComponent },
-  { path: '**', redirectTo: '/home', pathMatch: 'full' }
+  { path: '**', redirectTo: '/login', pathMatch: 'full' }
 ];
 
 @NgModule({

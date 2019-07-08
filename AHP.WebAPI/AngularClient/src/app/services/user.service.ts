@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 import { User } from '../classes/user';
 import { ChoiceRequest } from '../classes/choice-request';
 import { Choice } from '../classes/choice';
+import { AlternativeRequest } from '../classes/alternative-request';
 
 
 @Injectable({
@@ -21,6 +22,7 @@ export class UserService {
   private criterionUrl = '/api/criterion';
   private alternativeUrl = '/api/alternative';
   private criteriaComparisonUrl = '/api/criteriaComparison';
+  alternativeComparisonUrl = '/api/alternativeComparison';
 
   public user: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   public choiceRequest: BehaviorSubject<ChoiceRequest> = new BehaviorSubject<ChoiceRequest>(null);
@@ -60,7 +62,6 @@ export class UserService {
   logout() {
     localStorage.setItem('loggedIn', 'false');
     localStorage.removeItem('userName');
-    this.router.navigate(['login']);
   }
 
   createChoice(choice: Choice): Observable<Choice> {
@@ -81,5 +82,9 @@ export class UserService {
   
   getCriteriaComparison(criteriaComparisonRequest: ChoiceRequest): Observable<ChoiceRequest> {
     return this.http.get<ChoiceRequest>(this.criteriaComparisonUrl + '/get/' + criteriaComparisonRequest['userId'] + "/1");
+  }
+
+  getAlternativeComparison(alternativeComparisonRequest: AlternativeRequest): Observable<AlternativeRequest> {
+    return this.http.get<AlternativeRequest>(this.alternativeComparisonUrl + '/get/' + alternativeComparisonRequest['criteriaID']+ "/1");
   }
 }
