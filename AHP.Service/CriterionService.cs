@@ -14,25 +14,25 @@ namespace AHP.Service
     {
 
         ICriterionRepository _critRepo;
-        IAlternativeComparisonService _altCompService;
-        ICriteriaComparisonService _critCompService;
+        IAlternativeComparisonRepository _altCompRepo;
+        ICriteriaComparisonRepository _critCompRepo;
         IUnitOfWorkFactory _unitFactory;
-        ICriterionService _critService;
-        IAlternativeService _altService;
+        ICriterionRepository _critRepo;
+        IAlternativeRepository _altRepo;
 
         public CriterionService(
-            ICriterionService critService,
-            IAlternativeService altService,
+            ICriterionService critRepo,
+            IAlternativeService altRepo,
             ICriterionRepository critRepo,
-            IAlternativeComparisonService altCompService,
-            ICriteriaComparisonService critCompService,
+            IAlternativeComparisonService altCompRepo,
+            ICriteriaComparisonService critCompRepo,
             IUnitOfWorkFactory unitFactory)
         {
-            _critService = critService;
-            _altService = altService;
+            _critRepo = critService;
+            _altRepo = altService;
             _critRepo = critRepo;
             _altCompService = altCompService;
-            _critCompService = critCompService;
+            _critCompRepo = critCompService;
             _unitFactory = unitFactory;
         }
         public async Task<ICriterionModel> AddAsync(ICriterionModel criterion)
@@ -41,8 +41,8 @@ namespace AHP.Service
             criterion.CriteriaID = Guid.NewGuid();
             criterion.DateCreated = DateTime.Now;
             criterion.DateUpdated = DateTime.Now;
-            var allCriteria = await _critService.GetAllAsync(criterion.ChoiceID);
-            var allAlternatives = await _altService.GetAllAsync(criterion.ChoiceID);
+            var allCriteria = await _critRepo.GetAllAsync(criterion.ChoiceID);
+            var allAlternatives = await _altRepo.GetAllAsync(criterion.ChoiceID);
             List<IAlternativeComparisonModel> acs = new List<IAlternativeComparisonModel>();
             List<ICriteriaComparisonModel> ccs = new List<ICriteriaComparisonModel>();
             IAlternativeComparisonModel altComp = new AlternativeComparisonModel();
@@ -68,7 +68,7 @@ namespace AHP.Service
             }
             using (var uof = _unitFactory.Create())
             {
-                await _critCompService.AddAsync(ccs);
+                await _critCompRepo.AddAsync(ccs);
                 await _altCompService.AddAsync(acs);
                 criterion = _critRepo.Add(criterion);
                 await _critRepo.SaveAsync();
