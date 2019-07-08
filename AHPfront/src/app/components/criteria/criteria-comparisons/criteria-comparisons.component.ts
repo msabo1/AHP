@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CriteriaComparison } from '../../../Models/CriteriaComparison';
 import { CriteriaComparisonService } from '../../../services/criteria-comparison.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 
 @Component({
@@ -10,12 +11,17 @@ import { CriteriaComparisonService } from '../../../services/criteria-comparison
   styleUrls: ['./criteria-comparisons.component.css']
 })
 export class CriteriaComparisonsComponent implements OnInit {
-
-  criteriaComparisons: CriteriaComparison[];
-  constructor(private criteriaComparisonService: CriteriaComparisonService, private route: ActivatedRoute) { }
+  EditForm: FormGroup;
+  page: number;
+  criterionComparisons: CriteriaComparison[];
+  constructor(private criteriaComparisonService: CriteriaComparisonService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    //this.criteriaComparisonService.GetCriterionComparisons(this.route.snapshot.paramMap.get('id'), 1).subscribe(cc => this.criteriaComparisons = cc);
+    this.page = 1;
+    this.criteriaComparisonService.GetCriterionComparisons(this.route.snapshot.paramMap.get('criteriaid'), this.page).subscribe(cc => this.criterionComparisons = cc);
+    this.EditForm = new FormGroup({
+      ratio: new FormControl(null, [Validators.required])
+    });
   }
 
 }

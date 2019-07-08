@@ -24,7 +24,7 @@ const appRoutes: Routes = [{ path: '', component: LoginComponent },
   { path: 'alternatives/:id/add', component: AddAlternativeComponent },
   { path: 'criteria/:id', component: CriteriaComponent },
   { path: 'criteria/:id/add', component: AddCriterionComponent },
-  { path: 'criteria/:id/comparisons', component: CriteriaComparisonsComponent }];
+  { path: 'criteria/:id/:criteriaid', component: CriteriaComparisonsComponent }];
 
 @NgModule({
   declarations: [

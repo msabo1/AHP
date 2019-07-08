@@ -41,7 +41,7 @@ namespace AHP.WebAPI.Controllers
             var status = await _criteriaComparisonService.AddAsync(_criteriaComparisons);
             return Ok(_mapper.Map<List<ICriteriaComparisonModel>, List<CriteriaComparisonControllerModel>>(status));
         }
-        [Route("api/critriacomparison/{criteriaID}/{page}")]
+        [Route("api/criteriacomparison/{criteriaID}/{page}")]
         public async Task<IHttpActionResult> Get(Guid criteriaID, int page)
         {
             if (criteriaID == null || page < 1)

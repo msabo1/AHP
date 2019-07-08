@@ -11,7 +11,8 @@ export class CriteriaComparisonService {
   apiUrl: string = 'api/criteriacomparison/';
   constructor(private http: HttpClient) { }
 
-  Add(comparisons: CriteriaComparison[]): Observable<CriteriaComparison[]> {
-    return this.http.post<CriteriaComparison[]>(this.apiUrl, comparisons);
+  GetCriterionComparisons(criterionID: string, page: number): Observable<CriteriaComparison[]> {
+    return this.http.get<CriteriaComparison[]>(this.apiUrl + criterionID + '/' + page);
   }
+ 
 }

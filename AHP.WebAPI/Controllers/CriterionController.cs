@@ -25,12 +25,12 @@ namespace AHP.WebAPI.Controllers
             _criterionService = criterionService;
         }
         
-        public async Task<IHttpActionResult> Post(List<CriterionControllerModel> criteria)
+        public async Task<IHttpActionResult> Post(CriterionControllerModel criterion)
         {
-            var _criteria = _mapper.Map<List<CriterionControllerModel>, List<ICriterionModel>>(criteria);
-            var status = await _criterionService.AddAsync(_criteria);
+            var _criterion = _mapper.Map<CriterionControllerModel, ICriterionModel>(criterion);
+            var status = await _criterionService.AddAsync(_criterion);
             
-            return Ok(_mapper.Map< List < ICriterionModel > ,List<CriterionControllerModel>>(status));
+            return Ok(_mapper.Map<ICriterionModel ,CriterionControllerModel>(status));
         }
 
         public async Task<IHttpActionResult> Delete(CriterionControllerModel criterion)

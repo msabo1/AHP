@@ -20,21 +20,18 @@ namespace AHP.Service
             _critRepo = critRepo;
             _unitFactory = unitFactory;
         }
-        public async Task<List<ICriterionModel>> AddAsync(List<ICriterionModel> criteria)
+        public async Task<ICriterionModel> AddAsync(ICriterionModel criterion)
         {
-            foreach (ICriterionModel criterion in criteria)
-            {
-                criterion.CriteriaID = Guid.NewGuid();
-                criterion.DateCreated = DateTime.Now;
-                criterion.DateUpdated = DateTime.Now;
-            }
+            criterion.CriteriaID = Guid.NewGuid();
+            criterion.DateCreated = DateTime.Now;
+            criterion.DateUpdated = DateTime.Now;
             using (var uof = _unitFactory.Create())
             {
-                criteria = _critRepo.AddRange(criteria);
+                criterion = _critRepo.Add(criterion);
                 await _critRepo.SaveAsync();
                 uof.Commit();
             }
-            return criteria;
+            return criterion;
         }
         public async Task<List<ICriterionModel>> GetAsync(Guid id, int page =1)
         {
