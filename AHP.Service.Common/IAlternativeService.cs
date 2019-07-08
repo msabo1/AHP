@@ -11,7 +11,8 @@ namespace AHP.Service.Common
     {
         Task<IAlternativeModel> AddAsync(IAlternativeModel alternative);
         Task<bool> DeleteAsync(IAlternativeModel alternative);
-        Task<List<IAlternativeModel>> GetAsync(Guid id, int page = 1);
+        Task<List<IAlternativeModel>> GetPageAsync(Guid id, int page = 1);
+        Task<List<IAlternativeModel>> GetAllAsync(Guid id);
         Task<IAlternativeModel> UpdateAsync(IAlternativeModel alternative);
 
     }

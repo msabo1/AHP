@@ -25,12 +25,12 @@ namespace AHP.WebAPI.Controllers
             _criterionService = criterionService;
         }
         
-        public async Task<IHttpActionResult> Post(List<CriterionControllerModel> criteria)
+        public async Task<IHttpActionResult> Post(CriterionControllerModel criteria)
         {
-            var _criteria = _mapper.Map<List<CriterionControllerModel>, List<ICriterionModel>>(criteria);
+            var _criteria = _mapper.Map<CriterionControllerModel, ICriterionModel>(criteria);
             var status = await _criterionService.AddAsync(_criteria);
             
-            return Ok(_mapper.Map< List < ICriterionModel > ,List<CriterionControllerModel>>(status));
+            return Ok(_mapper.Map< ICriterionModel  ,CriterionControllerModel>(status));
         }
 
         public async Task<IHttpActionResult> Delete(CriterionControllerModel criterion)
@@ -44,7 +44,7 @@ namespace AHP.WebAPI.Controllers
         public async Task<IHttpActionResult> Get(Guid choiceID, int page)
         {
       
-            var status = await _criterionService.GetAsync(choiceID, page);
+            var status = await _criterionService.GetPageAsync(choiceID, page);
             return Ok(_mapper.Map<List<ICriterionModel>, List<CriterionControllerModel>>(status));
         }
 
