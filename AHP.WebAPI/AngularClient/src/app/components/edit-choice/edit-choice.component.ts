@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
 import { UserService } from 'src/app/services/user.service';
+import { CriteriaService } from 'src/app/services/criteria.service';
+import { AlternativeService } from 'src/app/services/alternative.service';
 import { ChoiceRequest } from '../../classes/choice-request';
 import { AlternativeRequest } from '../../classes/alternative-request';
+import { CriteriaRequest } from '../../classes/criteria-request';
 
 @Component({
   selector: 'app-edit-choice',
@@ -11,12 +14,13 @@ import { AlternativeRequest } from '../../classes/alternative-request';
 })
 export class EditChoiceComponent implements OnInit {
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private criteriaService: CriteriaService, private alternativeService: AlternativeService) {}
   choice = window.localStorage['choice'];
   choiceName = JSON.parse(this.choice)['ChoiceName'];
   choiceID = JSON.parse(this.choice)['ChoiceID'];
 
-  public criteriaRequest = new ChoiceRequest(this.choiceID, 1);
+  public criteriaRequest = new CriteriaRequest(this.choiceID, 1);
+  public choiceRequest = new ChoiceRequest(this.choiceID, 1);
 
   criteria: any;
   alternatives: any;
@@ -28,12 +32,12 @@ export class EditChoiceComponent implements OnInit {
     $("#ShowChoiceName").text("");
     $("#ShowChoiceName").append(add);
     
-    this.userService.getCriteria(this.criteriaRequest).subscribe(data => {
+    this.criteriaService.getCriteria(this.criteriaRequest).subscribe(data => {
       this.criteria = data;
 
       window.localStorage['criteria'] = JSON.stringify(this.criteria);
 
-      this.userService.getAlternatives(this.criteriaRequest).subscribe(data => {
+      this.alternativeService.getAlternatives(this.choiceRequest).subscribe(data => {
         this.alternatives = data;
       });
     });
@@ -60,8 +64,8 @@ export class EditChoiceComponent implements OnInit {
      if ($("#sliderContainer" + i).is(":visible")) $("#sliderContainer" + i).hide();
      else $("#sliderContainer" + i).show();
 
-    let criteriaComparisonRequest = new ChoiceRequest(JSON.parse(window.localStorage['criteria'])[i - 1]['CriteriaID'], 1);
-    this.userService.getCriteriaComparison(criteriaComparisonRequest).subscribe(data => {
+    let criteriaComparisonRequest = new CriteriaRequest(JSON.parse(window.localStorage['criteria'])[i - 1]['CriteriaID'], 1);
+    this.criteriaService.getCriteriaComparison(criteriaComparisonRequest).subscribe(data => {
       this.criteriaComparisons[i - 1] = data;
     });
   }
@@ -71,7 +75,7 @@ export class EditChoiceComponent implements OnInit {
     else $("#alternativeSliderContainer" + i).show();
 
     let alternativeComparisonRequest = new AlternativeRequest(JSON.parse(window.localStorage['criteria'])[i - 1]['CriteriaID'], 1);
-    this.userService.getAlternativeComparison(alternativeComparisonRequest).subscribe(data => {
+    this.alternativeService.getAlternativeComparison(alternativeComparisonRequest).subscribe(data => {
       this.alternativeComparisons[i - 1] = data;
     })
   }

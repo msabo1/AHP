@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
+import { ChoiceService } from 'src/app/services/choice.service';
 import { ChoiceRequest } from '../../classes/choice-request';
 import { Choice } from '../../classes/choice';
 
@@ -10,7 +10,7 @@ import { Choice } from '../../classes/choice';
 })
 export class ChoicesComponent implements OnInit {
 
-  constructor(private userService: UserService) { }
+  constructor(private choiceService: ChoiceService) { }
   public choiceRequest = new ChoiceRequest(window.localStorage['UserID'], 1);
 
   choices: any;
@@ -18,7 +18,7 @@ export class ChoicesComponent implements OnInit {
   ngOnInit() {
     $("#chooseChoicesText").hide()
 
-    this.userService.getChoices(this.choiceRequest).subscribe(data => {
+    this.choiceService.getChoices(this.choiceRequest).subscribe(data => {
       this.choices = data;
       $("#noChoicesText").hide()
       $("#chooseChoicesText").show()
