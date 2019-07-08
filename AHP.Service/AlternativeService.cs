@@ -14,17 +14,17 @@ namespace AHP.Service
     {
         IAlternativeRepository _altRepo;
         IUnitOfWorkFactory _unitOfWorkFactory;
-        ICriterionService _critService;
-        IAlternativeComparisonService _altCompService;
+        ICriterionRepository _critRepo;
+        IAlternativeComparisonRepository _altCompRepo;
         public AlternativeService(
             IAlternativeRepository altRepo,
             IUnitOfWorkFactory unitOfWorkFactory,
-            ICriterionService critService,
-            IAlternativeComparisonService altCompService
+            ICriterionRepository critRepo,
+            IAlternativeComparisonRepository altCompRepo
             )
         {
-            _altCompService = altCompService;
-             _critService = critService;
+            _altCompRepo = altCompRepo;
+             _critRepo = critRepo;
             _altRepo = altRepo;
             _unitOfWorkFactory = unitOfWorkFactory;
         }
@@ -35,26 +35,28 @@ namespace AHP.Service
             alternative.DateCreated = DateTime.Now;
             alternative.DateUpdated = DateTime.Now;
             
-
-            var allCriteria = await _critService.GetAllAsync(alternative.ChoiceID);
+            var allCriteria = await _critRepo.GetByChoiceIDAsync(alternative.ChoiceID);
             var allAlternatives = await _altRepo.GetByChoiceIDAsync(alternative.ChoiceID);
             List<IAlternativeComparisonModel> acs = new List<IAlternativeComparisonModel>();
-            IAlternativeComparisonModel altComp = new AlternativeComparisonModel();
+            
             foreach (var criterion in allCriteria)
             {
-               foreach(var alternative1 in allAlternatives)
+                foreach (var alternative1 in allAlternatives)
                 {
-                        altComp.AlternativeID1 = alternative.AlternativeID;
-                        altComp.AlternativeID2 = alternative1.AlternativeID;
-                        altComp.CriteriaID = criterion.CriteriaID;
-                        altComp.AlternativeRatio = 1;           
+                    IAlternativeComparisonModel altComp = new AlternativeComparisonModel();
+                    altComp.AlternativeID1 = alternative.AlternativeID;
+                    altComp.AlternativeID2 = alternative1.AlternativeID;
+                    altComp.CriteriaID = criterion.CriteriaID;
+                    altComp.DateCreated = DateTime.Now;
+                    altComp.DateUpdated = DateTime.Now;
+                    altComp.AlternativeRatio = 1;
+                    acs.Add(altComp);
                 }
-                acs.Add(altComp);
             }
             using (var uof = _unitOfWorkFactory.Create())
             {
                 alternative = _altRepo.Add(alternative);
-                await _altCompService.AddAsync(acs);
+                _altCompRepo.AddRange(acs);
                 await _altRepo.SaveAsync();
                 uof.Commit();
             }
