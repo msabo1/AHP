@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     let value: any = this.LoginForm.value;
+    console.log(value);
     this.userService.login(value).subscribe(data => {
       window.localStorage['UserID'] = data["UserID"];
       window.localStorage['userName'] = data["Username"];

@@ -20,6 +20,7 @@ export class ChoicesComponent implements OnInit {
 
     this.choiceService.getChoices(this.choiceRequest).subscribe(data => {
       this.choices = data;
+      console.log(this.choiceRequest);
       $("#noChoicesText").hide()
       $("#chooseChoicesText").show()
     });

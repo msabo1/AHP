@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
+import { Choice } from '../../classes/choice';
+import { ChoiceService } from '../../services/choice.service';
 import Calculator from './HelperFunctions.js';
 
 @Component({
@@ -9,7 +11,9 @@ import Calculator from './HelperFunctions.js';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private choiceService: ChoiceService) { }
+
+  globalChoiceName: string;
 
   ngOnInit() {
 
@@ -18,6 +22,7 @@ export class HomeComponent implements OnInit {
     var CriteriaWeight;
 
     $("#RemoveLastCriterion").hide();
+    $("#saveCriteria").hide();
     $("#CriteriaTable").hide();
     $("#CriteriaButtons").hide();
 
@@ -31,17 +36,15 @@ export class HomeComponent implements OnInit {
 
     $("#ConfirmAlternativeScores").hide();
 
-    var choiceName: string;
-
     var criteriaList: string[] = [];
     var criteriaComparisonValues: number[] = [];
 
     var alternativeList: string[] = [];
     var alternativeComparisonValues: number[] = [];
 
-    $("#SetChoiceName").click(function () {
+    $("#SetChoiceName").click(() => {
       var name = $("#ChoiceNameInput").val();
-      choiceName = JSON.stringify(name);
+      this.globalChoiceName = JSON.stringify(name);
 
       var add = "<h1>" + name + "</h1>";
       $("#ShowChoiceName").text("");
@@ -50,6 +53,7 @@ export class HomeComponent implements OnInit {
 
     $("#SetCriterionName").click(function () {
       var name = $("#CriterionNameInput").val();
+      criteriaList.push(name.toString());
 
       criteriaCounter = criteriaCounter + 1;
       var addCriterion = "<tr><th scope = 'row'>" + criteriaCounter + "</th><td>" + name + "</td><td><button type='button' class='btn btn-primary' val='"+criteriaCounter+"' id='CriteriaEditButton" + criteriaCounter + "'>Edit</button></td></tr>";
@@ -57,10 +61,9 @@ export class HomeComponent implements OnInit {
 
       $("#RemoveLastCriterion").show();
       $("#CriteriaTable").show();
+      $("#saveCriteria").show();
 
       if (criteriaCounter > 1) $("#CalculateCriteriaScores").show();
-
-      criteriaList.push(name.toString());
 
       var sliderContainer = "<div class='container sliderContainer' id='sliderContainer" + criteriaCounter + "'></div>"
       $("#CriteriaContainer").append(sliderContainer);
@@ -70,7 +73,7 @@ export class HomeComponent implements OnInit {
         $(this).html("");
         for (var criterion = 0; criterion < criteriaList.length; criterion++) {
             if (criteriaList[criterion] != criteriaList[i]) {
-            var slider = "<div class='row text-center'><div class='col mt-4'><span class='mr-5 mb-1' style='color: dodgerblue; font-weight: bold'>" + criteriaList[i] + "</span><input type='range' class='custom-range mt-3' min ='-9' max ='9' step ='1' style='width: 50%'><span class='ml-5' style='color: dodgerblue; font-weight: bold'>" + criteriaList[criterion] + "</span></div></div>";
+              var slider = "<div class='row text-center'><div class='col mt-4'><span class='mr-5 mb-1' style='color: dodgerblue; font-weight: bold'>" + criteriaList[i] + "</span><input type='range' class='custom-range mt-3' min ='-9' max ='9' step ='1' value='0' style='width: 50%' id='" + criteriaList[i] + "/" + criteriaList[criterion] + "'><span class='ml-5' style='color: dodgerblue; font-weight: bold'>" + criteriaList[criterion] + "</span></div></div>";
               $(this).append(slider);
             }
            }
@@ -92,6 +95,7 @@ export class HomeComponent implements OnInit {
       $("#CriteriaButtons").append(addCriteriaButton);
       var criterionButtonID = "CriterionButtonID" + (criteriaCounter - 1).toString();
       $("#CriteriaButtons").find('button').last().attr("id", criterionButtonID);
+
       $("#CriteriaButtons").find('button').last().click(function () {
         if ($("#" + criterionRowID).is(":visible")) $("#" + criterionRowID).hide();
         else $("#" + criterionRowID).show();
@@ -99,6 +103,15 @@ export class HomeComponent implements OnInit {
 
       var criterionRowID = "CriterionRowID" + (criteriaCounter - 1).toString();
       $("#AlternativeContainer").children().last().attr("id", criterionRowID);
+      if (alternativeList.length > 1) {
+        for (var i = 1; i < alternativeList.length; i++) {
+          for (var j = 0; j < i; j++) {
+            var addComparison = "<div class='row justify-content-center mt-4'><span class='mr-5' style='color: dodgerblue; font-weight: bold'; padding-top: 4px>" + alternativeList[i] + "</span><input type='range' class='custom-range mt-3' min ='-9' max ='9' step ='1' style='width: 50%'><span class='ml-5' style='color: dodgerblue; font-weight: bold'>" + alternativeList[j] + "</span></div>";
+            $("#CriterionRowID" + (criteriaCounter-1)).children().last().append(addComparison);
+            $("#AlternativeContainer").find('input').addClass("alternativeSliderID");
+          }
+        }
+      }
 
     });
 
@@ -110,14 +123,16 @@ export class HomeComponent implements OnInit {
 
       criteriaList.pop();
 
-      if (criteriaCounter > 0) criteriaCounter = criteriaCounter - 1;
-
       for (let i = 0; i < criteriaCounter; i++) {
-        $("#CriteriaContainer").children().last().remove();
+        $("#sliderContainer" + (i + 1)).children().last().remove();
       }
+      $("#CriteriaContainer").children().last().remove();
+
+      if (criteriaCounter > 0) criteriaCounter = criteriaCounter - 1;
 
       if (criteriaCounter == 0) {
         $("#RemoveLastCriterion").hide();
+        $("#saveCriteria").hide();
         $("#CriteriaTable").hide();
 
         $("#AlternativeComparisonHelp").hide();
@@ -138,13 +153,14 @@ export class HomeComponent implements OnInit {
     });
     
     $("#CalculateCriteriaScores").click(function () {
-      $(".criteriaSliderID").each(function () {
+      $(".sliderContainer .custom-range").each(function () {
         var temp = parseInt($(this).val().toString());
         if (temp == -1 || temp == 0 || temp == 1) {
           criteriaComparisonValues.push(1);
         }
         else criteriaComparisonValues.push(temp);
       });
+      console.log(criteriaComparisonValues);
 
 
       /////////////////////
@@ -183,7 +199,7 @@ export class HomeComponent implements OnInit {
       
       for (var alternative = 0; alternative < alternativeList.length - 1; alternative++) {
         for (var criterion = 0; criterion < criteriaList.length; criterion++) {
-          var addComparison = "<div class='row justify-content-center mt-4'><span class='mr-5' style='color: dodgerblue; font-weight: bold'; padding-top: 4px>" + name + "</span><input type='range' class='custom-range mt-3' min ='-9' max ='9' step ='1' style='width: 50%'><span class='ml-5' style='color: dodgerblue; font-weight: bold'>" + alternativeList[alternative] + "</span></div>";
+          var addComparison = "<div class='row justify-content-center mt-4'><span class='mr-5' style='color: dodgerblue; font-weight: bold'; padding-top: 4px>" + name + "</span><input type='range' class='custom-range mt-3' min ='-9' max ='9' step ='1' style='width: 50%' id='" + criteriaList[criterion] + "/" + name + "/" + alternativeList[alternative] + "'><span class='ml-5' style='color: dodgerblue; font-weight: bold'>" + alternativeList[alternative] + "</span></div>";
           $("#CriterionRowID" + criterion.toString()).children().last().append(addComparison);
           $("#AlternativeContainer").find('input').addClass("alternativeSliderID");
         }
@@ -206,6 +222,7 @@ export class HomeComponent implements OnInit {
         $("#ConfirmAlternativeScores").hide();
         $("#AlternativeContainer").hide();
         $("#AlternativeComparisonHelp").hide();
+        $("#CriteriaButtons").hide();
       }
 
       for (let i = 0; i < criteriaCounter; i++) {
@@ -245,9 +262,21 @@ export class HomeComponent implements OnInit {
       let FinalScore = Calc.CalculateFinalScore(AlternativeComparisonMatrix, CriteriaWeight);
       console.log(FinalScore);
     });
+
+    $("#CriteriaContainer").on('change', '.custom-range', function () {
+      var ID = this.id.split("/");
+      $("#" + ID[1] + "\\/" + ID[0]).prop('value', -this.value);
+    });
   }
 
-  showSliders() {
-    console.log("nesto");
+  saveCriteria() {
+    //let choice = new Choice("", JSON.parse(this.globalChoiceName), window.localStorage['UserID']);
+    //console.log(choice);
+    //var c = JSON.stringify(this.globalChoiceName);
+    /*
+    console.log({ _choiceID: "a", name: "c", userID: window.localStorage['UserID'] });
+    this.choiceService.createChoice({ _choiceID: null, name: this.globalChoiceName, userID: window.localStorage['UserID'] }).subscribe(data => {
+      console.log(data);
+    });*/
   }
 }
