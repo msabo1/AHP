@@ -61,8 +61,9 @@ namespace AHP.Service
             using (var uof = _unitOfWorkFactory.Create())
             {
                 _altRepo.Add(alternative);
-                 _altCompRepo.AddRange(acs);
                 await _altRepo.SaveAsync();
+                _altCompRepo.AddRange(acs);
+                await _altCompRepo.SaveAsync();
                 uof.Commit();
             }
                
