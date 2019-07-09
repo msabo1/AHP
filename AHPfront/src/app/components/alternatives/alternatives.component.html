@@ -13,6 +13,7 @@
             <input type="text" formControlName="newName" value="{{ alternative.AlternativeName }}" />
             <input (click)="MakeEditInvisible('edit' + alternative.AlternativeID)" type="submit" name="save" value="Save" class="btn-xs btn-success">
           </form>
+          <a [routerLink]="[alternative.AlternativeID]" class="btn btn-primary mr-2">Comparisons</a>
           <button (click)="MakeEditVisible('edit' + alternative.AlternativeID)" class="btn btn-warning mr-2">Edit</button>
           <button class="btn btn-danger" (click)="Delete(alternative)">Delete</button>
         </div>

@@ -4,6 +4,6 @@ export class AlternativesComparison {
   AlternativeID2: string;
   AlternativeRatio: number;
   AlternativeName1: string;
-  Alternativename2: string;
+  AlternativeName2: string;
   constructor() { }
 }

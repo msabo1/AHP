@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row mb-5 mt-5">
+    <div class="col">
+      <button class="btn btn-primary" (click)="Calculate()">Calculate</button>
+    </div>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Alternative</th>
+        <th scope="col">Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let alternative of alternatives">
+        <td>
+          {{alternative.AlternativeName}}
+        </td>
+        <td>
+          {{alternative.AlternativeScore}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="btn-xs btn-warning mr-2" (click)="PreviousPage()">Previous page</button>
+  <button class="btn-xs btn-warning mr-2" (click)="NextPage()">Next page</button>
+</div>
