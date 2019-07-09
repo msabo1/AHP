@@ -16,7 +16,7 @@ namespace AHP.Service
         IAlternativeRepository _alternativeRepository;
         IAlternativeComparisonRepository _alternativeComparisonRepo;
         ICriteriaComparisonRepository _criteriaComparisonRepo;
-        IVectorFiller _vectorFiller;
+        IAHPService _AHPService;
 
         public CalculateAHPScores(
             IUnitOfWorkFactory unitOfWorkFactory,
@@ -24,14 +24,14 @@ namespace AHP.Service
             IAlternativeComparisonRepository alternativeComparisonRepo,
             ICriterionRepository criterionRepository,
             ICriteriaComparisonRepository criteriaComparisonRepo,
-            IVectorFiller vectorFiller)
+            IAHPService AHPService)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
             _alternativeRepository = alternativeRepository;
             _alternativeComparisonRepo = alternativeComparisonRepo;
             _criterionRepository = criterionRepository;
             _criteriaComparisonRepo = criteriaComparisonRepo;
-            _vectorFiller = vectorFiller;
+            _AHPService = AHPService;
         }
 
         public async Task<List<IAlternativeModel>> CalculateCriteriaWeights(Guid choiceId)
@@ -47,22 +47,23 @@ namespace AHP.Service
             double[,] matrix = new double[criteria.Count, criteria.Count];
             foreach(var criterion in criteria)
             {
+                matrix[hash[criterion.CriteriaID], hash[criterion.CriteriaID]] = 1;
                 var comparisons = await _criteriaComparisonRepo.GetByCriterionIDAsync(criterion.CriteriaID);
                 foreach(var comparison in comparisons)
                 {
                     if(criterion.CriteriaID == comparison.CriteriaID1)
                     {
-                        matrix[hash[criterion.CriteriaID], hash[comparison.CriteriaID2]] = comparison.CriteriaRatio;
-                        matrix[hash[comparison.CriteriaID2], hash[criterion.CriteriaID]] = 1 / comparison.CriteriaRatio;
+                        matrix[hash[comparison.CriteriaID2], hash[comparison.CriteriaID1]] = comparison.CriteriaRatio;
+                        matrix[hash[comparison.CriteriaID1], hash[comparison.CriteriaID2]] = 1 / comparison.CriteriaRatio;
                     }
                     else
                     {
-                        matrix[hash[criterion.CriteriaID], hash[comparison.CriteriaID2]] = 1 / comparison.CriteriaRatio;
-                        matrix[hash[comparison.CriteriaID2], hash[criterion.CriteriaID]] = comparison.CriteriaRatio;
+                        matrix[hash[comparison.CriteriaID2], hash[comparison.CriteriaID1]] = 1 / comparison.CriteriaRatio;
+                        matrix[hash[comparison.CriteriaID1], hash[comparison.CriteriaID2]] = comparison.CriteriaRatio;
                     }
                 }
             }
-            var weights = _vectorFiller.NthRoots(criteria.Count, matrix);
+            var weights = _AHPService.CalculatePriortyVector(matrix);
             
             return await CalculateAlternativeWeights(choiceId, weights, criteria);
             
@@ -85,22 +86,23 @@ namespace AHP.Service
                 double[,] matrix = new double[alternatives.Count, alternatives.Count];
                 foreach(var alternative in alternatives)
                 {
+                    matrix[hash[alternative.AlternativeID], hash[alternative.AlternativeID]] = 1;
                     var comparisons = await _alternativeComparisonRepo.GetByCriteriaAlternativesIDAsync(criterion.CriteriaID, alternative.AlternativeID);
                     foreach(var comparison in comparisons)
                     {
                         if(alternative.AlternativeID == comparison.AlternativeID1)
                         {
-                            matrix[hash[alternative.AlternativeID], hash[comparison.AlternativeID2]] = comparison.AlternativeRatio;
-                            matrix[hash[comparison.AlternativeID2], hash[alternative.AlternativeID]] = 1 / comparison.AlternativeRatio;
+                            matrix[hash[comparison.AlternativeID2], hash[comparison.AlternativeID1]] = comparison.AlternativeRatio;
+                            matrix[hash[comparison.AlternativeID1], hash[comparison.AlternativeID2]] = 1 / comparison.AlternativeRatio;
                         }
                         else
                         {
-                            matrix[hash[alternative.AlternativeID], hash[comparison.AlternativeID2]] = 1 / comparison.AlternativeRatio;
-                            matrix[hash[comparison.AlternativeID2], hash[alternative.AlternativeID]] = comparison.AlternativeRatio;
+                            matrix[hash[comparison.AlternativeID2], hash[comparison.AlternativeID1]] = 1 / comparison.AlternativeRatio;
+                            matrix[hash[comparison.AlternativeID1], hash[comparison.AlternativeID2]] = comparison.AlternativeRatio;
                         }
                     }
                 }
-                var weight = _vectorFiller.NthRoots(alternatives.Count, matrix);
+                var weight = _AHPService.CalculatePriortyVector(matrix);
                 weights.Add(weight);
             }
             double[,] alternativeWeightMatrix = new double[criteria.Count, alternatives.Count];
@@ -108,21 +110,21 @@ namespace AHP.Service
             foreach(var weight in weights)
             {
                 for(int j = 0; j<alternatives.Count; j++) {
-                    alternativeWeightMatrix[i, j] = weight[j];
+                    alternativeWeightMatrix[j, i] = weight[j];
                 }
                 i++;
             }
-            FinalScoreCalculator calculator = new FinalScoreCalculator();
-            var alternativeScores = calculator.CalculateFinalScore(alternativeWeightMatrix, choiceWeights);
+            var alternativeScores = _AHPService.FinalCalculate(choiceWeights, alternativeWeightMatrix);
             //sprema dobivene scoreove
 
             using (var uof = _unitOfWorkFactory.Create())
             {
-                for (i = 0; i < alternatives.Count; i++)
+                i = 0;
+                foreach(var alternative in alternatives)
                 {
-                    alternatives[i].AlternativeScore = alternativeScores[i];
-                    await _alternativeRepository.UpdateAsync(alternatives[i]);
-                   
+                    alternative.AlternativeScore = alternativeScores[i];
+                    await _alternativeRepository.UpdateAsync(alternative);
+                    i++;
                 }
                 await _alternativeRepository.SaveAsync();
                 uof.Commit();
