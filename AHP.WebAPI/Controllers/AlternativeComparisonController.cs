@@ -38,7 +38,7 @@ namespace AHP.WebAPI.Controllers
             {
                 return BadRequest();
             }
-            var status = await _alternativeComparisonService.GetAsync(criteriaID, page);
+            var status = await _alternativeComparisonService.GetAsync(criteriaID, alternativeID, page);
 
             return Ok(status);
         }
@@ -59,12 +59,7 @@ namespace AHP.WebAPI.Controllers
 
     
     }
-    public class AltCompRequest
-    {
-        public Guid criteriaID;
-        public Guid alternativeID;
-        public int page;
-    }
+ 
 
     public class AlternativeComparisonControllerModel
     {

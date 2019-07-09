@@ -15,16 +15,22 @@ import { AddAlternativeComponent } from './components/alternatives/add-alternati
 import { CriteriaComponent } from './components/criteria/criteria.component';
 import { AddCriterionComponent } from './components/criteria/add-criterion/add-criterion.component';
 import { CriteriaComparisonsComponent } from './components/criteria/criteria-comparisons/criteria-comparisons.component';
+import { AlternativesComparisonComponent } from './components/alternatives/alternatives-comparison/alternatives-comparison.component';
+import { ChooseCriterionComponent } from './components/alternatives/choose-criterion/choose-criterion.component';
+import { ChoiceComponent } from './components/choices/choice/choice.component';
 
 
 const appRoutes: Routes = [{ path: '', component: LoginComponent },
   { path: 'choices', component: ChoicesComponent },
+  { path: 'choices/:id', component: ChoiceComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'alternatives/:id', component: AlternativesComponent },
   { path: 'alternatives/:id/add', component: AddAlternativeComponent },
+  { path: 'alternatives/:id/:alternativeid', component: ChooseCriterionComponent },
+  { path: 'alternatives/:id/:alternativeid/:criteriaid', component: AlternativesComparisonComponent },
   { path: 'criteria/:id', component: CriteriaComponent },
   { path: 'criteria/:id/add', component: AddCriterionComponent },
-  { path: 'criteria/:id/comparisons', component: CriteriaComparisonsComponent }];
+  { path: 'criteria/:id/:criteriaid', component: CriteriaComparisonsComponent }];
 
 @NgModule({
   declarations: [
@@ -36,7 +42,10 @@ const appRoutes: Routes = [{ path: '', component: LoginComponent },
     AddAlternativeComponent,
     CriteriaComponent,
     AddCriterionComponent,
-    CriteriaComparisonsComponent
+    CriteriaComparisonsComponent,
+    AlternativesComparisonComponent,
+    ChooseCriterionComponent,
+    ChoiceComponent
   ],
   imports: [
     BrowserModule,

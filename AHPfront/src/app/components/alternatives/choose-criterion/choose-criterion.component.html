@@ -1,24 +1,20 @@
 <div class="container">
   <div class="row mb-5 mt-5">
     <div class="col">
-      Edit comparisons:
+      Izaberi kriterij:
     </div>
   </div>
-  <div class="row" *ngFor="let comparison of criterionComparisons">
+  <div class="row" *ngFor="let criterion of criteria">
     <div class="col">
       <div class="card">
         <div class="card-body">
-          {{ DisplayName(comparison) }}
-
-          <input type="text" value="{{ DisplayRatio(comparison) }}" (change)="AddToUpdate(comparison, $event.target.value)" />
+          <a [routerLink]="[criterion.CriteriaID]">{{ criterion.CriteriaName }}</a>
         </div>
       </div>
     </div>
   </div>
-  <button class="btn btn-success mr-2" (click)="Save()">Save</button>
   <div>
     <button class="btn-xs btn-warning mr-2" (click)="PreviousPage()">Previous page</button>
     <button class="btn-xs btn-warning mr-2" (click)="NextPage()">Next page</button>
   </div>
 </div>
-

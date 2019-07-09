@@ -83,6 +83,8 @@ namespace AHP.Service
                 _critCompRepo.AddRange(ccs);
                 _altCompRepo.AddRange(acs);
                 await _critRepo.SaveAsync();
+                await _critCompRepo.SaveAsync();
+                await _altCompRepo.SaveAsync();
                 uof.Commit();
             }
             

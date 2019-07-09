@@ -55,5 +55,4 @@ export class CriteriaComponent implements OnInit {
       this.criterionService.GetChoiceCriteria(this.route.snapshot.paramMap.get('id'), this.page + 1).subscribe(criteria => { this.criteria = criteria; this.page++; });
     }
   }
-
 }

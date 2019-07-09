@@ -30,22 +30,11 @@ export class AddCriterionComponent implements OnInit {
     criterion.ChoiceID = this.route.snapshot.paramMap.get('id');
     this.criterionService.Add(criterion).subscribe(criterion => {
       if (criterion.CriteriaID != null) {
-        this.criterionService.GetChoiceCriteria(this.route.snapshot.paramMap.get('id'))
-        this.router.navigate(['criteria/' + this.route.snapshot.paramMap.get('id')])
+        localStorage['Criterion'] = criterion.CriteriaID;
+        this.router.navigate(['criteria/' + this.route.snapshot.paramMap.get('id') + '/' + criterion.CriteriaID])
       }
     });
   }
 
-  private GenerateComparisons(criterion: Criterion, criteria: Criterion[]) {
-    let comparisons:CriteriaComparison[] = new Array<CriteriaComparison>();
-    criteria.forEach(c => {
-      let comp = new CriteriaComparison();
-      comp.CriteriaID1 = criterion.CriteriaID;
-      comp.CriteriaID2 = c.CriteriaID;
-      comp.CriteriaRatio = 1;
-      comparisons.push(comp);
-    });
-    this.criteriaComparisonService.Add(comparisons);
-  }
 
 }

@@ -157,6 +157,7 @@ namespace AHP.Service
                     await _alternativeRepository.UpdateAsync(alternatives[i]);
                    
                 }
+                await _alternativeRepository.SaveAsync();
                 uof.Commit();
             }
             return alternatives;

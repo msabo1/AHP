@@ -29,7 +29,7 @@ export class AddAlternativeComponent implements OnInit {
     alternative.ChoiceID = this.route.snapshot.paramMap.get('id');
     this.alternativeService.Add(alternative).subscribe(alternative => {
       if (alternative.AlternativeID != null) {
-        this.router.navigate(['alternatives/' + this.route.snapshot.paramMap.get('id')])
+        this.router.navigate(['alternatives/' + this.route.snapshot.paramMap.get('id') + '/' + alternative.AlternativeID]);
       }
     });
   }
