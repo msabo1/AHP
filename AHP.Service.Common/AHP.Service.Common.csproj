@@ -44,6 +44,7 @@
     <Compile Include="AHP\IFinalScoreCalculator.cs" />
     <Compile Include="AHP\IMatrixFiller.cs" />
     <Compile Include="AHP\IVectorFiller.cs" />
+    <Compile Include="IAHPService.cs" />
     <Compile Include="ICalculateAHPScores.cs" />
     <Compile Include="ICriteriaComparisonService.cs" />
     <Compile Include="IAlternativeComparisonService.cs" />

@@ -47,6 +47,7 @@
     <Reference Include="System.Transactions" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AHPService.cs" />
     <Compile Include="AHP\ConsistencyService.cs" />
     <Compile Include="AHP\FinalScoreCalculatorService.cs" />
     <Compile Include="AHP\MatrixFillerService.cs" />
