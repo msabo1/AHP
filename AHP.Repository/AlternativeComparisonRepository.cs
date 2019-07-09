@@ -54,7 +54,7 @@ namespace AHP.Repository
             return ac;
         }
 
-        public async Task<List<IAlternativeComparisonModel>> GetByAlternativesIDAsync(Guid alternativeID, int PageNumber, int PageSize = 10)
+        public async Task<List<IAlternativeComparisonModel>> GetPageByAlternativesIDAsync(Guid alternativeID, int PageNumber, int PageSize = 10)
         {
             var acs = await _context.AlternativeComparisons.Where(ac => ac.AlternativeID1 == alternativeID || ac.AlternativeID2 == alternativeID).OrderByDescending(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
             return _mapper.Map<List<AlternativeComparison>, List<IAlternativeComparisonModel>>(acs);
@@ -67,9 +67,15 @@ namespace AHP.Repository
         }
 
 
-        public async Task<List<IAlternativeComparisonModel>> GetByCriteriaAlternativesIDAsync(Guid criteriaID, Guid alternativeID,  int PageNumber, int PageSize = 5)
+        public async Task<List<IAlternativeComparisonModel>> GetPageByCriteriaAlternativesIDAsync(Guid criteriaID, Guid alternativeID,  int PageNumber, int PageSize = 5)
         {
             var acs = await _context.AlternativeComparisons.Where(ac => ac.CriteriaID == criteriaID && (ac.AlternativeID1 == alternativeID || ac.AlternativeID2 == alternativeID)).OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
+            return _mapper.Map<List<AlternativeComparison>, List<IAlternativeComparisonModel>>(acs);
+        }
+
+        public async Task<List<IAlternativeComparisonModel>> GetByCriteriaAlternativesIDAsync(Guid criteriaID, Guid alternativeID)
+        {
+            var acs = await _context.AlternativeComparisons.Where(ac => ac.CriteriaID == criteriaID && (ac.AlternativeID1 == alternativeID || ac.AlternativeID2 == alternativeID)).ToListAsync();
             return _mapper.Map<List<AlternativeComparison>, List<IAlternativeComparisonModel>>(acs);
         }
 

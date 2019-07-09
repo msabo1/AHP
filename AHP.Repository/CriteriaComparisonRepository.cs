@@ -61,6 +61,12 @@ namespace AHP.Repository
             return _mapper.Map<List<CriteriaComparison>, List<ICriteriaComparisonModel>>(ccs);
         }
 
+        public async Task<List<ICriteriaComparisonModel>> GetByCriterionIDAsync(Guid criteriaID)
+        {
+            var ccs = await _context.CriteriaComparisons.Where(cc => cc.CriteriaID1 == criteriaID || cc.CriteriaID2 == criteriaID).ToListAsync();
+            return _mapper.Map<List<CriteriaComparison>, List<ICriteriaComparisonModel>>(ccs);
+        }
+
         public async Task<List<ICriteriaComparisonModel>> GetByFirstCriterionIDAsync(Guid criteriaID)
         {
             var ccs = await _context.CriteriaComparisons.Where(cc => cc.CriteriaID1 == criteriaID).OrderBy(x => x.DateCreated).ToListAsync();
