@@ -84,7 +84,7 @@ namespace AHP.Service
             foreach(var criterion in criteria)
             {
                 double[,] matrix = new double[alternatives.Count, alternatives.Count];
-                foreach(var alternative in alternatives)
+                foreach (var alternative in alternatives)
                 {
                     matrix[hash[alternative.AlternativeID], hash[alternative.AlternativeID]] = 1;
                     var comparisons = await _alternativeComparisonRepo.GetByCriteriaAlternativesIDAsync(criterion.CriteriaID, alternative.AlternativeID);
@@ -105,7 +105,7 @@ namespace AHP.Service
                 var weight = _AHPService.CalculatePriortyVector(matrix);
                 weights.Add(weight);
             }
-            double[,] alternativeWeightMatrix = new double[criteria.Count, alternatives.Count];
+            double[,] alternativeWeightMatrix = new double[alternatives.Count, criteria.Count];
             i = 0;
             foreach(var weight in weights)
             {

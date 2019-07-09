@@ -66,6 +66,7 @@ namespace AHP.Service
                     await _altCompRepo.UpdateAsync(baseComparison);
                 }
                 await _altCompRepo.SaveAsync();
+                uof.Commit();
                 return comparisons;
             }
         }

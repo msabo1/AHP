@@ -26,7 +26,6 @@ export class AlternativesComparisonComponent implements OnInit {
   }
 
   DisplayName(comparison: AlternativesComparison): string {
-    console.log('a');
     return comparison.AlternativeID1 == this.alternativeID ? comparison.AlternativeName2 : comparison.AlternativeName1;
   }
 

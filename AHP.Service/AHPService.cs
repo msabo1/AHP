@@ -33,10 +33,11 @@ namespace AHP.Service
         public double[] FinalCalculate(double[] criteriaPriorityVector, double[,] alternativesPriorityMatrix)
         {
             var n = alternativesPriorityMatrix.GetLength(0);
+            var m = alternativesPriorityMatrix.GetLength(1);
             double[] scores = new double[n];
             for(int i = 0; i<n; i++)
             {
-                for(int j = 0; j < n; j++)
+                for(int j = 0; j < m; j++)
                 {
                     scores[i] += criteriaPriorityVector[j] * alternativesPriorityMatrix[i, j]; 
                 }

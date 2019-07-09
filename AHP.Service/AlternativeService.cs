@@ -58,6 +58,7 @@ namespace AHP.Service
                 _altRepo.Add(alternative);
                  _altCompRepo.AddRange(acs);
                 await _altRepo.SaveAsync();
+                await _altCompRepo.SaveAsync();
                 uof.Commit();
             }
                

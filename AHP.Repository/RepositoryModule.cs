@@ -23,7 +23,7 @@ namespace AHP.Repository
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
             builder.RegisterType<UnitOfWorkFactory>().As<IUnitOfWorkFactory>();
 
-            builder.RegisterType<AHPEntities>().AsSelf().SingleInstance();
+            builder.RegisterType<AHPEntities>().AsSelf();
 
         }
     }
