@@ -66,11 +66,11 @@ namespace AHP.WebAPI.Controllers
             }
         }
         [HttpGet]
-        [Route("api/choice/calculate")]
-        public async Task<IHttpActionResult> GetCalculate(ChoiceControllerModel choice)
+        [Route("api/choice/calculate/{choiceid}")]
+        public async Task<IHttpActionResult> GetCalculate(Guid choiceid)
         {
             
-             var status = await _AHPcalculate.CalculateCriteriaWeights(choice.ChoiceID);
+             var status = await _AHPcalculate.CalculateCriteriaWeights(choiceid);
 
             return Ok(status);
         }
