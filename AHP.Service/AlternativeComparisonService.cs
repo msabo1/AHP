@@ -23,9 +23,8 @@ namespace AHP.Service
         }
 
 
-            return comparisons;
-
-        }
+           
+        
         public async Task<List<IAlternativeComparisonModel>> GetAsync(Guid criteriaId, Guid alternativeId, int page = 1)
         {
             var alternatives = await _altCompRepo.GetByCriteriaAlternativesIDAsync(criteriaId, alternativeId, page);

@@ -136,10 +136,11 @@ namespace AHP.Service
             var result = sviWeightovi.OrderBy(x => x.Count);
 
             //sprema alternativ weightove u matricu po kriterijima
-            double[,] alternativeWeightMatrix = new double[criteria.Count(), alternatives.Count()];
+            double[,] alternativeWeightMatrix = new double[alternatives.Count(), criteria.Count()];
+            var duljina = sviWeightovi[0].ToArray().Length;
             for (int i = 0; i < sviWeightovi.Count; i++)
             {
-                var duljina = sviWeightovi[i].ToArray().Length;
+               
                 for (int j = 0; j < duljina; j++)
                 {
                     alternativeWeightMatrix[j,i] = sviWeightovi[i][j];

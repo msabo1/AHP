@@ -31,8 +31,8 @@ namespace AHP.WebAPI.Controllers
         /// <param name="criteriaID"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        [Route("api/alternativecomparison/{criteriaID}/{page}")]
-        public async Task<IHttpActionResult> Get(Guid criteriaID, int page)
+        [Route("api/alternativecomparison/{criteriaID}/{alternativeID}/{page}")]
+        public async Task<IHttpActionResult> Get(Guid criteriaID, Guid alternativeID , int page)
         {
             if(criteriaID == null|| page < 1)
             {
