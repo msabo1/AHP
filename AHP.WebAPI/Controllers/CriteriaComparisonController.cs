@@ -85,6 +85,8 @@ namespace AHP.WebAPI.Controllers
         public Guid CriteriaID1 { get; set; }
         public Guid CriteriaID2 { get; set; }
         public double CriteriaRatio { get; set; }
+        public string CriteriaName1 { get; set; }
+        public string CriteriaName2 { get; set; }
     }
 
     public class CritCompGetModel

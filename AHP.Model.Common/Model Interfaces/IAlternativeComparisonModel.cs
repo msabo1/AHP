@@ -10,5 +10,7 @@ namespace AHP.Model.Common
         Guid CriteriaID { get; set; }
         DateTime DateCreated { get; set; }
         DateTime? DateUpdated { get; set; }
+        string AlternativeName1 { get; set; }
+        string AlternativeName2 { get; set; }
     }
 }

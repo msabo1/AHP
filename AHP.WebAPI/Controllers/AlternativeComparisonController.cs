@@ -77,5 +77,7 @@ namespace AHP.WebAPI.Controllers
         public System.Guid AlternativeID1 { get; set; }
         public System.Guid AlternativeID2 { get; set; }
         public double AlternativeRatio { get; set; }
+        public string AlternativeName1 { get; set; }
+        public string AlternativeName2 { get; set; }
     }
 }	

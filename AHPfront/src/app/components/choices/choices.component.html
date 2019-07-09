@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row mb-5 mt-5">
+    <div class="col">
+      Izaberi choice:
+    </div>
+  </div>
+  <form class="form" (ngSubmit)="Add()" [formGroup]="AddForm">
+    <input type="text" formControlName="Name" placeholder="Name" />
+    <input type="submit" class="btn-xs btn-success" name="Add" value="Add"/>
+  </form>
+  <div class="row" *ngFor="let choice of choices">
+
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          {{ choice.ChoiceName }}
+          <form id="edit{{choice.ChoiceID}}" class="mr-2" style="display: none" (ngSubmit)="Edit(choice)" [formGroup]="EditForm">
+            <input type="text" formControlName="newName" value="{{ choice.ChoiceName }}" />
+            <input (click)="MakeEditInvisible('edit' + choice.ChoiceID)" type="submit" name="save" value="Save" class="btn-xs btn-success">
+          </form>
+          <button (click)="MakeEditVisible('edit' + choice.ChoiceID)" class="btn btn-warning mr-2">Edit</button>
+          <a [routerLink]="['/alternatives', choice.ChoiceID]" class="btn btn-primary mr-2">Alternatives</a>
+          <a [routerLink]="['/criteria', choice.ChoiceID]" class="btn btn-primary mr-2">Criteria</a>
+          <button class="btn btn-danger" (click)="Delete(choice)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="btn-xs btn-warning mr-2" (click) ="PreviousPage()">Previous page</button>
+  <button class="btn-xs btn-warning mr-2" (click)="NextPage()">Next page</button>
+</div>
+
