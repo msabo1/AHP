@@ -10,7 +10,7 @@ namespace AHP.Service.Common
     public interface IUserService
     {
         Task<IUserModel> UpdateAsync(IUserModel user);
-        Task<IUserModel> CheckAsync(IUserModel user);
+        Task<IUserModel> RegisterAsync(IUserModel user);
         Task<IUserModel> GetAsync(IUserModel user);
         Task<bool> DeleteAsync(IUserModel user);
     }

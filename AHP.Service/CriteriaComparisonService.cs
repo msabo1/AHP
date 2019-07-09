@@ -21,19 +21,14 @@ namespace AHP.Service
             _criteriaComparisonRepository = criteriaComparisonRepository;
             _unitOfWorkFactory = unitOfWorkFactory;
         }
-       public async Task<List<ICriteriaComparisonModel>> AddAsync(List<ICriteriaComparisonModel> comparisons)
-        {
-            foreach(var comparison in comparisons)
-            {
-                comparison.DateCreated = DateTime.Now;
-                comparison.DateUpdated = DateTime.Now;
-            }
-            
-            comparisons = _criteriaComparisonRepository.AddRange(comparisons);
-            await _criteriaComparisonRepository.SaveAsync();
-            return comparisons;
-        }
 
+        /// <summary>
+        /// Read method,
+        /// gets a page of criteria comparisons by choiceID
+        /// </summary>
+        /// <param name="choiceId"></param>
+        /// <param name="page"></param>
+        /// <returns>Returns a list of criteria comparisons</returns>
         public async Task<List<ICriteriaComparisonModel>> GetByCriteriaAsync(Guid choiceId, int page)
         {
             var comparisons = await _criteriaComparisonRepository.GetPageByCriterionIDAsync(choiceId, page);
@@ -45,7 +40,12 @@ namespace AHP.Service
             return comparisons;
         }
 
-
+        /// <summary>
+        /// Update method,
+        /// updates criteria comparisons
+        /// </summary>
+        /// <param name="comparisons"></param>
+        /// <returns>Returns updated comparisons</returns>
         public async Task<List<ICriteriaComparisonModel>> UpdateAsync(List<ICriteriaComparisonModel> comparisons)
         {
             using (var uof = _unitOfWorkFactory.Create())

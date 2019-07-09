@@ -34,6 +34,12 @@ namespace AHP.Service
             _matrixFiller = matrixFiller;
         }
 
+        /// <summary>
+        /// Calculates criteria weights of a choice,
+        /// invokes CalculateAlternativeWeights
+        /// </summary>
+        /// <param name="choiceId"></param>
+        /// <returns>Returns list of updated AlternativeModel</returns>
         public async Task<List<IAlternativeModel>> CalculateCriteriaWeights(Guid choiceId)
         {
             var criteria = await _criterionRepository.GetPageByChoiceIDAsync(choiceId, 1);
@@ -41,27 +47,28 @@ namespace AHP.Service
             List<List<double>> comparisons = new List<List<double>>();
             List<ICriteriaComparisonModel> sviComparisoni = new List<ICriteriaComparisonModel>();
             Guid[] CriteriaID = new Guid[criteria.Count];
+            //loads all criteria comparisons in a list
             for (int i = 0; i < criteria.Count; i++)
             {
                 var criteriaComparisons = await _criteriaComparisonRepo.GetByFirstCriterionIDAsync(criteria[i].CriteriaID);
                 sviComparisoni.AddRange(criteriaComparisons);
                 CriteriaID[criteriaComparisons.Count] = criteria[i].CriteriaID;
             }
-                
-                for (int i = 0; i < criteria.Count; i++)
+            //Creates criteira comparisons for new criteria
+            for (int i = 0; i < criteria.Count; i++)
+            {
+                List<double> comparisoni= new List<double>();
+                for (int j = 0; j < criteria.Count; j++)
                 {
-                    List<double> comparisoni= new List<double>();
-                    for (int j = 0; j < criteria.Count; j++)
+                    var comparison = sviComparisoni.Find(a => a.CriteriaID2 == CriteriaID[j] && a.CriteriaID1 == CriteriaID[i]);
+                    if (comparison != null)
                     {
-                       var comparison = sviComparisoni.Find(a => a.CriteriaID2 == CriteriaID[j] && a.CriteriaID1 == CriteriaID[i]);
-                       if (comparison != null)
-                       {
-                           comparisoni.Add(comparison.CriteriaRatio);
-                      }
+                        comparisoni.Add(comparison.CriteriaRatio);
                     }
-                comparisons.Add(comparisoni);
-
                 }
+            comparisons.Add(comparisoni);
+
+            }
             var result = comparisons.OrderBy(x => x.Count);
             int dimension = comparisons.Count;
             List<double> krajnjaLista = new List<double>();
@@ -76,7 +83,14 @@ namespace AHP.Service
             
         }
 
-
+        /// <summary>
+        /// Calculates alternative weights, calculates final scores, 
+        /// alternatives with new scores
+        /// </summary>
+        /// <param name="choiceId"></param>
+        /// <param name="choiceWeights"></param>
+        /// <param name="criteria"></param>
+        /// <returns>Returns list of AlternativeModel</returns>
         public async Task<List<IAlternativeModel>> CalculateAlternativeWeights(Guid choiceId, double[] choiceWeights, List<ICriterionModel> criteria)
         {
             var alternatives = await _alternativeRepository.GetByChoiceIDAsync(choiceId);
@@ -121,7 +135,7 @@ namespace AHP.Service
             }
             var result = sviWeightovi.OrderBy(x => x.Count);
 
-            //sprema alternativ weighto - ve u matricu po kriterijima
+            //sprema alternativ weightove u matricu po kriterijima
             double[,] alternativeWeightMatrix = new double[criteria.Count(), alternatives.Count()];
             for (int i = 0; i < sviWeightovi.Count; i++)
             {

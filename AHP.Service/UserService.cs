@@ -19,7 +19,13 @@ namespace AHP.Service.UserCRUD
             _unitOfWorkFactory = unitOfWorkFactory;
             _userRepository = userRepository;
         }
-        public async Task<IUserModel> CheckAsync(IUserModel user)
+        /// <summary>
+        /// Create method,
+        /// registers an user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>Returns registered user</returns>
+        public async Task<IUserModel> RegisterAsync(IUserModel user)
         {
             IUserModel _user = await _userRepository.GetByUsernameAsync(user.Username);
             if (_user != null)
@@ -38,7 +44,12 @@ namespace AHP.Service.UserCRUD
                 return user;
             }
         }
-
+        /// <summary>
+        /// Read method,
+        /// checks if password/username match
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>Returns user</returns>
         public async Task<IUserModel> GetAsync(IUserModel user)
         {
             var _user = await _userRepository.GetByUsernameAsync(user.Username);
@@ -58,28 +69,38 @@ namespace AHP.Service.UserCRUD
                 return null;
             }
         }
+        /// <summary>
+        /// Update method,
+        /// updates user usermname/password
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public async Task<IUserModel> UpdateAsync(IUserModel user)
         {
 
             IUserModel updated;
             var _baseUser = await _userRepository.GetByIDAsync(user.UserID);
       
-                _baseUser.DateUpdated = DateTime.Now;
-                if (user.Password != null) _baseUser.Password = user.Password;
-                if (user.Username != null) _baseUser.Username = user.Username;
-                updated = await _userRepository.UpdateAsync(_baseUser);
-                await _userRepository.SaveAsync();
+            _baseUser.DateUpdated = DateTime.Now;
+            if (user.Password != null) _baseUser.Password = user.Password;
+            if (user.Username != null) _baseUser.Username = user.Username;
+            updated = await _userRepository.UpdateAsync(_baseUser);
+            await _userRepository.SaveAsync();
               
             return updated;
         }
+        /// <summary>
+        /// Delete method,
+        /// deletes an user, cascade deletes everything tied to user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>Returns bool depending on success</returns>
         public async Task<bool> DeleteAsync(IUserModel user)
         {
-            bool a = true;
-            
-                a = await _userRepository.DeleteAsync(user);
-                await _userRepository.SaveAsync();
+            var deleted= await _userRepository.DeleteAsync(user);
+            await _userRepository.SaveAsync();
              
-            return a;
+            return deleted;
         }
 
     }

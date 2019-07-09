@@ -27,7 +27,12 @@ namespace AHP.WebAPI.Controllers
             _choiceService = choiceService;
         }
 
-
+        /// <summary>
+        /// Post method,
+        /// /api/choice/
+        /// </summary>
+        /// <param name="choice"></param>
+        /// <returns>Returns create ChoiceControllerModel</returns>
         public async Task<IHttpActionResult> Post(ChoiceControllerModel choice)
         {
             if (choice == null)
@@ -46,6 +51,13 @@ namespace AHP.WebAPI.Controllers
                 return NotFound();
             }
         }
+        /// <summary>
+        /// Get method,
+        /// /api/choice/?userID=&page=
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="page"></param>
+        /// <returns>Returns list of ChoiceControllerModel</returns>
         [HttpGet]
         [Route("api/choice/{userID}/{page}")]
         public async Task<IHttpActionResult> GetChoice(Guid userID, int page)
@@ -65,6 +77,13 @@ namespace AHP.WebAPI.Controllers
                 return NotFound();
             }
         }
+        /// <summary>
+        /// Get method,
+        /// /api/choice/calculate,
+        /// calculates scores of a choice
+        /// </summary>
+        /// <param name="choice"></param>
+        /// <returns>Returns list of AlternativeControllerModel</returns>
         [HttpGet]
         [Route("api/choice/calculate")]
         public async Task<IHttpActionResult> GetCalculate(ChoiceControllerModel choice)
@@ -74,6 +93,12 @@ namespace AHP.WebAPI.Controllers
 
             return Ok(status);
         }
+        /// <summary>
+        /// Put method,
+        /// /api/choice/
+        /// </summary>
+        /// <param name="choice"></param>
+        /// <returns>Returns updated ChoiceControllerModel</returns>
         public async Task<IHttpActionResult> Put(ChoiceControllerModel choice)
         {
             if (choice == null)
@@ -92,6 +117,12 @@ namespace AHP.WebAPI.Controllers
                 return NotFound();
             }
         }
+        /// <summary>
+        /// Delete method,
+        /// /api/choice/
+        /// </summary>
+        /// <param name="choice"></param>
+        /// <returns>Returns bool</returns>
         public async Task<IHttpActionResult> Delete(ChoiceControllerModel choice)
         {
             if (choice == null)

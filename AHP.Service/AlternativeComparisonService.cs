@@ -25,25 +25,17 @@ namespace AHP.Service
             _unitFactory = unitOfWorkFactory;
         }
 
-        public async Task<List<IAlternativeComparisonModel>> AddAsync(List<IAlternativeComparisonModel> comparisons)
-        {
-          
-                foreach (IAlternativeComparisonModel comparison in comparisons)
-                {
-                    comparison.DateCreated = DateTime.Now;
-                    comparison.DateUpdated = DateTime.Now;
-                }
-                comparisons = _altCompRepo.AddRange(comparisons);
-                await _altCompRepo.SaveAsync();
-               
-            
 
-            return comparisons;
-
-        }
+        /// <summary>
+        /// Read method,
+        /// gets alternative comparisons and sets their alternative names
+        /// </summary>
+        /// <param name="criteriaId"></param>
+        /// <param name="page"></param>
+        /// <returns>Returns list of AlternativeComparisonModel</returns>
         public async Task<List<IAlternativeComparisonModel>> GetAsync(Guid criteriaId, int page = 1)
         {
-            var alternatives = await _altCompRepo.GetByCriteriaAlternativesIDAsync(criteriaId, alternativeId, page);
+            var alternatives = await _altCompRepo.GetByCriteriaIDAsync(criteriaId);
             foreach(var comparison in alternatives)
             {
                 comparison.AlternativeName1 = (await _alternativeRepo.GetByIDAsync(comparison.AlternativeID1)).AlternativeName;
@@ -52,6 +44,12 @@ namespace AHP.Service
 
             return alternatives;
         }
+        /// <summary>
+        /// Update method,
+        /// updates alternative comparisons ratio
+        /// </summary>
+        /// <param name="comparisons"></param>
+        /// <returns>Returns </returns>
         public async Task<List<IAlternativeComparisonModel>> UpdateAsync(List<IAlternativeComparisonModel> comparisons)
         {
             using (var uof = _unitFactory.Create())
@@ -65,6 +63,7 @@ namespace AHP.Service
                     await _altCompRepo.UpdateAsync(baseComparison);
                 }
                 await _altCompRepo.SaveAsync();
+                uof.Commit();
                 return comparisons;
             }
         }

@@ -19,33 +19,52 @@ namespace AHP.Service
             _unitOfWorkFactory = unitOfWorkFactory;
             _choiceRepository = choiceRepository;
         }
+        /// <summary>
+        /// Create method,
+        /// creates a choice
+        /// </summary>
+        /// <param name="choice"></param>
+        /// <returns>Returns created ChoiceModel</returns>
         public async Task<IChoiceModel> CreateAsync(IChoiceModel choice)
         {
             choice.ChoiceID = Guid.NewGuid();
             choice.DateCreated = DateTime.Now;
             choice.DateUpdated = DateTime.Now;
 
-                _choiceRepository.Add(choice);
-                await _choiceRepository.SaveAsync();
-                
-            
+            _choiceRepository.Add(choice);
+            await _choiceRepository.SaveAsync();
             return choice;
         }
-
+        /// <summary>
+        /// Delete method,
+        /// deletes a choice
+        /// </summary>
+        /// <param name="choice"></param>
+        /// <returns>Returns bool</returns>
         public async Task<bool> DeleteAsync(IChoiceModel choice)
         {
-            bool b = true;
-            
-                b = await _choiceRepository.DeleteAsync(choice);
-                await _choiceRepository.SaveAsync();
-             
-            return b;
+            var deleted = await _choiceRepository.DeleteAsync(choice);
+            await _choiceRepository.SaveAsync();  
+            return deleted;
         }
+        /// <summary>
+        /// Read method,
+        /// gets a page of choices
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="page"></param>
+        /// <returns>Returns list of ChoiceModel</returns>
         public async Task<List<IChoiceModel>> GetAsync(Guid userId, int page)
         {
             var choices = await _choiceRepository.GetChoicesByUserIDAsync(userId, page);
             return choices;
         }
+        /// <summary>
+        /// Update method,
+        /// updates name of a choice
+        /// </summary>
+        /// <param name="choice"></param>
+        /// <returns></returns>
         public async Task<IChoiceModel> UpdateAsync(IChoiceModel choice)
         {
             IChoiceModel updated;

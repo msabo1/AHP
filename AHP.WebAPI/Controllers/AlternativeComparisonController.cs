@@ -24,22 +24,13 @@ namespace AHP.WebAPI.Controllers
             _alternativeComparisonService = alternativeComparisonService;
         }
 
-
-
-        public async Task<IHttpActionResult> Post(List<AlternativeComparisonControllerModel> comparisons)
-        {
-            foreach(AlternativeComparisonControllerModel comparison in comparisons)
-            {
-                if(comparison == null)
-                {
-                    return BadRequest();
-                }
-            }
-            var comparisonList = _mapper.Map<List<AlternativeComparisonControllerModel>, List<IAlternativeComparisonModel>>(comparisons);
-            var status = await _alternativeComparisonService.AddAsync(comparisonList);
-            return Ok(status);
-
-        }
+        /// <summary>
+        /// Get method,
+        /// /api/alternativecomparison/?criteriaID=&page=
+        /// </summary>
+        /// <param name="criteriaID"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
         [Route("api/alternativecomparison/{criteriaID}/{page}")]
         public async Task<IHttpActionResult> Get(Guid criteriaID, int page)
         {
@@ -52,12 +43,17 @@ namespace AHP.WebAPI.Controllers
             return Ok(status);
         }
 
-
+        /// <summary>
+        /// Put method,
+        /// /api/alternativecomparison/
+        /// </summary>
+        /// <param name="alternativeComps">list of alternative comparisons</param>
+        /// <returns>Returns updated list of  AlternativeComparisonControllerModel</returns>
         public async Task<IHttpActionResult> Put(List<AlternativeComparisonControllerModel> alternativeComps)
         {
             var comparisonList = _mapper.Map<List<AlternativeComparisonControllerModel>, List<IAlternativeComparisonModel>>(alternativeComps);
             var status = await _alternativeComparisonService.UpdateAsync(comparisonList);
-            return Ok();
+            return Ok(status);
         }
 
 

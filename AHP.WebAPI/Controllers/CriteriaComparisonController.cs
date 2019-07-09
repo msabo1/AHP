@@ -21,26 +21,13 @@ namespace AHP.WebAPI.Controllers
             _mapper = mapper;
             _criteriaComparisonService = criteriaComparisonService;
         }
-
-        public async Task<IHttpActionResult> Post(List<CriteriaComparisonControllerModel> criteriaComparisons)
-        {
-            if(criteriaComparisons == null)
-            {
-                return BadRequest();
-            }
-            foreach(var comparison in criteriaComparisons)
-            {
-                if (comparison == null)
-                {
-                    return BadRequest();
-                }
-            }
-            
-
-            var _criteriaComparisons = _mapper.Map<List<CriteriaComparisonControllerModel>, List<ICriteriaComparisonModel>>(criteriaComparisons);
-            var status = await _criteriaComparisonService.AddAsync(_criteriaComparisons);
-            return Ok(_mapper.Map<List<ICriteriaComparisonModel>, List<CriteriaComparisonControllerModel>>(status));
-        }
+        /// <summary>
+        /// Get method,
+        /// /api/criteriacomparison/?criteriaID=&page=
+        /// </summary>
+        /// <param name="criteriaID"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
         [Route("api/criteriacomparison/{criteriaID}/{page}")]
         public async Task<IHttpActionResult> Get(Guid criteriaID, int page)
         {
@@ -59,7 +46,12 @@ namespace AHP.WebAPI.Controllers
                 return BadRequest();
             }
         }
-
+        /// <summary>
+        /// Put method,
+        /// /api/criteriacomparison/
+        /// </summary>
+        /// <param name="criteriaComparisons"></param>
+        /// <returns>Returns updated list of CriteriaComparisonControllerModel</returns>
         public async Task<IHttpActionResult> Put(List<CriteriaComparisonControllerModel> criteriaComparisons)
         {
             if (criteriaComparisons == null)

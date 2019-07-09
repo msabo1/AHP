@@ -28,7 +28,12 @@ namespace AHP.Service
             _altRepo = altRepo;
             _unitOfWorkFactory = unitOfWorkFactory;
         }
-
+        /// <summary>
+        /// Create method,
+        /// creates an alternative and all required alternative comparisons for each criterion
+        /// </summary>
+        /// <param name="alternative"></param>
+        /// <returns>Returns created AlternativeModel</returns>
         public async Task<IAlternativeModel> AddAsync(IAlternativeModel alternative)
         {
             alternative.AlternativeID = Guid.NewGuid();
@@ -63,6 +68,12 @@ namespace AHP.Service
                
             return alternative;
         }
+        /// <summary>
+        /// Delete method,
+        /// deletes an alternative, cascade deletes everything tied to it
+        /// </summary>
+        /// <param name="alternative"></param>
+        /// <returns>Returns bool</returns>
         public async Task<bool> DeleteAsync(IAlternativeModel alternative)
         {
             
@@ -72,18 +83,37 @@ namespace AHP.Service
                 return deleted;
             
         }
+        /// <summary>
+        /// Read method,
+        /// gets a page of alternatives
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="page"></param>
+        /// <returns>Returns list of AltenrativeModel</returns>
         public async Task<List<IAlternativeModel>> GetPageAsync(Guid id, int page = 1)
         {
             var alternatives = await _altRepo.GetPageByChoiceIDAsync(id, page);
 
             return alternatives;
         }
+        /// <summary>
+        /// Read method,
+        /// gets all alternatives
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Returns list of AlternativeModel</returns>
         public async Task<List<IAlternativeModel>> GetAllAsync(Guid id)
         {
             var alternatives = await _altRepo.GetByChoiceIDAsync(id);
 
             return alternatives;
         }
+        /// <summary>
+        /// Update method,
+        /// updates name of the alternative
+        /// </summary>
+        /// <param name="alternative"></param>
+        /// <returns></returns>
         public async Task<IAlternativeModel> UpdateAsync(IAlternativeModel alternative)
         {
             var _alternative = await _altRepo.GetByIDAsync(alternative.AlternativeID);

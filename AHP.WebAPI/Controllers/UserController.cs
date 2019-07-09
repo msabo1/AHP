@@ -26,6 +26,12 @@ namespace AHP.WebAPI.Controllers
             _mapper = mapper;
             _userService = userService;
         }
+        /// <summary>
+        /// Post method,
+        /// /api/user/register/
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>Returns created UserControllerModel</returns>
         [HttpPost]
         [Route("api/user/register")]
         public async Task<IHttpActionResult> PostRegister(UserControllerModel user)
@@ -35,7 +41,7 @@ namespace AHP.WebAPI.Controllers
                 return BadRequest();
             }
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
-            var status = await _userService.CheckAsync(_user);
+            var status = await _userService.RegisterAsync(_user);
 
             if (status != null)
             {
@@ -47,6 +53,12 @@ namespace AHP.WebAPI.Controllers
             }
                 
         }
+        /// <summary>
+        /// Post method,
+        /// /api/user/login
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>Returns UserControllerModel</returns>
         [HttpPost]
         [Route("api/user/login")]
         public async Task<IHttpActionResult> PostLogin(UserControllerModel user)
@@ -64,6 +76,12 @@ namespace AHP.WebAPI.Controllers
             else
                 return NotFound();
         }
+        /// <summary>
+        /// Put method,
+        /// /api/user/
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>Returns updated UserControllerModel</returns>
         public async Task<IHttpActionResult> Put(UserControllerModel user)
         {
             if (user==null)
@@ -77,6 +95,12 @@ namespace AHP.WebAPI.Controllers
             else
                 return NotFound();
         }
+        /// <summary>
+        /// Delete method,
+        /// /api/user/
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>Returns bool</returns>
         public async Task<IHttpActionResult> Delete(UserControllerModel user)
         {
             if (user==null)
@@ -84,11 +108,8 @@ namespace AHP.WebAPI.Controllers
                 return BadRequest();
             }
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
-            var status =  await _userService.DeleteAsync(_user);
-            if (status)
-                return Ok();
-            else
-                return NotFound();
+            var status =  await _userService.DeleteAsync(_user);        
+            return Ok(status);     
         }
     }
     public class UserControllerModel
