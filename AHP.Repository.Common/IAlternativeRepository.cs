@@ -11,5 +11,6 @@ namespace AHP.Repository.Common
     {
         Task<List<IAlternativeModel>> GetPageByChoiceIDAsync(Guid choiceID, int PageNumber, int PageSize = 5 );
         Task<List<IAlternativeModel>> GetByChoiceIDAsync(Guid choiceID);
+        Task<IAlternativeModel> GetByIDAsync(params Guid[] idValues);
     }
 }

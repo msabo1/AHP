@@ -27,9 +27,9 @@ namespace AHP.Repository
             return ac;
         }
 
-        public async Task<IAlternativeComparisonModel> GetByIDAsync(params Guid[] idValues)
+        public async Task<IAlternativeComparisonModel> GetByIDAsync(Guid CriteriaId, Guid AlternativeID1, Guid AlternativeID2)
         {
-            var ac = await _context.AlternativeComparisons.FindAsync(idValues[0], idValues[1], idValues[2]);
+            var ac = await _context.AlternativeComparisons.FindAsync(CriteriaId, AlternativeID1, AlternativeID2);
             return _mapper.Map<AlternativeComparison, IAlternativeComparisonModel>(ac);
         }
 
@@ -64,7 +64,7 @@ namespace AHP.Repository
 
         public async Task<List<IAlternativeComparisonModel>> GetByCriteriaAlternativesIDAsync(Guid criteriaID, Guid alternativeID,  int PageNumber, int PageSize = 10)
         {
-            var acs = await _context.AlternativeComparisons.Where(ac => ac.CriteriaID == criteriaID && (ac.AlternativeID1 == alternativeID || ac.AlternativeID2 == alternativeID)).OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
+            var acs = await _context.AlternativeComparisons.Where(ac => ac.CriteriaID == criteriaID && (ac.AlternativeID1 == alternativeID || ac.AlternativeID2 == alternativeID) && (ac.AlternativeRatio == 0)).OrderBy(x => x.DateCreated).Skip((PageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
             return _mapper.Map<List<AlternativeComparison>, List<IAlternativeComparisonModel>>(acs);
         }
 
@@ -94,7 +94,7 @@ namespace AHP.Repository
             {
                 AlternativeIDs.Add(item.AlternativeID);
             }
-            var ccs = await _context.AlternativeComparisons.Where(ac => AlternativeIDs.Contains(ac.AlternativeID1) && ac.AlternativeRatio == 0).OrderBy(x => x.DateCreated).Take(PageSize).ToListAsync();
+            var ccs = await _context.AlternativeComparisons.Where(ac => AlternativeIDs.Contains(ac.AlternativeID1) && (ac.AlternativeRatio == 0)).OrderBy(x => x.DateCreated).Take(PageSize).ToListAsync();
             return _mapper.Map<List<AlternativeComparison>, List<IAlternativeComparisonModel>>(ccs);
         }
 

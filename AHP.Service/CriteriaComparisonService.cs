@@ -37,6 +37,11 @@ namespace AHP.Service
             return await _criteriaComparisonRepository.GetPageByCriterionIDAsync(criteriaId, page);
         }
 
+        public async Task<List<ICriteriaComparisonModel>> GetUnfilledAsync(Guid choiceID)
+        {
+            return await _criteriaComparisonRepository.GetUnfilledAsync(choiceID);
+        }
+
         public async Task<List<ICriteriaComparisonModel>> UpdateAsync(List<ICriteriaComparisonModel> comparisons)
         {
             using (var uof = _unitOfWorkFactory.Create())

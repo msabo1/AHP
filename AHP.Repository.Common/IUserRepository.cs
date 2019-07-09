@@ -11,6 +11,7 @@ namespace AHP.Repository.Common
 
         Task<IUserModel> GetByUsernameAsync(string username);
         Task<IUserModel> LoadChoicesPageAsync(IUserModel user, int PageNumber, int PageSize = 5);
+        Task<IUserModel> GetByIDAsync(params Guid[] idValues);
 
     }
 }

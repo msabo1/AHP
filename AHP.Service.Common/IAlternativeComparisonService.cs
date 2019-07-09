@@ -16,5 +16,6 @@ namespace AHP.Service.Common
         Task<List<IAlternativeComparisonModel>> UpdateAsync(List<IAlternativeComparisonModel> comparisons);
 
         Task<List<IAlternativeComparisonModel>> GetByAlternativeIdAsync(Guid alternativeId, int page = 1);
+        Task<List<IAlternativeComparisonModel>> GetUnfilledAsync(Guid guid);
     }
 }

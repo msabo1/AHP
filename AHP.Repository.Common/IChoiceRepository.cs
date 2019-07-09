@@ -12,5 +12,6 @@ namespace AHP.Repository.Common
         Task<List<IChoiceModel>> GetChoicesByUserIDAsync(Guid userID, int PageNumber, int PageSize = 5);
         Task<IChoiceModel> LoadCriteriaPageAsync(IChoiceModel choice, int PageNumber, int PageSize = 5);
         Task<IChoiceModel> LoadAlternativesPageAsync(IChoiceModel choice, int PageNumber, int PageSize = 5);
+        Task<IChoiceModel> GetByIDAsync(params Guid[] idValues);
     }
 }

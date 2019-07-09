@@ -11,7 +11,6 @@ namespace AHP.Repository.Common
         T Add(T entity);
         List<T> AddRange(List<T> entities);
         Task<bool> DeleteAsync(T entity);
-        Task<T> GetByIDAsync(params Guid[] idValues);
         Task<T> UpdateAsync(T entity);
         Task<int> SaveAsync();
     }

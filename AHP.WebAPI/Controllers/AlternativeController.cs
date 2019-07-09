@@ -110,7 +110,7 @@ namespace AHP.WebAPI.Controllers
                 {
                     CritNames.Add(crit.CriteriaID, crit.CriteriaName);
                 }
-            } while (alternatives.Count != 0);
+            } while (criteria.Count != 0);
             Session["CriteriaNames"] = CritNames;
             ViewBag.Title = "Edit an Alternative";
             var alternative = await _alternativeService.GetByIdAsync(alternativeid);

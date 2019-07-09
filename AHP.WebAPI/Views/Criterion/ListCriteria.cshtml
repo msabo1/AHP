@@ -49,4 +49,8 @@
 <div>
     @Html.ActionLink("Choices", "ListChoices", "LoggedIn", new { page = 1 }, null)
 </div>
+<br />
+<div>
+    <input type="button" class="btn btn-warning" value="Unfilled" onclick="location.href='@Url.Action("Unfilled", "CriteriaComparison")'" />
+</div>
 

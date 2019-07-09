@@ -77,6 +77,29 @@ namespace AHP.WebAPI.Controllers
             bool b = await _criterionService.DeleteAsync(criterion);
             return RedirectToAction("ListCriteria", "Criterion", new { page = Session["Page"] });
         }
+
+        public async Task<ActionResult> EditCriterion(Guid criterionid)
+        {
+            var criteria = new List<ICriterionModel>();
+            int page = 1;
+            IDictionary<Guid, string> CritNames = new Dictionary<Guid, string>(10);
+            do
+            {
+                criteria = await _criterionService.GetAsync((Guid)Session["ChoiceID"], page);
+                page++;
+                foreach (var crit in criteria)
+                {
+                    CritNames.Add(crit.CriteriaID, crit.CriteriaName);
+                }
+            } while (criteria.Count != 0);
+            Session["CriteriaNames"] = CritNames;
+            ViewBag.Title = "Edit a Criterion";
+            var criterion = await _criterionService.GetByIdAsync(criterionid);
+            Session["CriterionName"] = criterion.CriteriaName;
+            Session["CriterionID"] = criterionid;
+            Session["Page"] = 1;
+            return RedirectToAction("ListCriteriaComparisons", "CriteriaComparison", new { page = Session["page"] });
+        }
     }
 }
 

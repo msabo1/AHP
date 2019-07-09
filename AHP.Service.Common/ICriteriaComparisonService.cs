@@ -12,5 +12,6 @@ namespace AHP.Service.Common
         Task<List<ICriteriaComparisonModel>> AddAsync(List<ICriteriaComparisonModel> comparisons);
         Task<List<ICriteriaComparisonModel>> GetAsync(Guid criteriaId, int page = 1);
         Task<List<ICriteriaComparisonModel>> UpdateAsync(List<ICriteriaComparisonModel> comparisons);
+        Task<List<ICriteriaComparisonModel>> GetUnfilledAsync(Guid choiceID);
     }
 }

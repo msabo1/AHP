@@ -253,10 +253,12 @@
     <Content Include="Views\Criterion\ListCriteria.cshtml" />
     <Content Include="Views\Criterion\CreateCriterion.cshtml" />
     <Content Include="Views\AlternativeComparison\ListAlternativeComparisons.cshtml" />
+    <Content Include="Views\AlternativeComparison\ListUnfilledAlternativeComparisons.cshtml" />
+    <Content Include="Views\CriteriaComparison\ListCriteriaComparisons.cshtml" />
+    <Content Include="Views\CriteriaComparison\ListUnfilledCriteriaComparisons.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\CriteriaComparison\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
