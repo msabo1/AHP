@@ -48,19 +48,11 @@ namespace AHP.Service
             foreach(var criterion in criteria)
             {
                 matrix[hash[criterion.CriteriaID], hash[criterion.CriteriaID]] = 1;
-                var comparisons = await _criteriaComparisonRepo.GetByCriterionIDAsync(criterion.CriteriaID);
+                var comparisons = await _criteriaComparisonRepo.GetByFirstCriterionIDAsync(criterion.CriteriaID);
                 foreach(var comparison in comparisons)
                 {
-                    if(criterion.CriteriaID == comparison.CriteriaID1)
-                    {
-                        matrix[hash[comparison.CriteriaID2], hash[comparison.CriteriaID1]] = comparison.CriteriaRatio;
-                        matrix[hash[comparison.CriteriaID1], hash[comparison.CriteriaID2]] = 1 / comparison.CriteriaRatio;
-                    }
-                    else
-                    {
-                        matrix[hash[comparison.CriteriaID2], hash[comparison.CriteriaID1]] = 1 / comparison.CriteriaRatio;
                         matrix[hash[comparison.CriteriaID1], hash[comparison.CriteriaID2]] = comparison.CriteriaRatio;
-                    }
+                        matrix[hash[comparison.CriteriaID2], hash[comparison.CriteriaID1]] = 1 / comparison.CriteriaRatio;
                 }
             }
             var weights = _AHPService.CalculatePriortyVector(matrix);
@@ -87,19 +79,11 @@ namespace AHP.Service
                 foreach (var alternative in alternatives)
                 {
                     matrix[hash[alternative.AlternativeID], hash[alternative.AlternativeID]] = 1;
-                    var comparisons = await _alternativeComparisonRepo.GetByCriteriaAlternativesIDAsync(criterion.CriteriaID, alternative.AlternativeID);
+                    var comparisons = await _alternativeComparisonRepo.GetByCriteriaAndFirstAlternativeIDAsync(criterion.CriteriaID, alternative.AlternativeID);
                     foreach(var comparison in comparisons)
                     {
-                        if(alternative.AlternativeID == comparison.AlternativeID1)
-                        {
-                            matrix[hash[comparison.AlternativeID2], hash[comparison.AlternativeID1]] = comparison.AlternativeRatio;
-                            matrix[hash[comparison.AlternativeID1], hash[comparison.AlternativeID2]] = 1 / comparison.AlternativeRatio;
-                        }
-                        else
-                        {
-                            matrix[hash[comparison.AlternativeID2], hash[comparison.AlternativeID1]] = 1 / comparison.AlternativeRatio;
                             matrix[hash[comparison.AlternativeID1], hash[comparison.AlternativeID2]] = comparison.AlternativeRatio;
-                        }
+                            matrix[hash[comparison.AlternativeID2], hash[comparison.AlternativeID1]] = 1 / comparison.AlternativeRatio;
                     }
                 }
                 var weight = _AHPService.CalculatePriortyVector(matrix);
