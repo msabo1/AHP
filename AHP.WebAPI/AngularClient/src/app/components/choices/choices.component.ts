@@ -20,7 +20,6 @@ export class ChoicesComponent implements OnInit {
 
     this.choiceService.getChoices(this.choiceRequest).subscribe(data => {
       this.choices = data;
-      console.log(this.choiceRequest);
       $("#noChoicesText").hide()
       $("#chooseChoicesText").show()
     });
@@ -28,5 +27,12 @@ export class ChoicesComponent implements OnInit {
 
   onClick(choice: Choice) {
     localStorage.setItem('choice', JSON.stringify(choice));
+  }
+
+  deleteChoice(choice: Choice) {
+    this.choiceService.deleteChoice(choice).subscribe();
+
+    var container = document.getElementById("choiceContainer");
+    container.removeChild(container.lastChild);
   }
 }

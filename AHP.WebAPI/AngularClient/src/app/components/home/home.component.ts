@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
 
     $("#SetChoiceName").click(() => {
       var name = $("#ChoiceNameInput").val();
-      this.globalChoiceName = JSON.stringify(name);
+      this.globalChoiceName = name.toString();
 
       var add = "<h1>" + name + "</h1>";
       $("#ShowChoiceName").text("");
@@ -270,13 +270,12 @@ export class HomeComponent implements OnInit {
   }
 
   saveCriteria() {
-    //let choice = new Choice("", JSON.parse(this.globalChoiceName), window.localStorage['UserID']);
-    //console.log(choice);
-    //var c = JSON.stringify(this.globalChoiceName);
-    /*
-    console.log({ _choiceID: "a", name: "c", userID: window.localStorage['UserID'] });
-    this.choiceService.createChoice({ _choiceID: null, name: this.globalChoiceName, userID: window.localStorage['UserID'] }).subscribe(data => {
+    let choice: Choice = new Choice();
+    choice.ChoiceName = this.globalChoiceName;
+    choice.UserID = window.localStorage['UserID'];
+
+    this.choiceService.createChoice(choice).subscribe(data => {
       console.log(data);
-    });*/
+    });
   }
 }

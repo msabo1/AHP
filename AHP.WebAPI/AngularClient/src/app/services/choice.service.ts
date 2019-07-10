@@ -16,10 +16,14 @@ export class ChoiceService {
   constructor(private http: HttpClient) { }
 
   createChoice(choice: Choice): Observable<Choice> {
-    return this.http.post<Choice>(this.choiceUrl + '/postChoice', choice);
+    return this.http.post<Choice>(this.choiceUrl + "/postChoice/", choice);
   }
 
   getChoices(choiceRequest: ChoiceRequest): Observable<ChoiceRequest> {
     return this.http.get<ChoiceRequest>(this.choiceUrl + '/get/' + choiceRequest['userId'] + "/1");
+  }
+
+  deleteChoice(choice: Choice): Observable<Choice> {
+    return this.http.post<Choice>(this.choiceUrl + "/deleteChoice/", choice);
   }
 }
