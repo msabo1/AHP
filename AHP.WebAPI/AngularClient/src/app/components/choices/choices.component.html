@@ -9,13 +9,13 @@
       <h4>You dont have any saved choices, please create a new one:</h4>
     </div>
   </div>
-  <div class="row mb-2" id="choiceContainer" *ngFor="let choice of choices">
+  <div class="row mb-2" id="choiceContainer{{i}}" *ngFor="let choice of choices; let i = index">
     <div class="col">
       <div class="card">
         <div class="card-body">
           <h5>
             {{ choice['ChoiceName'] }}
-            <a class="btn btn-danger float-right" (click)="deleteChoice(choice)" style="color:white">Delete</a>
+            <a class="btn btn-danger float-right" (click)="deleteChoice(choice, i)" style="color:white">Delete</a>
             <a [routerLink]="['/choice', choice['ChoiceID']]" class="btn btn-primary float-right mr-2" (click)="onClick(choice)">Edit</a>
           </h5>
         </div>

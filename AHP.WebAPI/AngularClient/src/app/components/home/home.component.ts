@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
 import { Choice } from '../../classes/choice';
 import { ChoiceService } from '../../services/choice.service';
-import Calculator from './HelperFunctions.js';
+
+import { Criteria } from '../../classes/criteria';
+import { CriteriaService } from '../../services/criteria.service';
+import { CriteriaComparison } from '../../classes/criteria-comparison';
+import Calculator from './HelperFunctions.js';  ///////////////////////////////
 
 @Component({
   selector: 'app-home',
@@ -11,9 +15,11 @@ import Calculator from './HelperFunctions.js';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private choiceService: ChoiceService) { }
+  constructor(private choiceService: ChoiceService, private criteriaService: CriteriaService) { }
 
   globalChoiceName: string;
+  globalCriteriaNamesList: any[] = [];
+  globalCriteriaComparisons: CriteriaComparison[] = [];
 
   ngOnInit() {
 
@@ -51,9 +57,10 @@ export class HomeComponent implements OnInit {
       $("#ShowChoiceName").append(add);
     });
 
-    $("#SetCriterionName").click(function () {
+    $("#SetCriterionName").click(() => {
       var name = $("#CriterionNameInput").val();
       criteriaList.push(name.toString());
+      this.globalCriteriaNamesList.push(name.toString());
 
       criteriaCounter = criteriaCounter + 1;
       var addCriterion = "<tr><th scope = 'row'>" + criteriaCounter + "</th><td>" + name + "</td><td><button type='button' class='btn btn-primary' val='"+criteriaCounter+"' id='CriteriaEditButton" + criteriaCounter + "'>Edit</button></td></tr>";
@@ -115,13 +122,14 @@ export class HomeComponent implements OnInit {
 
     });
 
-    $("#RemoveLastCriterion").click(function () {
+    $("#RemoveLastCriterion").click(() => {
       $("#CriteriaTableRows").children().last().remove();
       $("#AlternativeContainer").children().last().remove();
 
       $("#CriteriaButtons").children().last().remove();
 
       criteriaList.pop();
+      this.globalCriteriaNamesList.pop();
 
       for (let i = 0; i < criteriaCounter; i++) {
         $("#sliderContainer" + (i + 1)).children().last().remove();
@@ -152,15 +160,28 @@ export class HomeComponent implements OnInit {
       }
     });
     
-    $("#CalculateCriteriaScores").click(function () {
-      $(".sliderContainer .custom-range").each(function () {
-        var temp = parseInt($(this).val().toString());
+    $("#CalculateCriteriaScores").click(() => {
+      $(".sliderContainer .custom-range").each((i, element) => {
+        var criteriaComparison: CriteriaComparison = new CriteriaComparison;
+        var temp = parseInt($(element).val().toString());
         if (temp == -1 || temp == 0 || temp == 1) {
           criteriaComparisonValues.push(1);
+          criteriaComparison.CriteriaRatio = 1;
         }
-        else criteriaComparisonValues.push(temp);
+        else {
+          criteriaComparisonValues.push(temp);
+          criteriaComparison.CriteriaRatio = temp;
+        }
+        this.globalCriteriaComparisons[i] = criteriaComparison;
+        let ID = $(element).attr('id').split('/');
+        criteriaComparison.CriteriaID1 = ID[0];
+        criteriaComparison.CriteriaID2 = ID[1];
       });
-      console.log(criteriaComparisonValues);
+
+      console.log(this.globalCriteriaComparisons);
+      this.criteriaService.addCriteriaComparisons(this.globalCriteriaComparisons).subscribe(data => {
+        console.log(data);
+      });
 
 
       /////////////////////
@@ -179,7 +200,7 @@ export class HomeComponent implements OnInit {
 
      });
 
-    $("#SetAlternativeName").click(function () {
+    $("#SetAlternativeName").click(() => {
       var name = $("#AlternativeNameInput").val();
       alternativeCounter = alternativeCounter + 1;
       var addAlternative = "<tr><th scope = 'row'>" + alternativeCounter + "</th><td>" + name + "</td></tr>";
@@ -206,7 +227,7 @@ export class HomeComponent implements OnInit {
       }
     });
     
-    $("#RemoveLastAlternative").click(function () {
+    $("#RemoveLastAlternative").click(() => {
       $("#AlternativeTableRows").children().last().remove();
     
       alternativeList.pop();
@@ -232,7 +253,7 @@ export class HomeComponent implements OnInit {
       }
     });
 
-    $("#ConfirmAlternativeScores").click(function () {
+    $("#ConfirmAlternativeScores").click(() => {
 
       var AlternativeComparisonMatrix = new Array();
 
@@ -275,7 +296,18 @@ export class HomeComponent implements OnInit {
     choice.UserID = window.localStorage['UserID'];
 
     this.choiceService.createChoice(choice).subscribe(data => {
-      console.log(data);
+      let criteriaList: Criteria[] = [];
+      
+      for (let i = 0; i < this.globalCriteriaNamesList.length; i++) {
+        let criteria: Criteria = new Criteria;
+        criteria.ChoiceID = data.ChoiceID;
+        criteria.CriteriaName = this.globalCriteriaNamesList[i];
+        criteriaList[i] = criteria;
+      }
+      
+      this.criteriaService.addCriteria(criteriaList).subscribe(data => {
+        console.log(data);
+      });
     });
   }
 }

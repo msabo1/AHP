@@ -13,7 +13,7 @@ export class ChoicesComponent implements OnInit {
   constructor(private choiceService: ChoiceService) { }
   public choiceRequest = new ChoiceRequest(window.localStorage['UserID'], 1);
 
-  choices: any;
+  public choices: any;
 
   ngOnInit() {
     $("#chooseChoicesText").hide()
@@ -22,6 +22,7 @@ export class ChoicesComponent implements OnInit {
       this.choices = data;
       $("#noChoicesText").hide()
       $("#chooseChoicesText").show()
+      //console.log(this.choices);
     });
   }
 
@@ -29,10 +30,10 @@ export class ChoicesComponent implements OnInit {
     localStorage.setItem('choice', JSON.stringify(choice));
   }
 
-  deleteChoice(choice: Choice) {
-    this.choiceService.deleteChoice(choice).subscribe();
-
-    var container = document.getElementById("choiceContainer");
-    container.removeChild(container.lastChild);
+  deleteChoice(choice: Choice, i: number) {
+    this.choiceService.deleteChoice(choice).subscribe(() => {
+      //this.choices = this.choices.filter(c => c.ChoiceID != choice.ChoiceID)
+      document.getElementById("choiceContainer" + i).remove();
+    });
   }
 }

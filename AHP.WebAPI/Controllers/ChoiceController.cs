@@ -93,8 +93,8 @@ namespace AHP.WebAPI.Controllers
                 return NotFound();
             }
         }
-        [HttpPost]
-        [Route("api/choice/deleteChoice/")]
+        //[HttpPost]
+        //[Route("api/choice/deleteChoice/")]
         public async Task<IHttpActionResult> Delete(ChoiceControllerModel choice)
         {
             if (choice == null)

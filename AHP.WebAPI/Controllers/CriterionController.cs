@@ -24,7 +24,9 @@ namespace AHP.WebAPI.Controllers
             _mapper = mapper;
             _criterionService = criterionService;
         }
-        
+
+        [HttpPost]
+        [Route("api/criterion/postCriteria/")]
         public async Task<IHttpActionResult> Post(List<CriterionControllerModel> criteria)
         {
             var _criteria = _mapper.Map<List<CriterionControllerModel>, List<ICriterionModel>>(criteria);

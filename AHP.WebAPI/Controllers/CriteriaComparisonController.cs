@@ -22,6 +22,8 @@ namespace AHP.WebAPI.Controllers
             _criteriaComparisonService = criteriaComparisonService;
         }
 
+        [HttpPost]
+        [Route("api/criteriaComparison/postCriteriaComparisons/")]
         public async Task<IHttpActionResult> Post(List<CriteriaComparisonControllerModel> criteriaComparisons)
         {
             if(criteriaComparisons == null)
