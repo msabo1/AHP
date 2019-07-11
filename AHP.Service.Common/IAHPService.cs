@@ -10,5 +10,6 @@ namespace AHP.Service.Common
     {
         double[] CalculatePriortyVector(double[,] matrix);
         double[] FinalCalculate(double[] criteriaPriorityVector, double[,] alternativesPriorityMatrix);
+        double CalculateConsistency(double[,] matrix, double[] weight);
     }
 }

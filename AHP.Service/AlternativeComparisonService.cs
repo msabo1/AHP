@@ -25,22 +25,9 @@ namespace AHP.Service
             _unitFactory = unitOfWorkFactory;
         }
 
-        public async Task<List<IAlternativeComparisonModel>> AddAsync(List<IAlternativeComparisonModel> comparisons)
-        {
-          
-                foreach (IAlternativeComparisonModel comparison in comparisons)
-                {
-                    comparison.DateCreated = DateTime.Now;
-                    comparison.DateUpdated = DateTime.Now;
-                }
-                comparisons = _altCompRepo.AddRange(comparisons);
-                await _altCompRepo.SaveAsync();
-               
-            
 
-            return comparisons;
-
-        }
+           
+        
         public async Task<List<IAlternativeComparisonModel>> GetAsync(Guid criteriaId, Guid alternativeId, int page = 1)
         {
             var alternatives = await _altCompRepo.GetPageByCriteriaAlternativesIDAsync(criteriaId, alternativeId, page);
@@ -53,6 +40,12 @@ namespace AHP.Service
 
             return alternatives;
         }
+        /// <summary>
+        /// Update method,
+        /// updates alternative comparisons ratio
+        /// </summary>
+        /// <param name="comparisons"></param>
+        /// <returns>Returns </returns>
         public async Task<List<IAlternativeComparisonModel>> UpdateAsync(List<IAlternativeComparisonModel> comparisons)
         {
             using (var uof = _unitFactory.Create())

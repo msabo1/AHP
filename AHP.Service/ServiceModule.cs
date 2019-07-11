@@ -18,16 +18,19 @@ namespace AHP.Service
             builder.RegisterType<FinalScoreCalculator>().As<IFinalScoreCalculator>();
             builder.RegisterType<VectorFiller>().As<IVectorFiller>();
 
+            builder.RegisterType<CalculateAHPScores>().As<ICalculateAHPScores>();
+
             //builder.RegisterType<UserLoginService>().As<IUserLoginService>();
             //builder.RegisterType<UserRegisterService>().As<IUserRegisterService>();
             //builder.RegisterType<UserDeleteService>().As<IUserDeleteService>();
             //builder.RegisterType<UserUpdateService>().As<IUserUpdateService>();
-            var assembly = Assembly.GetExecutingAssembly();
 
+            //Registers all classes ending with Service
+            var assembly = Assembly.GetExecutingAssembly();
             builder.RegisterAssemblyTypes(assembly)
             .Where(t => t.Name.EndsWith("Service"))
             .AsImplementedInterfaces();
-            builder.RegisterType<CalculateAHPScores>().As<ICalculateAHPScores>();
+            
 
         }
     }

@@ -23,7 +23,12 @@ namespace AHP.WebAPI.Controllers
             _mapper = mapper;
             _alternativeService = alternativeService;
         }
-
+        /// <summary>
+        /// Post method,
+        /// /api/alternative/
+        /// </summary>
+        /// <param name="alternative"></param>
+        /// <returns>Returns created AlternativeControllerModel</returns>
         public async Task<IHttpActionResult> Post(AlternativeControllerModel alternative)
         {
             if (alternative==null)
@@ -35,6 +40,13 @@ namespace AHP.WebAPI.Controllers
             var status = await _alternativeService.AddAsync(_alternative);
             return Ok(_mapper.Map<IAlternativeModel, AlternativeControllerModel>(status));
         }
+        /// <summary>
+        /// Get method,
+        /// /api/alternative/?choiceID=&page=
+        /// </summary>
+        /// <param name="choiceID"></param>
+        /// <param name="page"></param>
+        /// <returns>Returns list of AlternativeControllerModel</returns>
         [Route("api/alternative/{choiceID}/{page}")]
         public async Task<IHttpActionResult> Get(Guid choiceID, int page)
         {
@@ -48,6 +60,7 @@ namespace AHP.WebAPI.Controllers
             }
 
             var status = await _alternativeService.GetPageAsync(choiceID, page);
+
             if (status.Any())
             {
                 return Ok(_mapper.Map<List<IAlternativeModel>, List<AlternativeControllerModel>>(status));
@@ -58,7 +71,12 @@ namespace AHP.WebAPI.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Put method,
+        /// /api/alternative/
+        /// </summary>
+        /// <param name="alternative"></param>
+        /// <returns>Returns updated AlternativeControllerModel</returns>
         public async Task<IHttpActionResult> Put(AlternativeControllerModel alternative)
         {
             if (alternative==null)
@@ -71,7 +89,12 @@ namespace AHP.WebAPI.Controllers
             return Ok(status);
         }
 
-
+        /// <summary>
+        /// Delete method,
+        /// /api/alternative/delete
+        /// </summary>
+        /// <param name="alternative"></param>
+        /// <returns>Returns bool</returns>
         public async Task<IHttpActionResult> Delete(AlternativeControllerModel alternative)
         {
             if (alternative == null)

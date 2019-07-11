@@ -44,5 +44,30 @@ namespace AHP.Service
             }
             return scores;
         }
+        public double CalculateConsistency(double[,] matrix, double[] weight)
+        {
+            int dimension = matrix.GetLength(0);
+            double[] ColumnSum = new double[dimension];
+            for (int j = 0; j < dimension; j++)
+            {
+                double temp = 0;
+                for (int i = 0; i < dimension; i++)
+                {
+                    temp += matrix[i, j];
+                }
+                ColumnSum[j] = temp;
+            }
+
+            double LambdaMax = 0;
+
+            for (int i = 0; i < dimension; i++)
+            {
+                LambdaMax += (ColumnSum[i] * weight[i]);
+            }
+
+            double[] Coefficients = new double[9] { 0, 0, 0.58, 0.9, 1.12, 1.24, 1.32, 1.41, 1.45 };
+
+            return dimension <= 2 ? 0 : ((LambdaMax - dimension) / (dimension - 1)) / Coefficients[dimension];
+        }
     }
 }

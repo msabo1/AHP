@@ -32,6 +32,14 @@ namespace AHP.Service
             _critCompRepo = critCompRepo;
             _unitFactory = unitFactory;
         }
+        /// <summary>
+        /// Create method,
+        /// creates a new criterion, all needed criteria comparisons,
+        /// all needed alternative comparisons using CriteriaRepo, 
+        /// AltenrativeRepo,CriteriaComparisonRepo,AlternativeComparisonRepo
+        /// </summary>
+        /// <param name="criterion"></param>
+        /// <returns></returns>
         public async Task<ICriterionModel> AddAsync(ICriterionModel criterion)
         {
             
@@ -82,16 +90,35 @@ namespace AHP.Service
             
             return criterion;
         }
+        /// <summary>
+        /// Read method,
+        /// gets a page of criteria
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
         public async Task<List<ICriterionModel>> GetPageAsync(Guid id, int page =1)
         {
             var criteria = await _critRepo.GetPageByChoiceIDAsync(id, page);
             return criteria;
         }
+        /// <summary>
+        /// Read method,
+        /// gets all criteria from a choice
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<List<ICriterionModel>> GetAllAsync(Guid id)
         {
             var criteria = await _critRepo.GetByChoiceIDAsync(id);
             return criteria;
         }
+        /// <summary>
+        /// Delete method,
+        /// deletes a criterion
+        /// </summary>
+        /// <param name="criteria"></param>
+        /// <returns></returns>
         public async Task<bool> DeleteAsync(ICriterionModel criteria)
         {
             using (var uof = _unitFactory.Create())
@@ -102,16 +129,17 @@ namespace AHP.Service
                 return deleted;
             }
         }
+        /// <summary>
+        /// Update method,
+        /// updates a criterion
+        /// </summary>
+        /// <param name="criteria"></param>
+        /// <returns></returns>
         public async Task<bool> UpdateAsync(ICriterionModel criteria)
-        {
-           
-                var updated = await _critRepo.UpdateAsync(criteria);
-                await _critRepo.SaveAsync();
-              
+        {          
+                await _critRepo.UpdateAsync(criteria);
+                await _critRepo.SaveAsync();            
                 return true;
-
-            
-     
         }
     }
 }
