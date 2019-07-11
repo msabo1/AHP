@@ -33,8 +33,8 @@ namespace AHP.Service
             _criteriaComparisonRepo = criteriaComparisonRepo;
             _AHPService = AHPService;
         }
-
-        public async Task<List<IAlternativeModel>> CalculateCriteriaWeights(Guid choiceId)
+        private List<string> inconsistencies = new List<string>();
+        public async Task<List<string>> CalculateCriteriaWeights(Guid choiceId)
         {
             var criteria = await _criterionRepository.GetByChoiceIDAsync(choiceId);
             var hash = new Dictionary<Guid, int>();
@@ -56,13 +56,20 @@ namespace AHP.Service
                 }
             }
             var weights = _AHPService.CalculatePriortyVector(matrix);
+
+            double consistency = _AHPService.CalculateConsistency(matrix, weights);
+            
+            if (consistency > 0.1)
+            {
+                inconsistencies.Add($"Inconsistent criteria comparisons");
+            }
             
             return await CalculateAlternativeWeights(choiceId, weights, criteria);
             
         }
 
 
-        public async Task<List<IAlternativeModel>> CalculateAlternativeWeights(Guid choiceId, double[] choiceWeights, List<ICriterionModel> criteria)
+        public async Task<List<string>> CalculateAlternativeWeights(Guid choiceId, double[] choiceWeights, List<ICriterionModel> criteria)
         {
             var alternatives = await _alternativeRepository.GetByChoiceIDAsync(choiceId);
             var hash = new Dictionary<Guid, int>();
@@ -73,20 +80,25 @@ namespace AHP.Service
                 i++;
             }
             var weights = new List<double[]>();
-            foreach(var criterion in criteria)
+            foreach (var criterion in criteria)
             {
                 double[,] matrix = new double[alternatives.Count, alternatives.Count];
                 foreach (var alternative in alternatives)
                 {
                     matrix[hash[alternative.AlternativeID], hash[alternative.AlternativeID]] = 1;
                     var comparisons = await _alternativeComparisonRepo.GetByCriteriaAndFirstAlternativeIDAsync(criterion.CriteriaID, alternative.AlternativeID);
-                    foreach(var comparison in comparisons)
+                    foreach (var comparison in comparisons)
                     {
-                            matrix[hash[comparison.AlternativeID1], hash[comparison.AlternativeID2]] = comparison.AlternativeRatio;
-                            matrix[hash[comparison.AlternativeID2], hash[comparison.AlternativeID1]] = 1 / comparison.AlternativeRatio;
+                        matrix[hash[comparison.AlternativeID1], hash[comparison.AlternativeID2]] = comparison.AlternativeRatio;
+                        matrix[hash[comparison.AlternativeID2], hash[comparison.AlternativeID1]] = 1 / comparison.AlternativeRatio;
                     }
                 }
                 var weight = _AHPService.CalculatePriortyVector(matrix);
+                var consistency = _AHPService.CalculateConsistency(matrix, weight);
+                if (consistency > 0.1)
+                {
+                    inconsistencies.Add($"Inconsistent alternative comparisons by {criterion.CriteriaName} criteria");
+                }
                 weights.Add(weight);
             }
             double[,] alternativeWeightMatrix = new double[alternatives.Count, criteria.Count];
@@ -113,7 +125,7 @@ namespace AHP.Service
                 await _alternativeRepository.SaveAsync();
                 uof.Commit();
             }
-            return alternatives;
+            return inconsistencies;
 
         }
 
