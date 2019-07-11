@@ -1,8 +1,6 @@
 <div class="container">
   <div class="row mb-5 mt-5">
-    <div class="col">
-      <button class="btn btn-primary" (click)="Calculate()">Calculate</button>
-    </div>
+    <div class="mb-2"><a [routerLink]="['/choices']">Choices</a></div>
   </div>
   <table class="table">
     <thead>
@@ -17,11 +15,14 @@
           {{alternative.AlternativeName}}
         </td>
         <td>
-          {{alternative.AlternativeScore}}
+          {{alternative.AlternativeScore * 100 | number:'2.2-2'}}
         </td>
       </tr>
     </tbody>
   </table>
-  <button class="btn-xs btn-warning mr-2" (click)="PreviousPage()">Previous page</button>
-  <button class="btn-xs btn-warning mr-2" (click)="NextPage()">Next page</button>
+  <a [routerLink]="" (click)="PreviousPage()" class="mx-2 text-info">Previous page</a>
+  <a [routerLink]="" (click)="NextPage()" class="mx-2 text-info">Next page</a>
+  <div class="col">
+    <button class="btn btn-primary my-2" (click)="Calculate()">Calculate</button>
+  </div>
 </div>

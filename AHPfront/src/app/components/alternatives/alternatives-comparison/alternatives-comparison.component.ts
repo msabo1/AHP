@@ -11,6 +11,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class AlternativesComparisonComponent implements OnInit {
 
   toUpdate: AlternativesComparison[];
+  AlternativeName: string;
+  CriterionName: string;
   alternativeID: string;
   criteriaID: string;
   page: number;
@@ -23,6 +25,8 @@ export class AlternativesComparisonComponent implements OnInit {
     this.criteriaID = this.route.snapshot.paramMap.get('criteriaid');
     this.page = 1;
     this.alternativesComparisonService.GetAlternativeComparisons(this.criteriaID, this.alternativeID, this.page).subscribe(ac => { this.alternativeComparisons = ac; });
+    this.AlternativeName = localStorage['Alternative'];
+    this.CriterionName = localStorage['Criterion'];
   }
 
   DisplayName(comparison: AlternativesComparison): string {

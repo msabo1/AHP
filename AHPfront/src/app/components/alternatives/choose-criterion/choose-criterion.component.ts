@@ -9,6 +9,7 @@ import { Criterion } from '../../../Models/Criterion';
   styleUrls: ['./choose-criterion.component.css']
 })
 export class ChooseCriterionComponent implements OnInit {
+  choiceID: string;
   page: number;
   criteria: Criterion[];
   constructor(private criterionService: CriterionService, private route: ActivatedRoute) { }
@@ -16,6 +17,7 @@ export class ChooseCriterionComponent implements OnInit {
   ngOnInit() {
     this.page = 1;
     this.criterionService.GetChoiceCriteria(this.route.snapshot.paramMap.get('id'), this.page).subscribe(criteria => this.criteria = criteria);
+    this.choiceID = this.route.snapshot.paramMap.get('id');
   }
   PreviousPage() {
     if (this.page > 1) {
@@ -28,5 +30,9 @@ export class ChooseCriterionComponent implements OnInit {
     if (this.criteria.length >= 5) {
       this.criterionService.GetChoiceCriteria(this.route.snapshot.paramMap.get('id'), this.page + 1).subscribe(criteria => { this.criteria = criteria; this.page++; });
     }
+  }
+
+  AddToStorage(criterion: Criterion) {
+    localStorage['Criterion'] = criterion.CriteriaName;
   }
 }

@@ -61,14 +61,8 @@ namespace AHP.WebAPI.Controllers
 
             var status = await _alternativeService.GetPageAsync(choiceID, page);
 
-            if (status.Any())
-            {
-                return Ok(_mapper.Map<List<IAlternativeModel>, List<AlternativeControllerModel>>(status));
-            }
-            else
-            {
-                return BadRequest();
-            }
+
+            return Ok(_mapper.Map<List<IAlternativeModel>, List<AlternativeControllerModel>>(status));
         }
 
         /// <summary>

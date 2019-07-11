@@ -52,12 +52,21 @@ export class ChoicesComponent implements OnInit {
   }
 
   MakeEditVisible(id:string) {
-    let elem: HTMLElement = document.getElementById(id);
-    elem.style.display = 'initial';
+    let elem: HTMLElement = document.getElementById('edit' + id);
+    elem.style.display = 'inline';
+    elem = document.getElementById('editbutton' + id);
+    elem.style.display = 'none';
+    elem = document.getElementById('cname' + id);
+    elem.style.display = 'none';
   }
   MakeEditInvisible(id: string) {
-    let elem: HTMLElement = document.getElementById(id);
+    let elem: HTMLElement = document.getElementById('edit' + id);
     elem.style.display = 'none';
+    elem = document.getElementById('cname' + id);
+    elem.style.display = 'inline';
+    elem = document.getElementById('editbutton' + id);
+    elem.style.display = 'inline';
+    
   }
 
   PreviousPage() {

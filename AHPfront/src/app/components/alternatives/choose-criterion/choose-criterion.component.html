@@ -1,20 +1,19 @@
 <div class="container">
-  <div class="row mb-5 mt-5">
-    <div class="col">
-      Izaberi kriterij:
-    </div>
+  <div class="my-5">
+    <h2>Choose criterion to compare to</h2>
   </div>
+  <div class="mb-2"><a [routerLink]="['/choices']">Choices</a> / <a [routerLink]="['/alternatives/' + choiceID]">Alternatives</a></div>
   <div class="row" *ngFor="let criterion of criteria">
     <div class="col">
       <div class="card">
         <div class="card-body">
-          <a [routerLink]="[criterion.CriteriaID]">{{ criterion.CriteriaName }}</a>
+          <a [routerLink]="[criterion.CriteriaID]" (click)="AddToStorage(criterion)">{{ criterion.CriteriaName }}</a>
         </div>
       </div>
     </div>
   </div>
   <div>
-    <button class="btn-xs btn-warning mr-2" (click)="PreviousPage()">Previous page</button>
-    <button class="btn-xs btn-warning mr-2" (click)="NextPage()">Next page</button>
+    <a [routerLink]="" (click)="PreviousPage()" class="mx-2 text-info">Previous page</a>
+    <a [routerLink]="" (click)="NextPage()" class="mx-2 text-info">Next page</a>
   </div>
 </div>

@@ -20,8 +20,25 @@ export class ChoiceComponent implements OnInit {
   }
 
   Calculate() {
-    this.choiceService.Calculate(this.route.snapshot.paramMap.get('id')).subscribe();
+    this.choiceService.Calculate(this.route.snapshot.paramMap.get('id')).subscribe(messages => {
+      let msg: string = '';
+      messages.forEach(message => msg += message + '\n');
+      msg += "You should reevaluate your comparisons";
+      alert(msg);
+      });
     this.alternativeService.GetChoiceAlternatives(this.route.snapshot.paramMap.get('id'), this.page).subscribe(alternatives => this.alternatives = alternatives);
   }
 
+  PreviousPage() {
+    if (this.page > 1) {
+      this.page--;
+      this.alternativeService.GetChoiceAlternatives(this.route.snapshot.paramMap.get('id'), this.page).subscribe(alternatives => this.alternatives = alternatives);
+    }
+  }
+
+  NextPage() {
+    if (this.alternatives.length >= 5) {
+      this.alternativeService.GetChoiceAlternatives(this.route.snapshot.paramMap.get('id'), this.page + 1).subscribe(alternatives => { this.alternatives = alternatives; this.page++; });
+    }
+  }
 }

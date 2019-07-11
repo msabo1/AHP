@@ -12,6 +12,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class AlternativesComponent implements OnInit {
   page: number;
+  AddForm: FormGroup;
   EditForm: FormGroup;
   alternatives: Alternative[];
   constructor(private alternativeService: AlternativeService, private router: Router, private route: ActivatedRoute) { }
@@ -21,6 +22,26 @@ export class AlternativesComponent implements OnInit {
     this.alternativeService.GetChoiceAlternatives(this.route.snapshot.paramMap.get('id'), this.page).subscribe(alternatives => this.alternatives = alternatives);
     this.EditForm = new FormGroup({
       newName: new FormControl(null, [Validators.required])
+    });
+    this.AddForm = new FormGroup({
+      Name: new FormControl(null, [Validators.required]),
+    });
+  }
+
+  Add() {
+    let alternative: Alternative = new Alternative();
+    alternative.AlternativeName = this.AddForm.value['Name'];
+    alternative.ChoiceID = this.route.snapshot.paramMap.get('id');
+    this.alternativeService.Add(alternative).subscribe(alternative => {
+      if (alternative.AlternativeID != null) {
+        this.alternatives.unshift(alternative);
+        this.alternatives = this.alternatives.slice(0, 5);
+        localStorage['Alternative'] = alternative.AlternativeID;
+        if (this.alternatives.length > 1) {
+          this.router.navigate(['alternatives/' + this.route.snapshot.paramMap.get('id') + '/' + alternative.AlternativeID])
+        }
+
+      }
     });
   }
 
@@ -36,12 +57,21 @@ export class AlternativesComponent implements OnInit {
   }
 
   MakeEditVisible(id: string) {
-    let elem: HTMLElement = document.getElementById(id);
-    elem.style.display = 'initial';
+    let elem: HTMLElement = document.getElementById('edit' + id);
+    elem.style.display = 'inline';
+    elem = document.getElementById('editbutton' + id);
+    elem.style.display = 'none';
+    elem = document.getElementById('cname' + id);
+    elem.style.display = 'none';
   }
   MakeEditInvisible(id: string) {
-    let elem: HTMLElement = document.getElementById(id);
+    let elem: HTMLElement = document.getElementById('edit' + id);
     elem.style.display = 'none';
+    elem = document.getElementById('cname' + id);
+    elem.style.display = 'inline';
+    elem = document.getElementById('editbutton' + id);
+    elem.style.display = 'inline';
+
   }
 
   PreviousPage() {
@@ -55,6 +85,10 @@ export class AlternativesComponent implements OnInit {
     if (this.alternatives.length >= 5) {
       this.alternativeService.GetChoiceAlternatives(this.route.snapshot.paramMap.get('id'), this.page + 1).subscribe(alternatives => { this.alternatives = alternatives; this.page++; });
     }
+  }
+
+  AddToStorage(alternative: Alternative) {
+    localStorage['Alternative'] = alternative.AlternativeName;
   }
 
 }

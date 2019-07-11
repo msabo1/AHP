@@ -68,14 +68,8 @@ namespace AHP.WebAPI.Controllers
             }
             var status = await _choiceService.GetAsync(userID, page);
 
-            if (status.Any())
-            {
-                return Ok(_mapper.Map<List<IChoiceModel>, List<ChoiceControllerModel>>(status));
-            }
-            else
-            {
-                return NotFound();
-            }
+
+            return Ok(_mapper.Map<List<IChoiceModel>, List<ChoiceControllerModel>>(status));
         }
         /// <summary>
         /// Get method,

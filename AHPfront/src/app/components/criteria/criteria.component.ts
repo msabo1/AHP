@@ -11,15 +11,19 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class CriteriaComponent implements OnInit {
   page: number;
+  AddForm: FormGroup;
   EditForm: FormGroup;
   criteria: Criterion[];
-  constructor(private criterionService: CriterionService, private route: ActivatedRoute) { }
+  constructor(private criterionService: CriterionService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.page = 1;
     this.criterionService.GetChoiceCriteria(this.route.snapshot.paramMap.get('id'), this.page).subscribe(criteria => this.criteria = criteria);
     this.EditForm = new FormGroup({
       newName: new FormControl(null, [Validators.required])
+    });
+    this.AddForm = new FormGroup({
+      Name: new FormControl(null, [Validators.required]),
     });
   }
 
@@ -35,12 +39,21 @@ export class CriteriaComponent implements OnInit {
   }
 
   MakeEditVisible(id: string) {
-    let elem: HTMLElement = document.getElementById(id);
-    elem.style.display = 'initial';
+    let elem: HTMLElement = document.getElementById('edit' + id);
+    elem.style.display = 'inline';
+    elem = document.getElementById('editbutton' + id);
+    elem.style.display = 'none';
+    elem = document.getElementById('cname' + id);
+    elem.style.display = 'none';
   }
   MakeEditInvisible(id: string) {
-    let elem: HTMLElement = document.getElementById(id);
+    let elem: HTMLElement = document.getElementById('edit' + id);
     elem.style.display = 'none';
+    elem = document.getElementById('cname' + id);
+    elem.style.display = 'inline';
+    elem = document.getElementById('editbutton' + id);
+    elem.style.display = 'inline';
+
   }
 
   PreviousPage() {
@@ -54,5 +67,26 @@ export class CriteriaComponent implements OnInit {
     if (this.criteria.length >= 5) {
       this.criterionService.GetChoiceCriteria(this.route.snapshot.paramMap.get('id'), this.page + 1).subscribe(criteria => { this.criteria = criteria; this.page++; });
     }
+  }
+
+  Add() {
+    let criterion: Criterion = new Criterion();
+    criterion.CriteriaName = this.AddForm.value['Name'];
+    criterion.ChoiceID = this.route.snapshot.paramMap.get('id');
+    this.criterionService.Add(criterion).subscribe(criterion => {
+      if (criterion.CriteriaID != null) {
+        this.criteria.unshift(criterion);
+        this.criteria = this.criteria.slice(0, 5);
+        localStorage['Criterion'] = criterion.CriteriaID;
+        if (this.criteria.length > 1) {
+          this.router.navigate(['criteria/' + this.route.snapshot.paramMap.get('id') + '/' + criterion.CriteriaID])
+        }
+        
+      }
+    });
+  }
+
+  AddToStorage(criterion:Criterion) {
+    localStorage['Criterion'] = criterion.CriteriaName;
   }
 }

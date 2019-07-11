@@ -43,14 +43,7 @@ namespace AHP.WebAPI.Controllers
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
             var status = await _userService.RegisterAsync(_user);
 
-            if (status != null)
-            {
-                return Ok(status);
-            }
-            else
-            {
-                return NotFound();
-            }
+            return Ok(status);
                 
         }
         /// <summary>
@@ -71,10 +64,7 @@ namespace AHP.WebAPI.Controllers
             var _user = _mapper.Map<UserControllerModel, IUserModel>(user);
             var status = await _userService.GetAsync(_user);
 
-            if (status != null)
-                return Ok(_mapper.Map<IUserModel, UserControllerModel>(status));
-            else
-                return NotFound();
+            return Ok(_mapper.Map<IUserModel, UserControllerModel>(status));
         }
         /// <summary>
         /// Put method,

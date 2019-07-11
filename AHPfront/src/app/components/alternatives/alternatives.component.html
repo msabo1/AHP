@@ -1,28 +1,33 @@
 <div class="container">
-  <div class="row mb-5 mt-5">
-    <div class="col">
-      Izaberi alternativu:
-    </div>
+  <div class="mt-5 mb-1">
+    <h2>Alternatives</h2>
   </div>
-  <div class="row" *ngFor="let alternative of alternatives">
-    <div class="col">
-      <div class="card">
-        <div class="card-body">
-          {{ alternative.AlternativeName }}
-          <form id="edit{{alternative.AlternativeID}}" class="mr-2" style="display: none" (ngSubmit)="Edit(alternative)" [formGroup]="EditForm">
-            <input type="text" formControlName="newName" value="{{ alternative.AlternativeName }}" />
-            <input (click)="MakeEditInvisible('edit' + alternative.AlternativeID)" type="submit" name="save" value="Save" class="btn-xs btn-success">
-          </form>
-          <a [routerLink]="[alternative.AlternativeID]" class="btn btn-primary mr-2">Comparisons</a>
-          <button (click)="MakeEditVisible('edit' + alternative.AlternativeID)" class="btn btn-warning mr-2">Edit</button>
-          <button class="btn btn-danger" (click)="Delete(alternative)">Delete</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="mb-5"><h4>Manage alternatives</h4></div>
+  <div class="mb-2"><a [routerLink]="['/choices']">Choices</a></div>
+  <form class="form mr-2" (ngSubmit)="Add()" [formGroup]="AddForm">
+    <input type="text" formControlName="Name" placeholder="Name" />
+    <input type="submit" class="btn btn-success" name="Add" value="Add" />
+  </form>
+  <table class="table table-hover my-2">
+    <tr *ngFor="let alternative of alternatives">
+      <td>
+        <span id="cname{{alternative.AlternativeID}}">{{ alternative.AlternativeName }}</span>
+        <form id="edit{{alternative.AlternativeID}}" class="mr-2" style="display: none" (ngSubmit)="Edit(alternative)" [formGroup]="EditForm">
+          <input type="text" formControlName="newName" value="{{ alternative.AlternativeName  }}" />
+          <button (click)="MakeEditInvisible(alternative.AlternativeID)" type="submit" style="background: none" class="mx-auto">
+            <fa-icon icon="check"></fa-icon>
+          </button>
+        </form>
+        <a [routerLink]="" (click)="MakeEditVisible(alternative.AlternativeID)" class="mx-2" id="editbutton{{alternative.AlternativeID}}"><fa-icon icon="pen"></fa-icon></a>
+      </td>
+      <td>
+        <a [routerLink]="[alternative.AlternativeID]" (click)="AddToStorage(alternative)" class="mx-2">Comparisons</a>
+        <a [routerLink]="" class="text-danger mx-2" (click)="Delete(alternative)">Delete</a>
+      </td>
+    </tr>
+   </table>
   <div>
-    <button class="btn-xs btn-warning mr-2" (click)="PreviousPage()">Previous page</button>
-    <button class="btn-xs btn-warning mr-2" (click)="NextPage()">Next page</button>
+    <a [routerLink]="" (click)="PreviousPage()" class="mx-2 text-info">Previous page</a>
+    <a [routerLink]="" (click)="NextPage()" class="mx-2 text-info">Next page</a>
   </div>
-  <a [routerLink]="['add']">Add</a>
 </div>

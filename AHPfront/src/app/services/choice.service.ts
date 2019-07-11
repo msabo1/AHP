@@ -34,7 +34,9 @@ export class ChoiceService {
     return this.http.put<Choice>(this.apiUrl, choice);
   }
 
-  Calculate(choiceID: string): Observable<Choice> {
-    return this.http.get<Choice>(this.apiUrl + 'calculate/' + choiceID);
+  Calculate(choiceID: string): Observable<string[]> {
+    return this.http.get<string[]>(this.apiUrl + 'calculate/' + choiceID);
   }
+
+
 }

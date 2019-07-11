@@ -11,13 +11,15 @@ import { HttpClient } from 'selenium-webdriver/http';
 import { ChoicesComponent } from './components/choices/choices.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AlternativesComponent } from './components/alternatives/alternatives.component';
-import { AddAlternativeComponent } from './components/alternatives/add-alternative/add-alternative.component';
 import { CriteriaComponent } from './components/criteria/criteria.component';
-import { AddCriterionComponent } from './components/criteria/add-criterion/add-criterion.component';
 import { CriteriaComparisonsComponent } from './components/criteria/criteria-comparisons/criteria-comparisons.component';
 import { AlternativesComparisonComponent } from './components/alternatives/alternatives-comparison/alternatives-comparison.component';
 import { ChooseCriterionComponent } from './components/alternatives/choose-criterion/choose-criterion.component';
 import { ChoiceComponent } from './components/choices/choice/choice.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faPen, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { MatSliderModule } from '@angular/material/slider'
 
 
 const appRoutes: Routes = [{ path: '', component: LoginComponent },
@@ -25,11 +27,9 @@ const appRoutes: Routes = [{ path: '', component: LoginComponent },
   { path: 'choices/:id', component: ChoiceComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'alternatives/:id', component: AlternativesComponent },
-  { path: 'alternatives/:id/add', component: AddAlternativeComponent },
   { path: 'alternatives/:id/:alternativeid', component: ChooseCriterionComponent },
   { path: 'alternatives/:id/:alternativeid/:criteriaid', component: AlternativesComparisonComponent },
   { path: 'criteria/:id', component: CriteriaComponent },
-  { path: 'criteria/:id/add', component: AddCriterionComponent },
   { path: 'criteria/:id/:criteriaid', component: CriteriaComparisonsComponent }];
 
 @NgModule({
@@ -39,9 +39,7 @@ const appRoutes: Routes = [{ path: '', component: LoginComponent },
     ChoicesComponent,
     RegisterComponent,
     AlternativesComponent,
-    AddAlternativeComponent,
     CriteriaComponent,
-    AddCriterionComponent,
     CriteriaComparisonsComponent,
     AlternativesComparisonComponent,
     ChooseCriterionComponent,
@@ -53,9 +51,16 @@ const appRoutes: Routes = [{ path: '', component: LoginComponent },
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    FontAwesomeModule,
+    MatSliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    // Add an icon to the library for convenient access in other components
+    library.add(faPen, faCheck);
+  }
+}
