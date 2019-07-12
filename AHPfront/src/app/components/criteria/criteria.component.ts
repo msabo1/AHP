@@ -11,6 +11,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class CriteriaComponent implements OnInit {
   page: number;
+  choiceID: string;
   AddForm: FormGroup;
   EditForm: FormGroup;
   criteria: Criterion[];
@@ -18,7 +19,8 @@ export class CriteriaComponent implements OnInit {
 
   ngOnInit() {
     this.page = 1;
-    this.criterionService.GetChoiceCriteria(this.route.snapshot.paramMap.get('id'), this.page).subscribe(criteria => this.criteria = criteria);
+    this.choiceID = this.route.snapshot.paramMap.get('id');
+    this.criterionService.GetChoiceCriteria(this.choiceID, this.page).subscribe(criteria => this.criteria = criteria);
     this.EditForm = new FormGroup({
       newName: new FormControl(null, [Validators.required])
     });
@@ -28,7 +30,10 @@ export class CriteriaComponent implements OnInit {
   }
 
   Delete(criterion: Criterion) {
-    this.criterionService.Delete(criterion).subscribe(() => {this.criteria = this.criteria.filter(c => c.CriteriaID != criterion.CriteriaID ) });
+    this.criterionService.Delete(criterion).subscribe(() => {
+      this.criteria = this.criteria.filter(c => c.CriteriaID != criterion.CriteriaID);
+      this.criterionService.GetChoiceCriteria(this.choiceID, this.page).subscribe(criteria => this.criteria = criteria);
+    });
   }
 
   Edit(criterion: Criterion) {
@@ -59,27 +64,32 @@ export class CriteriaComponent implements OnInit {
   PreviousPage() {
     if (this.page > 1) {
       this.page--;
-      this.criterionService.GetChoiceCriteria(this.route.snapshot.paramMap.get('id'), this.page).subscribe(criteria => this.criteria = criteria);
+      this.criterionService.GetChoiceCriteria(this.choiceID, this.page).subscribe(criteria => this.criteria = criteria);
     }
   }
 
   NextPage() {
     if (this.criteria.length >= 5) {
-      this.criterionService.GetChoiceCriteria(this.route.snapshot.paramMap.get('id'), this.page + 1).subscribe(criteria => { this.criteria = criteria; this.page++; });
+      this.criterionService.GetChoiceCriteria(this.choiceID, this.page + 1).subscribe(criteria => {
+        if (criteria.length > 0) {
+          this.criteria = criteria;
+          this.page++;
+        }
+      });
     }
   }
 
   Add() {
     let criterion: Criterion = new Criterion();
     criterion.CriteriaName = this.AddForm.value['Name'];
-    criterion.ChoiceID = this.route.snapshot.paramMap.get('id');
+    criterion.ChoiceID = this.choiceID;
     this.criterionService.Add(criterion).subscribe(criterion => {
       if (criterion.CriteriaID != null) {
         this.criteria.unshift(criterion);
         this.criteria = this.criteria.slice(0, 5);
-        localStorage['Criterion'] = criterion.CriteriaID;
+        localStorage['Criterion'] = criterion.CriteriaName;
         if (this.criteria.length > 1) {
-          this.router.navigate(['criteria/' + this.route.snapshot.paramMap.get('id') + '/' + criterion.CriteriaID])
+          this.router.navigate(['criteria/' + this.choiceID + '/' + criterion.CriteriaID])
         }
         
       }

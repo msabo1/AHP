@@ -13,7 +13,7 @@
         <tr *ngFor="let choice of choices">
           <td>
             <a id="cname{{choice.ChoiceID}}" [routerLink]="[choice.ChoiceID]">{{ choice.ChoiceName }}</a>
-            <form id="edit{{choice.ChoiceID}}" class="mx-2" style="display: none" (ngSubmit)="Edit(criterion)" [formGroup]="EditForm">
+            <form id="edit{{choice.ChoiceID}}" class="mx-2" style="display: none" (ngSubmit)="Edit(choice)" [formGroup]="EditForm">
               <input type="text" formControlName="newName" value="{{ choice.ChoiceName }}" />
               <button (click)="MakeEditInvisible(choice.ChoiceID)" type="submit" style="background: none" class="mx-auto">
                 <fa-icon icon="check"></fa-icon>

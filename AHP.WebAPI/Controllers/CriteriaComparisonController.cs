@@ -36,7 +36,7 @@ namespace AHP.WebAPI.Controllers
                 return BadRequest();
             }
 
-            var status = await _criteriaComparisonService.GetByCriteriaAsync(criteriaID);
+            var status = await _criteriaComparisonService.GetByCriteriaAsync(criteriaID, page);
 
             return Ok(_mapper.Map<List<ICriteriaComparisonModel>, List<CriteriaComparisonControllerModel>>(status));
         }

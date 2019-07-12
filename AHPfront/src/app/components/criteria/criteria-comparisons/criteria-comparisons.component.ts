@@ -36,7 +36,8 @@ export class CriteriaComparisonsComponent implements OnInit {
   }
 
   DisplayRatio(comparison: CriteriaComparison): number {
-    return comparison.CriteriaID1 == this.criteriaID ? comparison.CriteriaRatio : 1/comparison.CriteriaRatio;
+    let value: number = comparison.CriteriaID1 == this.criteriaID ? comparison.CriteriaRatio : 1 / comparison.CriteriaRatio;
+    return value < 1 ? -(Math.round(1 / value) - 1) : Math.round(value) - 1;
   }
 
 
@@ -49,13 +50,19 @@ export class CriteriaComparisonsComponent implements OnInit {
 
   NextPage() {
     if (this.criterionComparisons.length >= 5) {
-      this.criteriaComparisonService.GetCriterionComparisons(this.criteriaID, this.page + 1).subscribe(cc => {this.criterionComparisons = cc; this.page++; });
+      this.criteriaComparisonService.GetCriterionComparisons(this.criteriaID, this.page + 1).subscribe(cc => {
+        if (cc.length > 0) {
+          this.criterionComparisons = cc;
+          this.page++;
+        }
+      });
     }
   }
 
-  AddToUpdate(comparison: CriteriaComparison, ratio: number) {
+  AddToUpdate(comparison: CriteriaComparison, sign: number, ratio: number) {
     if (comparison.CriteriaRatio != ratio && ratio != null) {
-      comparison.CriteriaRatio = comparison.CriteriaID1 == this.criteriaID ? ratio : 1 / ratio;
+      let value: number = sign >= 0 ? ratio + 1 : 1 / ((-ratio) + 1);
+      comparison.CriteriaRatio = comparison.CriteriaID1 == this.criteriaID ? value : 1 / value;
       this.toUpdate[comparison.CriteriaID1 + comparison.CriteriaID2] = comparison;
     }
   }
@@ -68,10 +75,13 @@ export class CriteriaComparisonsComponent implements OnInit {
     
   }
 
-  GetSliderValue(comparison: CriteriaComparison): number {
-    let value: number = comparison.CriteriaID1 == this.criteriaID ? comparison.CriteriaRatio : 1 / comparison.CriteriaRatio;
-    value = value < 1 ? -(Math.round(1 / value) - 1) : Math.round(value) - 1;
-    console.log(value);
-    return value < 1 ? -(Math.round(1 / value) - 1) : Math.round(value) - 1;
+  SelectPref(comparison: CriteriaComparison, pref: any) {
+    let ratio: number = this.DisplayRatio(comparison);
+    console.log('a');
+    pref.value = ratio != 0 ? ratio/ratio : "1";
+  }
+
+  SelectVal(comparison: CriteriaComparison, val: any) {
+    val.value = Math.abs(this.DisplayRatio(comparison));
   }
 }

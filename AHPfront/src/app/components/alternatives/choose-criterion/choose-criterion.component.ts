@@ -16,19 +16,24 @@ export class ChooseCriterionComponent implements OnInit {
 
   ngOnInit() {
     this.page = 1;
-    this.criterionService.GetChoiceCriteria(this.route.snapshot.paramMap.get('id'), this.page).subscribe(criteria => this.criteria = criteria);
     this.choiceID = this.route.snapshot.paramMap.get('id');
+    this.criterionService.GetChoiceCriteria(this.choiceID, this.page).subscribe(criteria => this.criteria = criteria);
   }
   PreviousPage() {
     if (this.page > 1) {
       this.page--;
-      this.criterionService.GetChoiceCriteria(this.route.snapshot.paramMap.get('id'), this.page).subscribe(criteria => this.criteria = criteria);
+      this.criterionService.GetChoiceCriteria(this.choiceID, this.page).subscribe(criteria => this.criteria = criteria);
     }
   }
 
   NextPage() {
     if (this.criteria.length >= 5) {
-      this.criterionService.GetChoiceCriteria(this.route.snapshot.paramMap.get('id'), this.page + 1).subscribe(criteria => { this.criteria = criteria; this.page++; });
+      this.criterionService.GetChoiceCriteria(this.choiceID, this.page + 1).subscribe(criteria => {
+        if (criteria.length > 0) {
+          this.criteria = criteria;
+          this.page++;
+        }
+      });
     }
   }
 

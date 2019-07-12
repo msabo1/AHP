@@ -13,13 +13,15 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class AlternativesComponent implements OnInit {
   page: number;
   AddForm: FormGroup;
+  choiceID: string;
   EditForm: FormGroup;
   alternatives: Alternative[];
   constructor(private alternativeService: AlternativeService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.page = 1;
-    this.alternativeService.GetChoiceAlternatives(this.route.snapshot.paramMap.get('id'), this.page).subscribe(alternatives => this.alternatives = alternatives);
+    this.choiceID = this.route.snapshot.paramMap.get('id');
+    this.alternativeService.GetChoiceAlternatives(this.choiceID, this.page).subscribe(alternatives => this.alternatives = alternatives);
     this.EditForm = new FormGroup({
       newName: new FormControl(null, [Validators.required])
     });
@@ -31,14 +33,14 @@ export class AlternativesComponent implements OnInit {
   Add() {
     let alternative: Alternative = new Alternative();
     alternative.AlternativeName = this.AddForm.value['Name'];
-    alternative.ChoiceID = this.route.snapshot.paramMap.get('id');
+    alternative.ChoiceID = this.choiceID;
     this.alternativeService.Add(alternative).subscribe(alternative => {
       if (alternative.AlternativeID != null) {
         this.alternatives.unshift(alternative);
         this.alternatives = this.alternatives.slice(0, 5);
-        localStorage['Alternative'] = alternative.AlternativeID;
+        localStorage['Alternative'] = alternative.AlternativeName;
         if (this.alternatives.length > 1) {
-          this.router.navigate(['alternatives/' + this.route.snapshot.paramMap.get('id') + '/' + alternative.AlternativeID])
+          this.router.navigate(['alternatives/' + this.choiceID + '/' + alternative.AlternativeID])
         }
 
       }
@@ -46,7 +48,10 @@ export class AlternativesComponent implements OnInit {
   }
 
   Delete(alternative: Alternative) {
-    this.alternativeService.Delete(alternative).subscribe(() => { this.alternatives = this.alternatives.filter(a => a.AlternativeID != alternative.AlternativeID) });
+    this.alternativeService.Delete(alternative).subscribe(() => {
+      this.alternatives = this.alternatives.filter(a => a.AlternativeID != alternative.AlternativeID);
+      this.alternativeService.GetChoiceAlternatives(this.choiceID, this.page).subscribe(alternatives => this.alternatives = alternatives);
+    });
   }
 
   Edit(alternative: Alternative) {
@@ -77,13 +82,18 @@ export class AlternativesComponent implements OnInit {
   PreviousPage() {
     if (this.page > 1) {
       this.page--;
-      this.alternativeService.GetChoiceAlternatives(this.route.snapshot.paramMap.get('id'), this.page).subscribe(alternatives => this.alternatives = alternatives);
+      this.alternativeService.GetChoiceAlternatives(this.choiceID, this.page).subscribe(alternatives => this.alternatives = alternatives);
     }
   }
 
   NextPage() {
     if (this.alternatives.length >= 5) {
-      this.alternativeService.GetChoiceAlternatives(this.route.snapshot.paramMap.get('id'), this.page + 1).subscribe(alternatives => { this.alternatives = alternatives; this.page++; });
+      this.alternativeService.GetChoiceAlternatives(this.choiceID, this.page + 1).subscribe(alternatives => {
+        if (alternatives.length > 0) {
+          this.alternatives = alternatives;
+          this.page++;
+        }
+      });
     }
   }
 

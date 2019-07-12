@@ -10,7 +10,7 @@
         <div class="card-body">
           {{ DisplayName(comparison) }}
 
-          <input type="number" min="0.001" max="9" step="0.001" oninput="if(this.value > 9) {this.value = 9} if(this.value<0.001){this.value = 0.001}" value="{{ DisplayRatio(comparison) }}" (change)="AddToUpdate(comparison, $event.target.value)" />
+          <input type="number" min="-8" max="8" onfocusout="if(this.value > 8) {this.value = 8} if(this.value<-8){this.value = -8}" value="{{ DisplayRatio(comparison) }}" (focusout)="AddToUpdate(comparison, $event.target.value)" />
         </div>
       </div>
     </div>
@@ -19,6 +19,18 @@
   <div>
     <a [routerLink]="" (click)="PreviousPage()" class="mx-2 text-info">Previous page</a>
     <a [routerLink]="" (click)="NextPage()" class="mx-2 text-info">Next page</a>
+  </div>
+  <div class="row">
+    Positive number means preffered, negative not prefered<br />
+    0->Equally <br />
+    1->Equally to moderatly <br />
+    2->Moderatly <br />
+    3->Moderatly to strong <br />
+    4->Strongly <br />
+    5->Strongly to very strongly <br />
+    6->Very strongly <br />
+    7->Very to extremely strongly <br />
+    8->Extremely
   </div>
 </div>
 

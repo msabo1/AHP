@@ -34,7 +34,8 @@ export class AlternativesComparisonComponent implements OnInit {
   }
 
   DisplayRatio(comparison: AlternativesComparison): number {
-    return comparison.AlternativeID1 == this.alternativeID ? comparison.AlternativeRatio : 1 / comparison.AlternativeRatio;
+    let value: number = comparison.AlternativeID1 == this.alternativeID ? comparison.AlternativeRatio : 1 / comparison.AlternativeRatio;
+    return value < 1 ? -(Math.round(1 / value) - 1) : Math.round(value) - 1;
   }
 
 
@@ -47,13 +48,19 @@ export class AlternativesComparisonComponent implements OnInit {
 
   NextPage() {
     if (this.alternativeComparisons.length >= 5) {
-      this.alternativesComparisonService.GetAlternativeComparisons(this.criteriaID, this.alternativeID, this.page).subscribe(ac => { this.alternativeComparisons = ac; });
+      this.alternativesComparisonService.GetAlternativeComparisons(this.criteriaID, this.alternativeID, this.page + 1).subscribe(ac => {
+        if (ac.length > 0) {
+          this.alternativeComparisons = ac;
+          this.page++;
+        }
+      });
     }
   }
 
   AddToUpdate(comparison: AlternativesComparison, ratio: number) {
     if (comparison.AlternativeRatio != ratio && ratio != null) {
-      comparison.AlternativeRatio = comparison.AlternativeID1 == this.alternativeID ? ratio : 1 / ratio;
+      let value: number = ratio >= 0 ? ratio + 1 : 1 / ((-ratio) + 1);
+      comparison.AlternativeRatio = comparison.AlternativeID1 == this.alternativeID ? value : 1 / value;
       this.toUpdate[this.criteriaID + comparison.AlternativeID1 + comparison.AlternativeID2] = comparison;
     }
   }

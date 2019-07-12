@@ -11,16 +11,18 @@ import { ChoiceService } from '../../../services/choice.service';
 })
 export class ChoiceComponent implements OnInit {
   page: number;
+  choiceID: string;
   alternatives: Alternative[];
   constructor(private alternativeService: AlternativeService, private choiceService: ChoiceService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.page = 1;
-    this.alternativeService.GetChoiceAlternatives(this.route.snapshot.paramMap.get('id'), this.page).subscribe(alternatives => this.alternatives = alternatives);
+    this.choiceID = this.route.snapshot.paramMap.get('id');
+    this.alternativeService.GetChoiceAlternatives(this.choiceID, this.page).subscribe(alternatives => this.alternatives = alternatives);
   }
 
   Calculate() {
-    this.choiceService.Calculate(this.route.snapshot.paramMap.get('id')).subscribe(messages => {
+    this.choiceService.Calculate(this.choiceID).subscribe(messages => {
       if (messages.length > 0) {
         let msg: string = '';
         messages.forEach(message => msg += message + '\n');
@@ -28,19 +30,24 @@ export class ChoiceComponent implements OnInit {
         alert(msg);
       }
       });
-    this.alternativeService.GetChoiceAlternatives(this.route.snapshot.paramMap.get('id'), this.page).subscribe(alternatives => this.alternatives = alternatives);
+    this.alternativeService.GetChoiceAlternatives(this.choiceID, this.page).subscribe(alternatives => this.alternatives = alternatives);
   }
 
   PreviousPage() {
     if (this.page > 1) {
       this.page--;
-      this.alternativeService.GetChoiceAlternatives(this.route.snapshot.paramMap.get('id'), this.page).subscribe(alternatives => this.alternatives = alternatives);
+      this.alternativeService.GetChoiceAlternatives(this.choiceID, this.page).subscribe(alternatives => this.alternatives = alternatives);
     }
   }
 
   NextPage() {
     if (this.alternatives.length >= 5) {
-      this.alternativeService.GetChoiceAlternatives(this.route.snapshot.paramMap.get('id'), this.page + 1).subscribe(alternatives => { this.alternatives = alternatives; this.page++; });
+      this.alternativeService.GetChoiceAlternatives(this.choiceID, this.page + 1).subscribe(alternatives => {
+        if (alternatives.length > 0) {
+          this.alternatives = alternatives;
+          this.page++;
+        }
+      });
     }
   }
 }

@@ -41,7 +41,10 @@ export class ChoicesComponent implements OnInit {
   }
 
   Delete(choice: Choice) {
-    this.choiceService.Delete(choice).subscribe(() => { this.choices = this.choices.filter(c => c.ChoiceID != choice.ChoiceID) });
+    this.choiceService.Delete(choice).subscribe(() => {
+      this.choices = this.choices.filter(c => c.ChoiceID != choice.ChoiceID);
+      this.choiceService.GetUserChoices(localStorage['UserID'], this.page).subscribe(choices => this.choices = choices);
+    });
   }
 
   Edit(choice: Choice) {
@@ -78,7 +81,12 @@ export class ChoicesComponent implements OnInit {
 
   NextPage() {
     if (this.choices.length >= 5) {
-      this.choiceService.GetUserChoices(localStorage['UserID'], this.page + 1).subscribe(choices => { this.choices = choices; this.page++; });
+      this.choiceService.GetUserChoices(localStorage['UserID'], this.page + 1).subscribe(choices => {
+        if (choices.length > 0) {
+          this.choices = choices;
+          this.page++;
+        }
+      });
     }
   }
 }
