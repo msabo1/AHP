@@ -136,10 +136,13 @@ namespace AHP.Service
         /// <param name="criteria"></param>
         /// <returns></returns>
         public async Task<bool> UpdateAsync(ICriterionModel criteria)
-        {          
-                await _critRepo.UpdateAsync(criteria);
-                await _critRepo.SaveAsync();            
-                return true;
+        {
+            var _criteria = await _critRepo.GetByIDAsync(criteria.CriteriaID);
+            _criteria.CriteriaName = criteria.CriteriaName;
+            _criteria.DateUpdated = DateTime.Now;
+            await _critRepo.UpdateAsync(_criteria);
+            await _critRepo.SaveAsync();            
+            return true;
         }
     }
 }
