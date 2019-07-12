@@ -75,8 +75,8 @@ namespace AHP.Service
         }
         public async Task<List<IAlternativeModel>> GetPageAsync(Guid id, int page = 1)
         {
-            var alternatives = await _altRepo.GetPageByChoiceIDAsync(id, page);
-
+            var alternatives = (await _altRepo.GetPageByChoiceIDAsync(id, page)).OrderByDescending(o => o.DateCreated).ToList();
+            
             return alternatives;
         }
         public async Task<List<IAlternativeModel>> GetAllAsync(Guid id)
