@@ -21,10 +21,12 @@ export class ChoiceComponent implements OnInit {
 
   Calculate() {
     this.choiceService.Calculate(this.route.snapshot.paramMap.get('id')).subscribe(messages => {
-      let msg: string = '';
-      messages.forEach(message => msg += message + '\n');
-      msg += "You should reevaluate your comparisons";
-      alert(msg);
+      if (messages.length > 0) {
+        let msg: string = '';
+        messages.forEach(message => msg += message + '\n');
+        msg += "You should reevaluate your comparisons";
+        alert(msg);
+      }
       });
     this.alternativeService.GetChoiceAlternatives(this.route.snapshot.paramMap.get('id'), this.page).subscribe(alternatives => this.alternatives = alternatives);
   }
