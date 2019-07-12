@@ -140,7 +140,7 @@ namespace AHP.Service
             var _criteria = await _critRepo.GetByIDAsync(criteria.CriteriaID);
             _criteria.CriteriaName = criteria.CriteriaName;
             _criteria.DateUpdated = DateTime.Now;
-            await _critRepo.UpdateAsync(criteria);
+            await _critRepo.UpdateAsync(_criteria);
             await _critRepo.SaveAsync();            
             return true;
         }
