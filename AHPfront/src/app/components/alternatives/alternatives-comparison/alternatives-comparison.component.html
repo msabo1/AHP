@@ -3,7 +3,7 @@
     <h2>Alternative comparisons</h2>
   </div>
   <div class="mb-5"><h4>Compare by {{CriterionName}}: {{AlternativeName}} to</h4></div>
-  <div class="mb-2"><a [routerLink]="['/choices']">Choices</a> / <a [routerLink]="['/criteria/' + choiceID]">Criteria</a></div>
+  <div class="mb-2"><a [routerLink]="['/choices']">Choices</a> / <a [routerLink]="['/alternatives/' + choiceID]">Alternatives</a> / <a [routerLink]="['/criteria/' + choiceID]">Criteria</a></div>
   <div  class="row my-2" *ngFor="let comparison of alternativeComparisons">
     <div class="col">
       <div class="card">
